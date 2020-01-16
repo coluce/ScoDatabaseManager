@@ -49,18 +49,16 @@ object FormQuery: TFormQuery
       TabOrder = 2
       object pnlComandos: TPanel
         Align = Top
-        Margins.Left = 5.000000000000000000
         Margins.Top = 5.000000000000000000
         Margins.Right = 5.000000000000000000
-        Position.X = 5.000000000000000000
         Position.Y = 5.000000000000000000
-        Size.Width = 349.000000000000000000
+        Size.Width = 354.000000000000000000
         Size.Height = 41.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 0
         object btnRun: TSpeedButton
           Align = Right
-          Position.X = 256.000000000000000000
+          Position.X = 261.000000000000000000
           Size.Width = 67.000000000000000000
           Size.Height = 41.000000000000000000
           Size.PlatformDefault = False
@@ -72,7 +70,7 @@ object FormQuery: TFormQuery
           Margins.Top = 5.000000000000000000
           Margins.Right = 5.000000000000000000
           Margins.Bottom = 5.000000000000000000
-          Position.X = 328.000000000000000000
+          Position.X = 333.000000000000000000
           Position.Y = 5.000000000000000000
           Size.Width = 16.000000000000000000
           Size.Height = 31.000000000000000000
@@ -80,33 +78,39 @@ object FormQuery: TFormQuery
           Stroke.Kind = None
           XRadius = 3.000000000000000000
           YRadius = 3.000000000000000000
+          object aniQuery: TAniIndicator
+            Align = Client
+            Size.Width = 16.000000000000000000
+            Size.Height = 31.000000000000000000
+            Size.PlatformDefault = False
+          end
         end
       end
       object mmoQuery: TMemo
         Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
         DataDetectorTypes = []
         Align = Client
-        Margins.Left = 5.000000000000000000
         Margins.Top = 5.000000000000000000
         Margins.Right = 5.000000000000000000
         Margins.Bottom = 5.000000000000000000
-        Size.Width = 349.000000000000000000
+        Size.Width = 354.000000000000000000
         Size.Height = 270.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 1
-        Viewport.Width = 337.000000000000000000
+        Viewport.Width = 342.000000000000000000
         Viewport.Height = 262.000000000000000000
       end
       object grdQuery: TGrid
         Align = Bottom
         CanFocus = True
         ClipChildren = True
+        Margins.Right = 5.000000000000000000
         Position.Y = 335.000000000000000000
-        Size.Width = 359.000000000000000000
+        Size.Width = 354.000000000000000000
         Size.Height = 120.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 2
-        Viewport.Width = 355.000000000000000000
+        Viewport.Width = 350.000000000000000000
         Viewport.Height = 95.000000000000000000
       end
       object spl2: TSplitter

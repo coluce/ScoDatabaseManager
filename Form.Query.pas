@@ -23,11 +23,12 @@ type
     FListTable: TListView;
     FLabelStatus: TLabel;
     FConfig: IConfig;
+    FIndicator: TAniIndicator;
     procedure GetTableName;
   protected
     procedure Execute; override;
   public
-    constructor Create(AStatusRec: TRectangle; ATreeTable: TListView; AConfig: IConfig; ALabelStatus: TLabel);
+    constructor Create(AStatusRec: TRectangle; AIndicator: TAniIndicator; ATreeTable: TListView; AConfig: IConfig; ALabelStatus: TLabel);
     destructor Destroy; override;
   end;
 
@@ -55,6 +56,7 @@ type
     stb1: TStatusBar;
     lblStatusBar: TLabel;
     lvTables: TListView;
+    aniQuery: TAniIndicator;
     procedure btnAddClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -117,7 +119,7 @@ procedure TFormQuery.Start(const AConfig: IConfig);
 begin
   lvTables.Items.Clear;
   SetConfig(AConfig);
-  FConnectionWidget := TConnectionWidget.Create(rtgStatus, lvTables, AConfig, lblStatusBar);
+  FConnectionWidget := TConnectionWidget.Create(rtgStatus, aniQuery, lvTables, AConfig, lblStatusBar);
   FConnectionWidget.Start;
 end;
 
@@ -135,13 +137,14 @@ end;
 
 { TConnectionWidget }
 
-constructor TConnectionWidget.Create(AStatusRec: TRectangle; ATreeTable: TListView; AConfig: IConfig; ALabelStatus: TLabel);
+constructor TConnectionWidget.Create(AStatusRec: TRectangle; AIndicator: TAniIndicator; ATreeTable: TListView; AConfig: IConfig; ALabelStatus: TLabel);
 begin
   inherited Create(True);
   FreeOnTerminate := False;
   FStatusRectangle := AStatusRec;
   FListTable := ATreeTable;
   FLabelStatus := ALabelStatus;
+  FIndicator := AIndicator;
   FConfig := AConfig;
   FConnection := TFDConnection.Create(nil);
   FConnection.DriverName := 'FB';
@@ -172,25 +175,47 @@ begin
   if not FConnection.Connected then
   begin
     try
-      FLabelStatus.Text := 'Conectando ...';
-      FStatusRectangle.Fill.Color := TAlphaColorRec.Yellow;
-      FConnection.Open;
+      TThread.Synchronize(
+        nil,
+        procedure
+        begin
+          FLabelStatus.Text := 'Conectando ...';
+          FStatusRectangle.Fill.Color := TAlphaColorRec.Yellow;
+          FIndicator.Visible := True;
+          FIndicator.Enabled := True;
+        end
+      );
+      try
+        FConnection.Open;
+      finally
+        TThread.Synchronize(
+          nil,
+          procedure
+          begin
+            FIndicator.Visible := False;
+            FIndicator.Enabled := False;
+          end
+        );
+      end;
     except
 
     end;
   end;
 
-  TThread.Synchronize(
-    nil,
-    procedure
-    begin
-      GetTableName;
-    end
-  );
+  if FConnection.Connected then
+  begin
+    TThread.Synchronize(
+      nil,
+      procedure
+      begin
+        GetTableName;
+      end
+    );
+  end;
 
   while not Terminated do
   begin
-    sleep(100);
+    sleep(500);
     if Terminated then
       Exit;
     if FConnection.Connected then
