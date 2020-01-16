@@ -12,7 +12,10 @@ uses
   FireDAC.Phys.FB, FireDAC.Phys.FBDef, FireDAC.FMXUI.Wait, Data.DB,
   FireDAC.Comp.Client, FMX.Menus, System.Rtti, FMX.Grid.Style, FMX.Grid,
   FMX.Objects, FMX.ListView.Types, FMX.ListView.Appearances,
-  FMX.ListView.Adapters.Base, FMX.ListView;
+  FMX.ListView.Adapters.Base, FMX.ListView, FireDAC.Stan.Param, FireDAC.DatS,
+  FireDAC.DApt.Intf, Data.Bind.EngExt, Fmx.Bind.DBEngExt, Fmx.Bind.Grid,
+  System.Bindings.Outputs, Fmx.Bind.Editors, Data.Bind.Components,
+  Data.Bind.Grid, Data.Bind.DBScope, FireDAC.Comp.DataSet, FireDAC.DApt;
 
 type
 
@@ -30,6 +33,8 @@ type
   public
     constructor Create(AStatusRec: TRectangle; AIndicator: TAniIndicator; ATreeTable: TListView; AConfig: IConfig; ALabelStatus: TLabel);
     destructor Destroy; override;
+  published
+    property Connection: TFDCOnnection read FConnection;
   end;
 
   TFormQuery = class(TForm)
@@ -57,11 +62,16 @@ type
     lblStatusBar: TLabel;
     lvTables: TListView;
     aniQuery: TAniIndicator;
+    mtbResultado: TFDMemTable;
+    BindSourceDB1: TBindSourceDB;
+    BindingsList1: TBindingsList;
+    LinkGridToDataSourceBindSourceDB1: TLinkGridToDataSource;
     procedure btnAddClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure lvTablesItemClick(const Sender: TObject;
       const AItem: TListViewItem);
+    procedure btnRunClick(Sender: TObject);
   private
     { Private declarations }
     FConfig: IConfig;
@@ -93,6 +103,33 @@ begin
   FormPrincipal.tbcPrincipal.ActiveTab := FormPrincipal.tabMenu;
 end;
 
+procedure TFormQuery.btnRunClick(Sender: TObject);
+begin
+  TThread.CreateAnonymousThread(
+    procedure
+    var
+      vQuery: TFDQuery;
+    begin
+      vQuery := TFDQuery.Create(nil);
+      try
+        vQuery.Connection := FConnectionWidget.Connection;
+        vQuery.SQL.Text := mmoQuery.Lines.Text;
+        vQuery.Open;
+
+        TThread.Synchronize(
+          nil,
+          procedure
+          begin
+            mtbResultado.CloneCursor(vQuery);
+          end
+        );
+      finally
+        vQuery.Free;
+      end;
+    end
+  ).Start;
+end;
+
 procedure TFormQuery.FormCreate(Sender: TObject);
 begin
   FTables := TStringList.Create;
@@ -107,7 +144,12 @@ procedure TFormQuery.lvTablesItemClick(const Sender: TObject;
   const AItem: TListViewItem);
 begin
   mmoQuery.Lines.Clear;
-  mmoQuery.Lines.Add('select * from ' + AItem.Text);
+  mmoQuery.Lines.Add('select');
+  mmoQuery.Lines.Add('  *');
+  mmoQuery.Lines.Add('from');
+  mmoQuery.Lines.Add('  ' + AItem.Text);
+  mmoQuery.Lines.Add('where');
+  mmoQuery.Lines.Add('  1 = 2');
 end;
 
 procedure TFormQuery.SetConfig(const Value: IConfig);
@@ -117,7 +159,12 @@ end;
 
 procedure TFormQuery.Start(const AConfig: IConfig);
 begin
+  mmoQuery.Lines.Clear;
   lvTables.Items.Clear;
+  if mtbResultado.Active then
+  begin
+    mtbResultado.Close;
+  end;
   SetConfig(AConfig);
   FConnectionWidget := TConnectionWidget.Create(rtgStatus, aniQuery, lvTables, AConfig, lblStatusBar);
   FConnectionWidget.Start;
@@ -284,3 +331,4 @@ begin
 end;
 
 end.
+
