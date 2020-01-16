@@ -1,0 +1,222 @@
+object FormQuery: TFormQuery
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 480
+  ClientWidth = 640
+  StyleBook = FormPrincipal.sty1
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  DesignerMasterStyle = 0
+  object layConteudo: TLayout
+    Align = Client
+    Size.Width = 640.000000000000000000
+    Size.Height = 480.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object spl1: TSplitter
+      Align = Left
+      Cursor = crHSplit
+      MinSize = 20.000000000000000000
+      Position.X = 273.000000000000000000
+      Size.Width = 8.000000000000000000
+      Size.Height = 455.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object tlbQuery: TToolBar
+      Align = MostLeft
+      Size.Width = 50.000000000000000000
+      Size.Height = 480.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      object btnAdd: TSpeedButton
+        Align = Top
+        Size.Width = 50.000000000000000000
+        Size.Height = 40.000000000000000000
+        Size.PlatformDefault = False
+        StyleLookup = 'arrowlefttoolbutton'
+        OnClick = btnAddClick
+      end
+    end
+    object layQuery: TLayout
+      Align = Client
+      Size.Width = 359.000000000000000000
+      Size.Height = 455.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      object pnlComandos: TPanel
+        Align = Top
+        Margins.Left = 5.000000000000000000
+        Margins.Top = 5.000000000000000000
+        Margins.Right = 5.000000000000000000
+        Position.X = 5.000000000000000000
+        Position.Y = 5.000000000000000000
+        Size.Width = 349.000000000000000000
+        Size.Height = 41.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        object btnRun: TSpeedButton
+          Align = Right
+          Position.X = 256.000000000000000000
+          Size.Width = 67.000000000000000000
+          Size.Height = 41.000000000000000000
+          Size.PlatformDefault = False
+          StyleLookup = 'playtoolbutton'
+        end
+        object rtgStatus: TRectangle
+          Align = Right
+          Margins.Left = 5.000000000000000000
+          Margins.Top = 5.000000000000000000
+          Margins.Right = 5.000000000000000000
+          Margins.Bottom = 5.000000000000000000
+          Position.X = 328.000000000000000000
+          Position.Y = 5.000000000000000000
+          Size.Width = 16.000000000000000000
+          Size.Height = 31.000000000000000000
+          Size.PlatformDefault = False
+          Stroke.Kind = None
+          XRadius = 3.000000000000000000
+          YRadius = 3.000000000000000000
+        end
+      end
+      object mmoQuery: TMemo
+        Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+        DataDetectorTypes = []
+        Align = Client
+        Margins.Left = 5.000000000000000000
+        Margins.Top = 5.000000000000000000
+        Margins.Right = 5.000000000000000000
+        Margins.Bottom = 5.000000000000000000
+        Size.Width = 349.000000000000000000
+        Size.Height = 270.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 1
+        Viewport.Width = 337.000000000000000000
+        Viewport.Height = 262.000000000000000000
+      end
+      object grdQuery: TGrid
+        Align = Bottom
+        CanFocus = True
+        ClipChildren = True
+        Position.Y = 335.000000000000000000
+        Size.Width = 359.000000000000000000
+        Size.Height = 120.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 2
+        Viewport.Width = 355.000000000000000000
+        Viewport.Height = 95.000000000000000000
+      end
+      object spl2: TSplitter
+        Align = Bottom
+        Cursor = crVSplit
+        MinSize = 20.000000000000000000
+        Position.Y = 326.000000000000000000
+        Size.Width = 359.000000000000000000
+        Size.Height = 9.000000000000000000
+        Size.PlatformDefault = False
+      end
+    end
+    object stb1: TStatusBar
+      Position.X = 50.000000000000000000
+      Position.Y = 455.000000000000000000
+      ShowSizeGrip = True
+      Size.Width = 590.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 3
+      object lblStatusBar: TLabel
+        Align = Client
+        Size.Width = 590.000000000000000000
+        Size.Height = 25.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'lblStatusBar'
+        TabOrder = 0
+      end
+    end
+    object lvTables: TListView
+      ItemAppearanceClassName = 'TListItemAppearance'
+      ItemEditAppearanceClassName = 'TListItemShowCheckAppearance'
+      HeaderAppearanceClassName = 'TListHeaderObjects'
+      FooterAppearanceClassName = 'TListHeaderObjects'
+      Align = Left
+      Margins.Top = 5.000000000000000000
+      Position.X = 50.000000000000000000
+      Position.Y = 5.000000000000000000
+      Size.Width = 223.000000000000000000
+      Size.Height = 450.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 4
+      OnItemClick = lvTablesItemClick
+      SearchVisible = True
+    end
+  end
+  object pmTable: TPopupMenu
+    Left = 424
+    Top = 160
+    object mniQuerys: TMenuItem
+      Text = 'mniQuerys'
+      object mniSelect: TMenuItem
+        Locked = True
+        Text = 'mniSelect'
+      end
+      object mniInsert: TMenuItem
+        Locked = True
+        Text = 'mniInsert'
+      end
+      object mniDelete: TMenuItem
+        Locked = True
+        Text = 'mniDelete'
+      end
+    end
+    object mniEstrutura: TMenuItem
+      Text = 'mniEstrutura'
+      object mniEstruturaCreate: TMenuItem
+        Locked = True
+        Text = 'mniEstruturaCreate'
+      end
+      object mniEstruturaCampos: TMenuItem
+        Locked = True
+        Text = 'mniEstruturaCampos'
+      end
+    end
+  end
+  object ilQuery: TImageList
+    Source = <
+      item
+        MultiResBitmap.LoadSize = 0
+        MultiResBitmap = <
+          item
+            Width = 16
+            Height = 16
+            PNG = {
+              89504E470D0A1A0A0000000D49484452000000100000001008060000001FF3FF
+              61000000017352474200AECE1CE90000000467414D410000B18F0BFC61050000
+              00ED49444154384F631870C00822B6DDFAC7CECAF2D7E33F03231B5894006064
+              F8FFEBF71FE61D5E6A4C3FC106ECBEF7DB1F486D00B1490001AE4AAC1B99402C
+              626D4606303D6003B081AB6FFE4159A86C748061C07F20DE71EF0FC3E4B3BF20
+              024030E9CC2F8675B7FE80E5D0018A013FFFFC679875E13758F13F24D53043A7
+              9DFBCDF003A80619A018C0C4C4C8C0C60CE56001AC40D5E05047022806801424
+              EAB232C468B33200CD8203103B488D8521D58095819D05D508140360C04E9699
+              21D718113120B687120B86ED2080D50010D016414821B3D101580694B2C03C12
+              004C0FD855942465A8D0800106060033024A1666AC58FB0000000049454E44AE
+              426082}
+            FileName = 
+              'C:\Users\ricardo.coluce\Downloads\icons8-painel-de-navega'#231#227'o-16.' +
+              'png'
+          end>
+        Name = 'icons8-painel-de-navega'#231#227'o-16'
+      end>
+    Destination = <
+      item
+        Layers = <
+          item
+            Name = 'icons8-painel-de-navega'#231#227'o-16'
+          end>
+      end>
+    Left = 304
+    Top = 224
+  end
+end

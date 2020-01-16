@@ -1,0 +1,176 @@
+object FormConfig: TFormConfig
+  Left = 0
+  Top = 0
+  Caption = 'Config'
+  ClientHeight = 348
+  ClientWidth = 486
+  Position = OwnerFormCenter
+  StyleBook = FormPrincipal.sty1
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  DesignerMasterStyle = 0
+  object edtID: TEdit
+    Touch.InteractiveGestures = [LongTap, DoubleTap]
+    Align = Top
+    TabOrder = 3
+    ReadOnly = True
+    TextSettings.FontColor = claDarkcyan
+    Position.X = 15.000000000000000000
+    Position.Y = 35.000000000000000000
+    Enabled = False
+    Margins.Left = 15.000000000000000000
+    Margins.Top = 35.000000000000000000
+    Margins.Right = 15.000000000000000000
+    Size.Width = 456.000000000000000000
+    Size.Height = 29.000000000000000000
+    Size.PlatformDefault = False
+    StyledSettings = [Family, Size, Style]
+    object lblID: TLabel
+      StyledSettings = [Family, Size]
+      Position.Y = -19.000000000000000000
+      Size.Width = 101.000000000000000000
+      Size.Height = 17.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+      TextSettings.FontColor = claDarkcyan
+      Text = 'ID'
+      TabOrder = 0
+    end
+  end
+  object edtServerName: TEdit
+    Touch.InteractiveGestures = [LongTap, DoubleTap]
+    Align = Top
+    TabOrder = 1
+    TextSettings.FontColor = claDarkcyan
+    Position.X = 15.000000000000000000
+    Position.Y = 163.000000000000000000
+    Margins.Left = 15.000000000000000000
+    Margins.Top = 35.000000000000000000
+    Margins.Right = 15.000000000000000000
+    Size.Width = 456.000000000000000000
+    Size.Height = 29.000000000000000000
+    Size.PlatformDefault = False
+    StyledSettings = [Family, Size, Style]
+    object lblServerName: TLabel
+      StyledSettings = [Family, Size]
+      Position.Y = -19.000000000000000000
+      Size.Width = 101.000000000000000000
+      Size.Height = 17.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+      TextSettings.FontColor = claDarkcyan
+      Text = 'Servidor'
+      TabOrder = 0
+    end
+  end
+  object edtDataBase: TEdit
+    Touch.InteractiveGestures = [LongTap, DoubleTap]
+    Align = Top
+    TabOrder = 2
+    TextSettings.FontColor = claDarkcyan
+    Position.X = 15.000000000000000000
+    Position.Y = 227.000000000000000000
+    Margins.Left = 15.000000000000000000
+    Margins.Top = 35.000000000000000000
+    Margins.Right = 15.000000000000000000
+    Size.Width = 456.000000000000000000
+    Size.Height = 29.000000000000000000
+    Size.PlatformDefault = False
+    StyledSettings = [Family, Size, Style]
+    object lblDataBase: TLabel
+      StyledSettings = [Family, Size]
+      Position.Y = -19.000000000000000000
+      Size.Width = 177.000000000000000000
+      Size.Height = 17.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+      TextSettings.FontColor = claDarkcyan
+      Text = 'Pasta do Banco de Dados'
+      TabOrder = 0
+    end
+  end
+  object layRodape: TLayout
+    Align = Bottom
+    Padding.Left = 15.000000000000000000
+    Padding.Top = 10.000000000000000000
+    Padding.Right = 15.000000000000000000
+    Padding.Bottom = 10.000000000000000000
+    Position.Y = 279.000000000000000000
+    Size.Width = 486.000000000000000000
+    Size.Height = 69.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 4
+    object rtg1: TRectangle
+      Align = Contents
+      Fill.Color = claWhite
+      Size.Width = 486.000000000000000000
+      Size.Height = 69.000000000000000000
+      Size.PlatformDefault = False
+      Stroke.Kind = None
+    end
+    object btnOK: TButton
+      Align = Right
+      ModalResult = 2
+      Position.X = 391.000000000000000000
+      Position.Y = 10.000000000000000000
+      Size.Width = 80.000000000000000000
+      Size.Height = 49.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Text = 'Fechar'
+      OnClick = btnOKClick
+    end
+    object btnSaveToDatabase: TButton
+      Align = Left
+      ModalResult = 1
+      Position.X = 15.000000000000000000
+      Position.Y = 10.000000000000000000
+      Size.Width = 100.000000000000000000
+      Size.Height = 49.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 3
+      Text = 'Salvar'
+      OnClick = btnSaveToDatabaseClick
+    end
+    object btnDelete: TButton
+      Align = Left
+      Margins.Left = 5.000000000000000000
+      Position.X = 120.000000000000000000
+      Position.Y = 10.000000000000000000
+      Size.Width = 100.000000000000000000
+      Size.Height = 49.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      Text = 'Apagar'
+      OnClick = btnDeleteClick
+    end
+  end
+  object edtDescription: TEdit
+    Touch.InteractiveGestures = [LongTap, DoubleTap]
+    Align = Top
+    TabOrder = 0
+    TextSettings.FontColor = claDarkcyan
+    Position.X = 15.000000000000000000
+    Position.Y = 99.000000000000000000
+    Margins.Left = 15.000000000000000000
+    Margins.Top = 35.000000000000000000
+    Margins.Right = 15.000000000000000000
+    Size.Width = 456.000000000000000000
+    Size.Height = 29.000000000000000000
+    Size.PlatformDefault = False
+    StyledSettings = [Family, Size, Style]
+    object lblDescription: TLabel
+      StyledSettings = [Family, Size]
+      Position.Y = -19.000000000000000000
+      Size.Width = 101.000000000000000000
+      Size.Height = 17.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+      TextSettings.FontColor = claDarkcyan
+      Text = 'Descri'#231#227'o'
+      TabOrder = 0
+    end
+  end
+end
