@@ -294,6 +294,8 @@ end;
 
 procedure TListBoxItem.DoOnOptionsClick(Sender: TObject);
 begin
+  if IsActual then
+    DoOnSaveToDiskClick(Sender);
   FormPrincipal.ShowConfig(FConfig);
 end;
 
