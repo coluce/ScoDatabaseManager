@@ -60,7 +60,7 @@ type
     FFormQuery: TFormQuery;
     procedure ListBoxRefresh;
     procedure SaveToDisk(AConfig: IConfig);
-    procedure ShowConfig(AConfig: IConfig);
+    procedure ShowConfig(AConfig: IConfig; const AIsActual: boolean = False);
     procedure ShowQuery(AConfig: IConfig);
   public
     { Public declarations }
@@ -189,7 +189,7 @@ begin
   ListBoxRefresh;
 end;
 
-procedure TFormPrincipal.ShowConfig(AConfig: IConfig);
+procedure TFormPrincipal.ShowConfig(AConfig: IConfig; const AIsActual: boolean = False);
 var
   vForm: TFormConfig;
   vDao: IDao<IConfig>;
@@ -221,6 +221,12 @@ begin
         AConfig.ServerName := vForm.ServerName;
         AConfig.DataBase := vForm.DataBase;
         vDao.Save(AConfig);
+
+        if AIsActual then
+        begin
+          FormPrincipal.SaveToDisk(AConfig);
+        end;
+
       end;
       if
         (not vNew) and
@@ -294,8 +300,8 @@ end;
 
 procedure TListBoxItem.DoOnOptionsClick(Sender: TObject);
 begin
-  if IsActual then
-    DoOnSaveToDiskClick(Sender);
+//  if IsActual then
+//    DoOnSaveToDiskClick(Sender);
   FormPrincipal.ShowConfig(FConfig);
 end;
 
