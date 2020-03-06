@@ -171,24 +171,20 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="Form.Principal.pas">
+        <DCCReference Include="View\Form.Principal.pas">
             <Form>FormPrincipal</Form>
         </DCCReference>
-        <DCCReference Include="Form.Config.pas">
+        <DCCReference Include="View\Form.Config.pas">
             <Form>FormConfig</Form>
-            <FormType>fmx</FormType>
         </DCCReference>
-        <DCCReference Include="Form.Query.pas">
+        <DCCReference Include="View\Form.Query.pas">
             <Form>FormQuery</Form>
-            <FormType>fmx</FormType>
         </DCCReference>
-        <DCCReference Include="Form.Padrao.pas">
+        <DCCReference Include="View\Form.Padrao.pas">
             <Form>FormPadrao</Form>
-            <FormType>fmx</FormType>
         </DCCReference>
-        <DCCReference Include="Form.FileLayout.pas">
+        <DCCReference Include="View\Form.FileLayout.pas">
             <Form>FormFileLayout</Form>
-            <FormType>fmx</FormType>
         </DCCReference>
         <DCCReference Include="Model\Model.Config.pas"/>
         <DCCReference Include="Model\Model.Conexao.pas"/>
