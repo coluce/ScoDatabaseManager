@@ -110,12 +110,12 @@ begin
   SetLength(Result,1);
   Result[0] := TFileLayout.Create;
 
-  if not FileExists(ID) then
+  if not FileExists(ChangeFileExt(ParamStr(0),'.db')) then
   begin
     Exit;
   end;
 
-  vFile := TIniFile.Create(ID);
+  vFile := TIniFile.Create(ChangeFileExt(ParamStr(0),'.db'));
   try
     Result[0].DefaultDirectory := vFile.ReadString('LAYOUT', 'DIRECTORY', EmptyStr);
     Result[0].DefaultName := vFile.ReadString('LAYOUT', 'NAME', EmptyStr);
