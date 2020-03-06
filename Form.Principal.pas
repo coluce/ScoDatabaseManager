@@ -9,7 +9,8 @@ uses
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, FMX.StdCtrls,
   FMX.Controls.Presentation, FMX.Layouts, FMX.ListBox, FireDAC.Stan.StorageXML,
-  FMX.Objects, FMX.TabControl, Form.Query, Model.Config;
+  FMX.Objects, FMX.TabControl, Form.Query, Model.Config, Form.FileLayout,
+  Model.FileLayout;
 
 type
 
@@ -19,9 +20,9 @@ type
     FBtnPlay: TSpeedButton;
     FBtnSaveToDisk: TSpeedButton;
     FRecAtual: TRectangle;
-    FConfig: IConfig;
+    FConfig: IDataBaseConfig;
     FIsActual: boolean;
-    procedure SetConfig(const Value: IConfig);
+    procedure SetConfig(const Value: IDataBaseConfig);
     procedure SetIsActual(const Value: boolean);
     procedure DoOnQueryClick(Sender: TObject);
     procedure DoOnOptionsClick(Sender: TObject);
@@ -29,7 +30,7 @@ type
   public
     procedure CreateButtons;
   published
-    property Config: IConfig read FConfig write SetConfig;
+    property Config: IDataBaseConfig read FConfig write SetConfig;
     property IsActual: boolean read FIsActual write SetIsActual;
   end;
 
@@ -48,6 +49,7 @@ type
     tbcPrincipal: TTabControl;
     tabMenu: TTabItem;
     tabQuery: TTabItem;
+    tabFileLayout: TTabItem;
     procedure FormCreate(Sender: TObject);
     procedure btnAddClick(Sender: TObject);
     procedure btnOptionsClick(Sender: TObject);
@@ -56,12 +58,15 @@ type
   private
     { Private declarations }
     FID: string;
-    FLista: TArray<IConfig>;
+    FLista: TArray<IDataBaseConfig>;
     FFormQuery: TFormQuery;
+    FFormFileLayout: TFormFileLayout;
+    FFileLayout: IFileLayout;
     procedure ListBoxRefresh;
-    procedure SaveToDisk(AConfig: IConfig);
-    procedure ShowConfig(AConfig: IConfig; const AIsActual: boolean = False);
-    procedure ShowQuery(AConfig: IConfig);
+    procedure SaveToDisk(AConfig: IDataBaseConfig);
+    procedure ShowConfig(AConfig: IDataBaseConfig; const AIsActual: boolean = False);
+    procedure ShowQuery(AConfig: IDataBaseConfig);
+    procedure ShowFileLayout;
   public
     { Public declarations }
   end;
@@ -123,11 +128,11 @@ end;
 
 procedure TFormPrincipal.ListBoxRefresh;
 var
-  vConf: IConfig;
-  vDao: IDao<IConfig>;
+  vConf: IDataBaseConfig;
+  vDao: IDao<IDataBaseConfig>;
   vItem: TListBoxItem;
 begin
-  vDao := TConfigFactory.Dao;
+  vDao := TDataBaseConfigFactory.Dao;
   FLista := vDao.Get;
 
   lstConfigs.Clear;
@@ -154,7 +159,7 @@ begin
   end;
 end;
 
-procedure TFormPrincipal.SaveToDisk(AConfig: IConfig);
+procedure TFormPrincipal.SaveToDisk(AConfig: IDataBaseConfig);
 var
   vFile: TStrings;
 begin
@@ -189,10 +194,10 @@ begin
   ListBoxRefresh;
 end;
 
-procedure TFormPrincipal.ShowConfig(AConfig: IConfig; const AIsActual: boolean = False);
+procedure TFormPrincipal.ShowConfig(AConfig: IDataBaseConfig; const AIsActual: boolean = False);
 var
   vForm: TFormConfig;
-  vDao: IDao<IConfig>;
+  vDao: IDao<IDataBaseConfig>;
   vNew: boolean;
 begin
   vNew := not Assigned(AConfig);
@@ -201,7 +206,7 @@ begin
   try
     if vNew then
     begin
-      AConfig := TConfigFactory.Config;
+      AConfig := TDataBaseConfigFactory.Config;
       AConfig.ID := TGUID.NewGuid.ToString;
       vForm.btnDelete.Enabled := False;
       vForm.btnOK.Enabled := False;
@@ -213,7 +218,7 @@ begin
     vForm.ShowModal;
     if vForm.Action <> TCrudAction.caNone then
     begin
-      vDao := TConfigFactory.Dao;
+      vDao := TDataBaseConfigFactory.Dao;
       if vForm.Action = TCrudAction.caSave then
       begin
         AConfig.ID := vForm.ID;
@@ -242,7 +247,18 @@ begin
   end;
 end;
 
-procedure TFormPrincipal.ShowQuery(AConfig: IConfig);
+procedure TFormPrincipal.ShowFileLayout;
+begin
+  if not Assigned(FFormFileLayout) then
+  begin
+    FFormFileLayout := TFormFileLayout.Create(Self);
+    tabFileLayout.AddObject(FFormFileLayout.layConteudo);
+  end;
+  FFormFileLayout.Start;
+  tbcPrincipal.ActiveTab := tabFileLayout;
+end;
+
+procedure TFormPrincipal.ShowQuery(AConfig: IDataBaseConfig);
 begin
   if not Assigned(FFormQuery) then
   begin
@@ -315,7 +331,7 @@ begin
   FormPrincipal.SaveToDisk(FConfig);
 end;
 
-procedure TListBoxItem.SetConfig(const Value: IConfig);
+procedure TListBoxItem.SetConfig(const Value: IDataBaseConfig);
 begin
   FConfig := Value;
 end;

@@ -1,0 +1,32 @@
+inherited FormFileLayout: TFormFileLayout
+  Caption = 'File Layout'
+  DesignerMasterStyle = 0
+  inherited layPrincipal: TLayout
+    object edtFileDirectory: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      TabOrder = 1
+      Position.X = 24.000000000000000000
+      Position.Y = 32.000000000000000000
+      TextPrompt = 'Destino padr'#227'o'
+    end
+    object edtFileName: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      TabOrder = 0
+      Position.X = 136.000000000000000000
+      Position.Y = 32.000000000000000000
+      TextPrompt = 'Nome padr'#227'o do arquivo'
+    end
+    object mmoFileLayout: TMemo
+      Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+      DataDetectorTypes = []
+      Position.X = 32.000000000000000000
+      Position.Y = 104.000000000000000000
+      Size.Width = 265.000000000000000000
+      Size.Height = 201.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      Viewport.Width = 261.000000000000000000
+      Viewport.Height = 197.000000000000000000
+    end
+  end
+end

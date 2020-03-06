@@ -25,13 +25,13 @@ type
     FConnection: TFDConnection;
     FListTable: TListView;
     FLabelStatus: TLabel;
-    FConfig: IConfig;
+    FConfig: IDataBaseConfig;
     FIndicator: TAniIndicator;
     procedure GetTableName;
   protected
     procedure Execute; override;
   public
-    constructor Create(AStatusRec: TRectangle; AIndicator: TAniIndicator; ATreeTable: TListView; AConfig: IConfig; ALabelStatus: TLabel);
+    constructor Create(AStatusRec: TRectangle; AIndicator: TAniIndicator; ATreeTable: TListView; AConfig: IDataBaseConfig; ALabelStatus: TLabel);
     destructor Destroy; override;
   published
     property Connection: TFDCOnnection read FConnection;
@@ -74,17 +74,17 @@ type
     procedure btnRunClick(Sender: TObject);
   private
     { Private declarations }
-    FConfig: IConfig;
+    FConfig: IDataBaseConfig;
     FTables: TStrings;
     FConnectionWidget: TConnectionWidget;
-    procedure SetConfig(const Value: IConfig);
+    procedure SetConfig(const Value: IDataBaseConfig);
   public
     { Public declarations }
-    procedure Start(const AConfig: IConfig);
+    procedure Start(const AConfig: IDataBaseConfig);
     procedure Stop;
   published
     { Published declarations }
-    property Config: IConfig read FConfig write SetConfig;
+    property Config: IDataBaseConfig read FConfig write SetConfig;
   end;
 
 implementation
@@ -152,12 +152,12 @@ begin
   mmoQuery.Lines.Add('  1 = 2');
 end;
 
-procedure TFormQuery.SetConfig(const Value: IConfig);
+procedure TFormQuery.SetConfig(const Value: IDataBaseConfig);
 begin
   FConfig := Value;
 end;
 
-procedure TFormQuery.Start(const AConfig: IConfig);
+procedure TFormQuery.Start(const AConfig: IDataBaseConfig);
 begin
   mmoQuery.Lines.Clear;
   lvTables.Items.Clear;
@@ -184,7 +184,7 @@ end;
 
 { TConnectionWidget }
 
-constructor TConnectionWidget.Create(AStatusRec: TRectangle; AIndicator: TAniIndicator; ATreeTable: TListView; AConfig: IConfig; ALabelStatus: TLabel);
+constructor TConnectionWidget.Create(AStatusRec: TRectangle; AIndicator: TAniIndicator; ATreeTable: TListView; AConfig: IDataBaseConfig; ALabelStatus: TLabel);
 begin
   inherited Create(True);
   FreeOnTerminate := False;

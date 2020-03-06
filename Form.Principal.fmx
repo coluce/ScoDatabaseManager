@@ -27498,10 +27498,12 @@ object FormPrincipal: TFormPrincipal
     Size.Width = 640.000000000000000000
     Size.Height = 480.000000000000000000
     Size.PlatformDefault = False
-    TabIndex = 0
+    TabIndex = 2
     TabOrder = 3
     TabPosition = None
     Sizes = (
+      640s
+      480s
       640s
       480s
       640s
@@ -27510,7 +27512,7 @@ object FormPrincipal: TFormPrincipal
       CustomIcon = <
         item
         end>
-      IsSelected = True
+      IsSelected = False
       Size.Width = 8.000000000000000000
       Size.Height = 8.000000000000000000
       Size.PlatformDefault = False
@@ -27620,6 +27622,20 @@ object FormPrincipal: TFormPrincipal
       StyleLookup = ''
       TabOrder = 0
       Text = 'tabQuery'
+      ExplicitSize.cx = 8.000000000000000000
+      ExplicitSize.cy = 8.000000000000000000
+    end
+    object tabFileLayout: TTabItem
+      CustomIcon = <
+        item
+        end>
+      IsSelected = True
+      Size.Width = 8.000000000000000000
+      Size.Height = 8.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = ''
+      TabOrder = 0
+      Text = 'tabFileLayout'
       ExplicitSize.cx = 8.000000000000000000
       ExplicitSize.cy = 8.000000000000000000
     end
