@@ -174,16 +174,16 @@
         <DCCReference Include="View\Form.Principal.pas">
             <Form>FormPrincipal</Form>
         </DCCReference>
-        <DCCReference Include="View\Form.Config.pas">
+        <DCCReference Include="View\View.Config.pas">
             <Form>FormConfig</Form>
         </DCCReference>
-        <DCCReference Include="View\Form.Query.pas">
+        <DCCReference Include="View\View.Query.pas">
             <Form>FormQuery</Form>
         </DCCReference>
-        <DCCReference Include="View\Form.Padrao.pas">
+        <DCCReference Include="View\View.Default.pas">
             <Form>FormPadrao</Form>
         </DCCReference>
-        <DCCReference Include="View\Form.FileLayout.pas">
+        <DCCReference Include="View\View.FileLayout.pas">
             <Form>FormFileLayout</Form>
         </DCCReference>
         <DCCReference Include="Model\Model.Config.pas"/>

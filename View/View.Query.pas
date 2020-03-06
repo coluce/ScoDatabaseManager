@@ -1,4 +1,4 @@
-unit Form.Query;
+unit View.Query;
 
 interface
 
@@ -114,13 +114,32 @@ begin
       try
         vQuery.Connection := FConnectionWidget.Connection;
         vQuery.SQL.Text := mmoQuery.Lines.Text;
+
+        TThread.Synchronize(
+          nil,
+          procedure
+          begin
+            aniQuery.Visible := True;
+            aniQuery.Enabled := True;
+          end
+        );
+
         vQuery.Open;
 
         TThread.Synchronize(
           nil,
           procedure
           begin
-            mtbResultado.CloneCursor(vQuery);
+            grdQuery.BeginUpdate;
+            try
+              mtbResultado.CloneCursor(vQuery);
+            finally
+              grdQuery.EndUpdate;
+            end;
+
+            aniQuery.Visible := False;
+            aniQuery.Enabled := False;
+
           end
         );
       finally
@@ -193,12 +212,6 @@ begin
   FLabelStatus := ALabelStatus;
   FIndicator := AIndicator;
   FConfig := AConfig;
-  FConnection := TFDConnection.Create(nil);
-  FConnection.DriverName := 'FB';
-  FConnection.Params.Database := TPath.Combine(FConfig.DataBase,'ALTERDB.IB');
-  FConnection.Params.Values['Server'] := FConfig.ServerName;
-  FConnection.Params.UserName := 'SYSDBA';
-  FConnection.Params.Password := 'masterkey';
 end;
 
 destructor TConnectionWidget.Destroy;
@@ -218,6 +231,14 @@ end;
 procedure TConnectionWidget.Execute;
 begin
   inherited;
+
+  FConnection := TFDConnection.Create(nil);
+  FConnection.DriverName := 'FB';
+  FConnection.Params.Database := TPath.Combine(FConfig.DataBase,'ALTERDB.IB');
+  FConnection.Params.Values['Server'] := FConfig.ServerName;
+  FConnection.Params.UserName := 'SYSDBA';
+  FConnection.Params.Password := 'masterkey';
+
   FLabelStatus.Text := '';
   if not FConnection.Connected then
   begin

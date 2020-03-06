@@ -9,7 +9,7 @@ uses
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, FMX.StdCtrls,
   FMX.Controls.Presentation, FMX.Layouts, FMX.ListBox, FireDAC.Stan.StorageXML,
-  FMX.Objects, FMX.TabControl, Form.Query, Model.Config, Form.FileLayout,
+  FMX.Objects, FMX.TabControl, View.Query, Model.Config, View.FileLayout,
   Model.FileLayout;
 
 type
@@ -53,7 +53,6 @@ type
     btnFileLayout: TSpeedButton;
     procedure FormCreate(Sender: TObject);
     procedure btnAddClick(Sender: TObject);
-    procedure btnOptionsClick(Sender: TObject);
     procedure btnQueryClick(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnFileLayoutClick(Sender: TObject);
@@ -81,18 +80,13 @@ implementation
 uses
   System.IOUtils,
   Model.DAO,
-  Form.Config;
+  View.Config;
 
 {$R *.fmx}
 
 procedure TFormPrincipal.btnFileLayoutClick(Sender: TObject);
 begin
   ShowFileLayout;
-end;
-
-procedure TFormPrincipal.btnOptionsClick(Sender: TObject);
-begin
-//  ShowConfig;
 end;
 
 procedure TFormPrincipal.btnQueryClick(Sender: TObject);

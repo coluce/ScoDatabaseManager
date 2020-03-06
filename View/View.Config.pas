@@ -1,4 +1,4 @@
-unit Form.Config;
+unit View.Config;
 
 interface
 

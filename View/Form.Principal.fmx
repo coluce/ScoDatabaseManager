@@ -27595,7 +27595,6 @@ object FormPrincipal: TFormPrincipal
             Size.PlatformDefault = False
             StyleLookup = 'escapetoolbutton'
             Text = 'btnOptions'
-            OnClick = btnOptionsClick
           end
           object Circle1: TCircle
             Align = Right
@@ -27618,7 +27617,6 @@ object FormPrincipal: TFormPrincipal
             Size.PlatformDefault = False
             StyleLookup = 'playtoolbutton'
             Text = 'btnOptions'
-            OnClick = btnOptionsClick
           end
         end
       end
