@@ -50,11 +50,13 @@ type
     tabMenu: TTabItem;
     tabQuery: TTabItem;
     tabFileLayout: TTabItem;
+    btnFileLayout: TSpeedButton;
     procedure FormCreate(Sender: TObject);
     procedure btnAddClick(Sender: TObject);
     procedure btnOptionsClick(Sender: TObject);
     procedure btnQueryClick(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
+    procedure btnFileLayoutClick(Sender: TObject);
   private
     { Private declarations }
     FID: string;
@@ -77,9 +79,16 @@ var
 implementation
 
 uses
+  System.IOUtils,
+  Model.DAO,
   Form.Config;
 
 {$R *.fmx}
+
+procedure TFormPrincipal.btnFileLayoutClick(Sender: TObject);
+begin
+  ShowFileLayout;
+end;
 
 procedure TFormPrincipal.btnOptionsClick(Sender: TObject);
 begin
@@ -105,15 +114,15 @@ procedure TFormPrincipal.FormCreate(Sender: TObject);
   function GetIDInUse: string;
   var
     vFile: TStrings;
-  const
-    FILE_NAME: string = 'E:\dese.git\Executaveis\FormulaCerta\alterdb.ini';
+    vFileName: string;
   begin
     Result := EmptyStr;
-    if FileExists(FILE_NAME) then
+    vFileName := TPath.Combine(FFileLayout.DefaultDirectory, FFileLayout.DefaultName);
+    if FileExists(vFileName) then
     begin
       vFile := TStringList.Create;
       try
-        vFile.LoadFromFile(FILE_NAME);
+        vFile.LoadFromFile(vFileName);
         Result := vFile[0];
       finally
         vFile.DisposeOf;
@@ -121,6 +130,7 @@ procedure TFormPrincipal.FormCreate(Sender: TObject);
     end;
   end;
 begin
+  FFileLayout := TFileLayoutDao.Create.Get(ChangeFileExt(ParamStr(0),'.db'))[0];
   FID := GetIDInUse;
   ListBoxRefresh;
   Self.WindowState := TWindowState.wsMaximized;
@@ -162,31 +172,19 @@ end;
 procedure TFormPrincipal.SaveToDisk(AConfig: IDataBaseConfig);
 var
   vFile: TStrings;
+  vTemp: string;
 begin
   if MessageDlg('Definir como atual?', TMsgDlgType.mtConfirmation, [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo], 0, TMsgDlgBtn.mbYes) = mrYes then
-  //if dlg1.Execute then
   begin
     FID := AConfig.ID;
     vFile := TStringList.Create;
     try
       vFile.Add(FID);
-      vFile.Add('[SERVIDOR]');
-      vFile.Add('NOMESERVIDOR=' + AConfig.ServerName);
-      vFile.Add('SERVER=192.168.1.11');
-      vFile.Add('CONECCAO=TCP');
-      vFile.Add('');
-      vFile.Add('[SERVIDORPAFECF]');
-      vFile.Add('NOMESERVIDOR=Osamar');
-      vFile.Add('CONECCAO=TCP');
-      vFile.Add('');
-      vFile.Add('[PATH]');
-      vFile.Add('PATHPAR=' + AConfig.DataBase);
-      vFile.Add('');
-      vFile.Add('[HARDLOCK]');
-      vFile.Add('HARDLOCK=SAFENET');
-      vFile.Add('SERVER=192.168.1.11');
-      vFile.SaveToFile('E:\dese.git\Executaveis\FormulaCerta\alterdb.ini');
-      //vFile.SaveToFile(dlg1.FileName);
+      vTemp := FFileLayout.Layout;
+      vTemp := vTemp.Replace('#server', AConfig.ServerName, [rfReplaceAll]);
+      vTemp := vTemp.Replace('#database', AConfig.DataBase, [rfReplaceAll]);
+      vFile.Add(vTemp);
+      vFile.SaveToFile(TPath.Combine(FFileLayout.DefaultDirectory, FFileLayout.DefaultName));
     finally
       vFile.DisposeOf;
     end;
@@ -252,9 +250,9 @@ begin
   if not Assigned(FFormFileLayout) then
   begin
     FFormFileLayout := TFormFileLayout.Create(Self);
-    tabFileLayout.AddObject(FFormFileLayout.layConteudo);
+    tabFileLayout.AddObject(FFormFileLayout.layPrincipal);
   end;
-  FFormFileLayout.Start;
+  FFormFileLayout.Start(FFileLayout);
   tbcPrincipal.ActiveTab := tabFileLayout;
 end;
 

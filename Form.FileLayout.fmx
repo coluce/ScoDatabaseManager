@@ -2,31 +2,95 @@ inherited FormFileLayout: TFormFileLayout
   Caption = 'File Layout'
   DesignerMasterStyle = 0
   inherited layPrincipal: TLayout
-    object edtFileDirectory: TEdit
-      Touch.InteractiveGestures = [LongTap, DoubleTap]
-      TabOrder = 1
-      Position.X = 24.000000000000000000
-      Position.Y = 32.000000000000000000
-      TextPrompt = 'Destino padr'#227'o'
-    end
-    object edtFileName: TEdit
-      Touch.InteractiveGestures = [LongTap, DoubleTap]
-      TabOrder = 0
-      Position.X = 136.000000000000000000
-      Position.Y = 32.000000000000000000
-      TextPrompt = 'Nome padr'#227'o do arquivo'
-    end
     object mmoFileLayout: TMemo
       Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
       DataDetectorTypes = []
-      Position.X = 32.000000000000000000
-      Position.Y = 104.000000000000000000
-      Size.Width = 265.000000000000000000
-      Size.Height = 201.000000000000000000
+      Align = Client
+      Margins.Left = 5.000000000000000000
+      Margins.Top = 5.000000000000000000
+      Margins.Right = 5.000000000000000000
+      Margins.Bottom = 5.000000000000000000
+      Size.Width = 580.000000000000000000
+      Size.Height = 415.000000000000000000
       Size.PlatformDefault = False
-      TabOrder = 2
-      Viewport.Width = 261.000000000000000000
-      Viewport.Height = 197.000000000000000000
+      TabOrder = 1
+      Viewport.Width = 576.000000000000000000
+      Viewport.Height = 411.000000000000000000
+    end
+    object tlbQuery: TToolBar
+      Align = MostLeft
+      Size.Width = 50.000000000000000000
+      Size.Height = 480.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      object btnVoltar: TSpeedButton
+        Align = Top
+        Size.Width = 50.000000000000000000
+        Size.Height = 40.000000000000000000
+        Size.PlatformDefault = False
+        StyleLookup = 'arrowlefttoolbutton'
+        OnClick = btnVoltarClick
+      end
+    end
+    object rtgCabecalho: TRectangle
+      Align = Top
+      Fill.Color = claWhite
+      Margins.Left = 5.000000000000000000
+      Margins.Top = 5.000000000000000000
+      Margins.Right = 5.000000000000000000
+      Position.X = 55.000000000000000000
+      Position.Y = 5.000000000000000000
+      Size.Width = 580.000000000000000000
+      Size.Height = 50.000000000000000000
+      Size.PlatformDefault = False
+      Stroke.Kind = None
+      XRadius = 2.000000000000000000
+      YRadius = 2.000000000000000000
+      object edtFileDirectory: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        TabOrder = 0
+        Position.Y = 20.000000000000000000
+        Size.Width = 226.000000000000000000
+        Size.Height = 22.000000000000000000
+        Size.PlatformDefault = False
+        TextPrompt = 'Destino padr'#227'o'
+        object lblFileDirectory: TLabel
+          Position.Y = -17.000000000000000000
+          Text = 'Diret'#243'rio'
+          TabOrder = 0
+        end
+      end
+      object edtFileName: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        TabOrder = 1
+        Position.X = 240.000000000000000000
+        Position.Y = 20.000000000000000000
+        Size.Width = 241.000000000000000000
+        Size.Height = 22.000000000000000000
+        Size.PlatformDefault = False
+        TextPrompt = 'Nome padr'#227'o do arquivo'
+        object lblFileName: TLabel
+          Position.X = -1.000000000000000000
+          Position.Y = -19.000000000000000000
+          Text = 'Nome'
+          TabOrder = 0
+        end
+      end
+      object btnSave: TSpeedButton
+        Align = Right
+        Margins.Left = 3.000000000000000000
+        Margins.Top = 3.000000000000000000
+        Margins.Right = 3.000000000000000000
+        Margins.Bottom = 3.000000000000000000
+        Position.X = 497.000000000000000000
+        Position.Y = 3.000000000000000000
+        Size.Width = 80.000000000000000000
+        Size.Height = 44.000000000000000000
+        Size.PlatformDefault = False
+        StyleLookup = 'donetoolbutton'
+        Text = 'Salvar'
+        OnClick = btnSaveClick
+      end
     end
   end
 end

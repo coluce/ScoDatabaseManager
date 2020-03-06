@@ -106,13 +106,14 @@ function TFileLayoutDao.Get(ID: string): TArray<IFileLayout>;
 var
   vFile: TIniFile;
 begin
-  if not FileExists(ID) then
-  begin
-    raise Exception.Create('Arquivo não encontrado!' + chr(13) + ID);
-  end;
 
   SetLength(Result,1);
   Result[0] := TFileLayout.Create;
+
+  if not FileExists(ID) then
+  begin
+    Exit;
+  end;
 
   vFile := TIniFile.Create(ID);
   try
@@ -128,7 +129,7 @@ function TFileLayoutDao.Save(const Entity: IFileLayout): boolean;
 var
   vFile: TIniFile;
 begin
-  vFile := TIniFile.Create(TPath.Combine(Entity.DefaultName,Entity.DefaultName));
+  vFile := TIniFile.Create(ChangeFileExt(ParamStr(0),'.db'));
   try
     vFile.WriteString('LAYOUT', 'DIRECTORY', Entity.DefaultDirectory);
     vFile.WriteString('LAYOUT', 'NAME', Entity.DefaultName);

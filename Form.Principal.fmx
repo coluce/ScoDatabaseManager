@@ -27498,7 +27498,7 @@ object FormPrincipal: TFormPrincipal
     Size.Width = 640.000000000000000000
     Size.Height = 480.000000000000000000
     Size.PlatformDefault = False
-    TabIndex = 2
+    TabIndex = 0
     TabOrder = 3
     TabPosition = None
     Sizes = (
@@ -27512,7 +27512,7 @@ object FormPrincipal: TFormPrincipal
       CustomIcon = <
         item
         end>
-      IsSelected = False
+      IsSelected = True
       Size.Width = 8.000000000000000000
       Size.Height = 8.000000000000000000
       Size.PlatformDefault = False
@@ -27550,6 +27550,18 @@ object FormPrincipal: TFormPrincipal
           Size.PlatformDefault = False
           StyleLookup = 'refreshtoolbutton'
           OnClick = btnRefreshClick
+        end
+        object btnFileLayout: TSpeedButton
+          Align = Bottom
+          Margins.Bottom = 5.000000000000000000
+          Position.X = 5.000000000000000000
+          Position.Y = 430.000000000000000000
+          Size.Width = 40.000000000000000000
+          Size.Height = 40.000000000000000000
+          Size.PlatformDefault = False
+          StyleLookup = 'pagecurltoolbutton'
+          Text = 'btnFileLayout'
+          OnClick = btnFileLayoutClick
         end
       end
       object lstConfigs: TListBox
@@ -27629,7 +27641,7 @@ object FormPrincipal: TFormPrincipal
       CustomIcon = <
         item
         end>
-      IsSelected = True
+      IsSelected = False
       Size.Width = 8.000000000000000000
       Size.Height = 8.000000000000000000
       Size.PlatformDefault = False
