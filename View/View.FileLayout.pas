@@ -9,14 +9,14 @@ uses
   FMX.Memo, FMX.Effects, FMX.Objects, Model.FileLayout;
 
 type
-  TFormFileLayout = class(TFormPadrao)
-    edtFileDirectory: TEdit;
-    edtFileName: TEdit;
+  TViewFileLayout = class(TFormPadrao)
     mmoFileLayout: TMemo;
     tlbQuery: TToolBar;
     btnVoltar: TSpeedButton;
-    rtgCabecalho: TRectangle;
+    Layout1: TLayout;
+    edtFileDirectory: TEdit;
     lblFileDirectory: TLabel;
+    edtFileName: TEdit;
     lblFileName: TLabel;
     btnSave: TSpeedButton;
     procedure btnVoltarClick(Sender: TObject);
@@ -30,16 +30,16 @@ type
   end;
 
 var
-  FormFileLayout: TFormFileLayout;
+  ViewFileLayout: TViewFileLayout;
 
 implementation
 
 uses
-  Form.Principal;
+  Form.Principal, Controller.Principal;
 
 {$R *.fmx}
 
-procedure TFormFileLayout.btnSaveClick(Sender: TObject);
+procedure TViewFileLayout.btnSaveClick(Sender: TObject);
 begin
   inherited;
   FLayout.DefaultDirectory := edtFileDirectory.Text;
@@ -48,17 +48,17 @@ begin
 
   TFileLayoutDao.Create.Save(FLayout);
 
-  FormPrincipal.tbcPrincipal.ActiveTab := FormPrincipal.tabMenu;
+  //FormPrincipal.tbcPrincipal.ActiveTab := FormPrincipal.tabMenu;
 
 end;
 
-procedure TFormFileLayout.btnVoltarClick(Sender: TObject);
+procedure TViewFileLayout.btnVoltarClick(Sender: TObject);
 begin
   inherited;
-  FormPrincipal.tbcPrincipal.ActiveTab := FormPrincipal.tabMenu;
+  TControllerPrincipal.Instance.ShowMenu;
 end;
 
-procedure TFormFileLayout.Start(const AFileLayout: IFileLayout);
+procedure TViewFileLayout.Start(const AFileLayout: IFileLayout);
 begin
   FLayout := AFileLayout;
   edtFileDirectory.Text := FLayout.DefaultDirectory;

@@ -1,4 +1,4 @@
-inherited FormFileLayout: TFormFileLayout
+inherited ViewFileLayout: TViewFileLayout
   Caption = 'File Layout'
   DesignerMasterStyle = 0
   inherited layPrincipal: TLayout
@@ -11,11 +11,11 @@ inherited FormFileLayout: TFormFileLayout
       Margins.Right = 5.000000000000000000
       Margins.Bottom = 5.000000000000000000
       Size.Width = 580.000000000000000000
-      Size.Height = 415.000000000000000000
+      Size.Height = 420.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 1
       Viewport.Width = 576.000000000000000000
-      Viewport.Height = 411.000000000000000000
+      Viewport.Height = 416.000000000000000000
     end
     object tlbQuery: TToolBar
       Align = MostLeft
@@ -32,23 +32,21 @@ inherited FormFileLayout: TFormFileLayout
         OnClick = btnVoltarClick
       end
     end
-    object rtgCabecalho: TRectangle
+    object Layout1: TLayout
       Align = Top
-      Fill.Color = claWhite
-      Margins.Left = 5.000000000000000000
-      Margins.Top = 5.000000000000000000
-      Margins.Right = 5.000000000000000000
-      Position.X = 55.000000000000000000
-      Position.Y = 5.000000000000000000
-      Size.Width = 580.000000000000000000
+      Padding.Left = 5.000000000000000000
+      Padding.Top = 5.000000000000000000
+      Padding.Right = 5.000000000000000000
+      Padding.Bottom = 5.000000000000000000
+      Position.X = 50.000000000000000000
+      Size.Width = 590.000000000000000000
       Size.Height = 50.000000000000000000
       Size.PlatformDefault = False
-      Stroke.Kind = None
-      XRadius = 2.000000000000000000
-      YRadius = 2.000000000000000000
+      TabOrder = 2
       object edtFileDirectory: TEdit
         Touch.InteractiveGestures = [LongTap, DoubleTap]
         TabOrder = 0
+        Position.X = 5.000000000000000000
         Position.Y = 20.000000000000000000
         Size.Width = 226.000000000000000000
         Size.Height = 22.000000000000000000
@@ -82,10 +80,10 @@ inherited FormFileLayout: TFormFileLayout
         Margins.Top = 3.000000000000000000
         Margins.Right = 3.000000000000000000
         Margins.Bottom = 3.000000000000000000
-        Position.X = 497.000000000000000000
-        Position.Y = 3.000000000000000000
+        Position.X = 502.000000000000000000
+        Position.Y = 8.000000000000000000
         Size.Width = 80.000000000000000000
-        Size.Height = 44.000000000000000000
+        Size.Height = 34.000000000000000000
         Size.PlatformDefault = False
         StyleLookup = 'donetoolbutton'
         Text = 'Salvar'

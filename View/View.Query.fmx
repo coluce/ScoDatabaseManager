@@ -4,7 +4,6 @@ object FormQuery: TFormQuery
   Caption = 'Form1'
   ClientHeight = 480
   ClientWidth = 640
-  StyleBook = FormPrincipal.sty1
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
@@ -97,8 +96,8 @@ object FormQuery: TFormQuery
         Size.Height = 275.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 1
-        Viewport.Width = 342.000000000000000000
-        Viewport.Height = 267.000000000000000000
+        Viewport.Width = 350.000000000000000000
+        Viewport.Height = 271.000000000000000000
       end
       object grdQuery: TGrid
         Align = Bottom

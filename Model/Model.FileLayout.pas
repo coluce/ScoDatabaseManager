@@ -104,7 +104,8 @@ end;
 
 function TFileLayoutDao.Get(ID: string): TArray<IFileLayout>;
 var
-  vFile: TIniFile;
+  vIniFile: TIniFile;
+  vFile: TStrings;
 begin
 
   SetLength(Result,1);
@@ -115,25 +116,46 @@ begin
     Exit;
   end;
 
-  vFile := TIniFile.Create(ChangeFileExt(ParamStr(0),'.db'));
+  vIniFile := TIniFile.Create(ChangeFileExt(ParamStr(0),'.db'));
   try
-    Result[0].DefaultDirectory := vFile.ReadString('LAYOUT', 'DIRECTORY', EmptyStr);
-    Result[0].DefaultName := vFile.ReadString('LAYOUT', 'NAME', EmptyStr);
-    Result[0].Layout := vFile.ReadString('LAYOUT', 'FILE', EmptyStr);
+    Result[0].DefaultDirectory := vIniFile.ReadString('LAYOUT', 'DIRECTORY', EmptyStr);
+    Result[0].DefaultName := vIniFile.ReadString('LAYOUT', 'NAME', EmptyStr);
+  finally
+    vIniFile.Free;
+  end;
+
+  if not FileExists(ChangeFileExt(ParamStr(0),'.layout')) then
+  begin
+    Exit;
+  end;
+
+  vFile := TStringList.Create;
+  try
+    vFile.LoadFromFile(ChangeFileExt(ParamStr(0),'.layout'));
+    Result[0].Layout := vFile.Text;
   finally
     vFile.Free;
   end;
+
 end;
 
 function TFileLayoutDao.Save(const Entity: IFileLayout): boolean;
 var
-  vFile: TIniFile;
+  vIniFile: TIniFile;
+  vFile: TStrings;
 begin
-  vFile := TIniFile.Create(ChangeFileExt(ParamStr(0),'.db'));
+  vIniFile := TIniFile.Create(ChangeFileExt(ParamStr(0),'.db'));
   try
-    vFile.WriteString('LAYOUT', 'DIRECTORY', Entity.DefaultDirectory);
-    vFile.WriteString('LAYOUT', 'NAME', Entity.DefaultName);
-    vFile.WriteString('LAYOUT', 'FILE', Entity.Layout);
+    vIniFile.WriteString('LAYOUT', 'DIRECTORY', Entity.DefaultDirectory);
+    vIniFile.WriteString('LAYOUT', 'NAME', Entity.DefaultName);
+  finally
+    vIniFile.Free;
+  end;
+
+  vFile := TStringList.Create;
+  try
+    vFile.Add(Entity.Layout);
+    vFile.SaveToFile(ChangeFileExt(ParamStr(0),'.layout'));
   finally
     vFile.Free;
   end;

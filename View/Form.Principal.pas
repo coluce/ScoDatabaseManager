@@ -10,7 +10,7 @@ uses
   Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, FMX.StdCtrls,
   FMX.Controls.Presentation, FMX.Layouts, FMX.ListBox, FireDAC.Stan.StorageXML,
   FMX.Objects, FMX.TabControl, View.Query, Model.Config, View.FileLayout,
-  Model.FileLayout;
+  Model.FileLayout, Controller.Principal;
 
 type
 
@@ -35,33 +35,20 @@ type
   end;
 
   TFormPrincipal = class(TForm)
-    lstConfigs: TListBox;
-    tlb1: TToolBar;
-    btnAdd: TSpeedButton;
     FDStanStorageXMLLink1: TFDStanStorageXMLLink;
-    sty1: TStyleBook;
-    ListBoxItem1: TListBoxItem;
-    btnOptions: TSpeedButton;
-    dlg1: TSaveDialog;
-    Circle1: TCircle;
-    btnRefresh: TSpeedButton;
-    btn1: TSpeedButton;
-    tbcPrincipal: TTabControl;
-    tabMenu: TTabItem;
-    tabQuery: TTabItem;
-    tabFileLayout: TTabItem;
-    btnFileLayout: TSpeedButton;
+    styLight: TStyleBook;
+    styDark: TStyleBook;
     procedure FormCreate(Sender: TObject);
     procedure btnAddClick(Sender: TObject);
     procedure btnQueryClick(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnFileLayoutClick(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
     { Private declarations }
     FID: string;
     FLista: TArray<IDataBaseConfig>;
     FFormQuery: TFormQuery;
-    FFormFileLayout: TFormFileLayout;
     FFileLayout: IFileLayout;
     procedure ListBoxRefresh;
     procedure SaveToDisk(AConfig: IDataBaseConfig);
@@ -91,7 +78,7 @@ end;
 
 procedure TFormPrincipal.btnQueryClick(Sender: TObject);
 begin
-  ShowQuery(FLista[lstConfigs.ItemIndex]);
+  //ShowQuery(FLista[lstConfigs.ItemIndex]);
 end;
 
 procedure TFormPrincipal.btnRefreshClick(Sender: TObject);
@@ -124,10 +111,17 @@ procedure TFormPrincipal.FormCreate(Sender: TObject);
     end;
   end;
 begin
+  TControllerPrincipal.Start(Self);
+  TControllerPrincipal.Instance.ShowMenu;
   FFileLayout := TFileLayoutDao.Create.Get(ChangeFileExt(ParamStr(0),'.db'))[0];
   FID := GetIDInUse;
   ListBoxRefresh;
   Self.WindowState := TWindowState.wsMaximized;
+end;
+
+procedure TFormPrincipal.FormDestroy(Sender: TObject);
+begin
+  TControllerPrincipal.Stop;
 end;
 
 procedure TFormPrincipal.ListBoxRefresh;
@@ -136,31 +130,31 @@ var
   vDao: IDao<IDataBaseConfig>;
   vItem: TListBoxItem;
 begin
-  vDao := TDataBaseConfigFactory.Dao;
-  FLista := vDao.Get;
-
-  lstConfigs.Clear;
-  lstConfigs.BeginUpdate;
-  try
-    for vConf in FLista do
-    begin
-      vItem := TListBoxItem.Create(lstConfigs);
-      vItem.Parent := lstConfigs;
-      vItem.Config := vConf;
-
-      vItem.Height := 55;
-      vItem.ItemData.Text := vConf.Description;
-      vItem.ItemData.Detail := vConf.ServerName + ' : ' + vConf.DataBase;
-
-      vItem.IsActual := not(FID.Trim.IsEmpty) and vConf.ID.Equals(FID);
-      vItem.CreateButtons;
-
-      lstConfigs.AddObject(vItem);
-    end;
-    lstConfigs.ItemIndex := 0;
-  finally
-    lstConfigs.EndUpdate;
-  end;
+//  vDao := TDataBaseConfigFactory.Dao;
+//  FLista := vDao.Get;
+//
+//  lstConfigs.Clear;
+//  lstConfigs.BeginUpdate;
+//  try
+//    for vConf in FLista do
+//    begin
+//      vItem := TListBoxItem.Create(lstConfigs);
+//      vItem.Parent := lstConfigs;
+//      vItem.Config := vConf;
+//
+//      vItem.Height := 55;
+//      vItem.ItemData.Text := vConf.Description;
+//      vItem.ItemData.Detail := vConf.ServerName + ' : ' + vConf.DataBase;
+//
+//      vItem.IsActual := not(FID.Trim.IsEmpty) and vConf.ID.Equals(FID);
+//      vItem.CreateButtons;
+//
+//      lstConfigs.AddObject(vItem);
+//    end;
+//    lstConfigs.ItemIndex := 0;
+//  finally
+//    lstConfigs.EndUpdate;
+//  end;
 end;
 
 procedure TFormPrincipal.SaveToDisk(AConfig: IDataBaseConfig);
@@ -241,24 +235,12 @@ end;
 
 procedure TFormPrincipal.ShowFileLayout;
 begin
-  if not Assigned(FFormFileLayout) then
-  begin
-    FFormFileLayout := TFormFileLayout.Create(Self);
-    tabFileLayout.AddObject(FFormFileLayout.layPrincipal);
-  end;
-  FFormFileLayout.Start(FFileLayout);
-  tbcPrincipal.ActiveTab := tabFileLayout;
+
 end;
 
 procedure TFormPrincipal.ShowQuery(AConfig: IDataBaseConfig);
 begin
-  if not Assigned(FFormQuery) then
-  begin
-    FFormQuery := TFormQuery.Create(Self);
-    tabQuery.AddObject(FFormQuery.layConteudo);
-  end;
-  FFormQuery.Start(AConfig);
-  tbcPrincipal.ActiveTab := tabQuery;
+  
 end;
 
 { TListBoxItem }

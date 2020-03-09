@@ -100,7 +100,7 @@ uses
 procedure TFormQuery.btnAddClick(Sender: TObject);
 begin
   Stop;
-  FormPrincipal.tbcPrincipal.ActiveTab := FormPrincipal.tabMenu;
+  //FormPrincipal.tbcPrincipal.ActiveTab := FormPrincipal.tabMenu;
 end;
 
 procedure TFormQuery.btnRunClick(Sender: TObject);

@@ -1,0 +1,64 @@
+inherited ViewMenu: TViewMenu
+  Caption = 'Menu'
+  DesignerMasterStyle = 0
+  inherited layPrincipal: TLayout
+    object tlbMenu: TToolBar
+      Align = MostLeft
+      Padding.Left = 5.000000000000000000
+      Padding.Top = 5.000000000000000000
+      Padding.Right = 5.000000000000000000
+      Padding.Bottom = 5.000000000000000000
+      Size.Width = 50.000000000000000000
+      Size.Height = 480.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      object btnAdd: TSpeedButton
+        Align = Top
+        Position.X = 5.000000000000000000
+        Position.Y = 5.000000000000000000
+        Size.Width = 40.000000000000000000
+        Size.Height = 40.000000000000000000
+        Size.PlatformDefault = False
+        StyleLookup = 'additembutton'
+      end
+      object btnRefresh: TSpeedButton
+        Align = Top
+        Position.X = 5.000000000000000000
+        Position.Y = 45.000000000000000000
+        Size.Width = 40.000000000000000000
+        Size.Height = 40.000000000000000000
+        Size.PlatformDefault = False
+        StyleLookup = 'refreshtoolbutton'
+      end
+      object btnFileLayout: TSpeedButton
+        Align = Bottom
+        Margins.Bottom = 5.000000000000000000
+        Position.X = 5.000000000000000000
+        Position.Y = 430.000000000000000000
+        Size.Width = 40.000000000000000000
+        Size.Height = 40.000000000000000000
+        Size.PlatformDefault = False
+        StyleLookup = 'pagecurltoolbutton'
+        Text = 'btnFileLayout'
+        OnClick = btnFileLayoutClick
+      end
+    end
+    object lstConfigs: TListBox
+      Align = Client
+      Margins.Left = 8.000000000000000000
+      Margins.Top = 8.000000000000000000
+      Margins.Right = 8.000000000000000000
+      Margins.Bottom = 8.000000000000000000
+      Size.Width = 574.000000000000000000
+      Size.Height = 464.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      DisableFocusEffect = True
+      DefaultItemStyles.ItemStyle = 'listboxitembottomdetail'
+      DefaultItemStyles.GroupHeaderStyle = ''
+      DefaultItemStyles.GroupFooterStyle = ''
+      Viewport.Width = 570.000000000000000000
+      Viewport.Height = 460.000000000000000000
+    end
+  end
+end
