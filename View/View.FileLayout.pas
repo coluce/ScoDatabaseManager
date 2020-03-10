@@ -38,13 +38,20 @@ uses
 {$R *.fmx}
 
 procedure TViewFileLayout.btnSaveClick(Sender: TObject);
+var
+  vDAO: TFileLayoutDao;
 begin
   inherited;
   FLayout.DefaultDirectory := edtFileDirectory.Text;
   FLayout.DefaultName := edtFileName.Text;
   FLayout.Layout := mmoFileLayout.Text;
 
-  TFileLayoutDao.Create.Save(FLayout);
+  vDAO := TFileLayoutDao.Create;
+  try
+    vDao.Save(FLayout);
+  finally
+    vDAO.Free;
+  end;
 
   TControllerPrincipal.Instance.ShowMenu;
 

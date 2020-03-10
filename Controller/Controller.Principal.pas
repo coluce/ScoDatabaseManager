@@ -46,12 +46,19 @@ uses
 { TControllerPrincipal }
 
 constructor TControllerPrincipal.Create(const AOwner: TForm);
+var
+  vDAO: TFileLayoutDao;
 begin
   FOwner := AOwner;
   FMainLaoyout := TSCOFMXMainLayout.Create(FOwner);
   FOwner.AddObject(FMainLaoyout);
   FMainLaoyout.Align := TAlignLayout.Contents;
-  FFileLayout := TFileLayoutDao.Create.Get(ChangeFileExt(ParamStr(0),'.db'))[0];
+  vDAO := TFileLayoutDao.Create;
+  try
+    FFileLayout := vDAO.Get(ChangeFileExt(ParamStr(0),'.db'))[0];
+  finally
+    vDAO.Free;
+  end;
   FMainLaoyout.OpenForm(TViewMenu);
 end;
 
