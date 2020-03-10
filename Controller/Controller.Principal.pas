@@ -23,6 +23,7 @@ type
     FOwner: TForm;
     FMainLayout: TSCOFMXMainLayout;
     class var FSelf: TControllerPrincipal;
+    procedure SaveFileLayout;
   public
     constructor Create(const AOwner: TForm);
     function GetActualID: string;
@@ -33,6 +34,7 @@ type
     procedure SaveToDisk(const AConfig: IDataBaseConfig);
     procedure SetDark;
     procedure SetLight;
+    function IsLight: boolean;
     class procedure Start(const AOwner: TForm);
     class procedure Stop;
     class function Instance: TControllerPrincipal;
@@ -71,6 +73,14 @@ begin
   finally
     vDAO.Free;
   end;
+  if FFileLayout.ThemeLight then
+  begin
+    SetLight;
+  end
+  else
+  begin
+    SetDark;
+  end;
   FMainLayout.OpenForm(TViewMenu);
 end;
 
@@ -96,6 +106,29 @@ end;
 class function TControllerPrincipal.Instance: TControllerPrincipal;
 begin
   Result := FSelf;
+end;
+
+function TControllerPrincipal.IsLight: boolean;
+var
+  vFormThemed: IFormThemed;
+begin
+  Result := False;
+  if Supports(FOwner, IFormThemed, vFormThemed) then
+  begin
+    Result := vFormThemed.IsLight;
+  end;
+end;
+
+procedure TControllerPrincipal.SaveFileLayout;
+var
+  vDAO: TFileLayoutDao;
+begin
+  vDAO := TFileLayoutDao.Create;
+  try
+    vDao.Save(FFileLayout);
+  finally
+    vDAO.Free;
+  end;
 end;
 
 procedure TControllerPrincipal.SaveToDisk(const AConfig: IDataBaseConfig);
@@ -129,6 +162,8 @@ begin
   if Supports(FOwner, IFormThemed, vFormThemed) then
   begin
     vFormThemed.SetDark;
+    FFileLayout.ThemeLight := False;
+    SaveFileLayout;
   end;
 end;
 
@@ -139,6 +174,8 @@ begin
   if Supports(FOwner, IFormThemed, vFormThemed) then
   begin
     vFormThemed.SetLight;
+    FFileLayout.ThemeLight := True;
+    SaveFileLayout;
   end;
 end;
 

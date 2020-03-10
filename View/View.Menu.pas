@@ -74,7 +74,7 @@ end;
 procedure TViewMenu.rtgTemaClick(Sender: TObject);
 begin
   inherited;
-  if gphTema.ImageIndex = 4 then
+  if TControllerPrincipal.Instance.IsLight then
   begin
     TControllerPrincipal.Instance.SetDark;
     gphTema.ImageIndex := 3;

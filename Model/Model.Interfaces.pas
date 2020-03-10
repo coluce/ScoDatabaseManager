@@ -20,14 +20,17 @@ type
     function GetDefaultDirectory: string;
     function GetDefaultName: string;
     function GetLayout: string;
+    function GetThemeLight: boolean;
 
     procedure SetDefaultDirectory(const Value: string);
     procedure SetDefaultName(const Value: string);
     procedure SetLayout(const Value: string);
+    procedure SetThemeLight(const Value: boolean);
 
     property DefaultDirectory: string read GetDefaultDirectory write SetDefaultDirectory;
     property DefaultName: string read GetDefaultName write SetDefaultName;
     property Layout: string read GetLayout write SetLayout;
+    property ThemeLight: boolean read GetThemeLight write SetThemeLight;
   end;
 
   IDataBaseConfig = interface

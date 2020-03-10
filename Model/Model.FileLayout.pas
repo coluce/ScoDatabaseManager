@@ -12,18 +12,22 @@ type
     FDefaultDirectory: string;
     FDefaultName: string;
     FLayout: string;
+    FThemeLight: boolean;
     function GetDefaultDirectory: string;
     function GetDefaultName: string;
     function GetLayout: string;
+    function GetThemeLight: boolean;
     procedure SetDefaultDirectory(const Value: string);
     procedure SetDefaultName(const Value: string);
     procedure SetLayout(const Value: string);
+    procedure SetThemeLight(const Value: boolean);
   public
     constructor Create;
   published
     property DefaultDirectory: string read GetDefaultDirectory write SetDefaultDirectory;
     property DefaultName: string read GetDefaultName write SetDefaultName;
     property Layout: string read GetLayout write SetLayout;
+    property ThemeLight: boolean read GetThemeLight write SetThemeLight;
   end;
 
   TFileLayoutDao = class(TInterfacedObject, IDao<IFileLayout>)
@@ -65,6 +69,11 @@ begin
   Result := FLayout;
 end;
 
+function TFileLayout.GetThemeLight: boolean;
+begin
+  Result := FThemeLight;
+end;
+
 procedure TFileLayout.SetDefaultDirectory(const Value: string);
 begin
   FDefaultDirectory := Value;
@@ -78,6 +87,11 @@ end;
 procedure TFileLayout.SetLayout(const Value: string);
 begin
   FLayout := Value;
+end;
+
+procedure TFileLayout.SetThemeLight(const Value: boolean);
+begin
+  FThemeLight := Value;
 end;
 
 { TFileLayoutDao }
@@ -105,6 +119,7 @@ begin
   try
     Result[0].DefaultDirectory := vIniFile.ReadString('LAYOUT', 'DIRECTORY', EmptyStr);
     Result[0].DefaultName := vIniFile.ReadString('LAYOUT', 'NAME', EmptyStr);
+    Result[0].ThemeLight := vIniFile.ReadBool('LAYOUT', 'THEME', True);
   finally
     vIniFile.Free;
   end;
@@ -133,6 +148,7 @@ begin
   try
     vIniFile.WriteString('LAYOUT', 'DIRECTORY', Entity.DefaultDirectory);
     vIniFile.WriteString('LAYOUT', 'NAME', Entity.DefaultName);
+    vIniFile.WriteBool('LAYOUT', 'THEME', Entity.ThemeLight);
   finally
     vIniFile.Free;
   end;
