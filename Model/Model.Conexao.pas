@@ -3,18 +3,10 @@ unit Model.Conexao;
 interface
 
 uses
+  Model.Interfaces,
   FireDAC.Comp.Client;
 
 type
-  IConexao = interface
-    ['{0B477AC4-2578-4BFC-9846-846088A22A9B}']
-
-    function GetBanco: TFDConnection;
-    function GetFileName: string;
-
-    property Banco: TFDConnection read GetBanco;
-    property FileName: string read GetFileName;
-  end;
 
   TConexao = class(TInterfacedObject, IConexao)
   private

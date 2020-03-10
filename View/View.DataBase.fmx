@@ -1,20 +1,19 @@
-object FormQuery: TFormQuery
+object ViewDataBase: TViewDataBase
   Left = 0
   Top = 0
   Caption = 'Form1'
-  ClientHeight = 480
-  ClientWidth = 640
-  StyleBook = FormPrincipal.sty1
+  ClientHeight = 559
+  ClientWidth = 684
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   DesignerMasterStyle = 0
-  object layConteudo: TLayout
+  object layPrincipal: TLayout
     Align = Client
-    Size.Width = 640.000000000000000000
-    Size.Height = 480.000000000000000000
+    Size.Width = 684.000000000000000000
+    Size.Height = 559.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 0
     object spl1: TSplitter
@@ -23,13 +22,13 @@ object FormQuery: TFormQuery
       MinSize = 20.000000000000000000
       Position.X = 273.000000000000000000
       Size.Width = 8.000000000000000000
-      Size.Height = 455.000000000000000000
+      Size.Height = 534.000000000000000000
       Size.PlatformDefault = False
     end
     object tlbQuery: TToolBar
       Align = MostLeft
       Size.Width = 50.000000000000000000
-      Size.Height = 480.000000000000000000
+      Size.Height = 559.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 1
       object btnAdd: TSpeedButton
@@ -43,8 +42,8 @@ object FormQuery: TFormQuery
     end
     object layQuery: TLayout
       Align = Client
-      Size.Width = 359.000000000000000000
-      Size.Height = 455.000000000000000000
+      Size.Width = 403.000000000000000000
+      Size.Height = 534.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 2
       object pnlComandos: TPanel
@@ -52,13 +51,13 @@ object FormQuery: TFormQuery
         Margins.Top = 5.000000000000000000
         Margins.Right = 5.000000000000000000
         Position.Y = 5.000000000000000000
-        Size.Width = 354.000000000000000000
+        Size.Width = 398.000000000000000000
         Size.Height = 41.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 0
         object btnRun: TSpeedButton
           Align = Right
-          Position.X = 261.000000000000000000
+          Position.X = 305.000000000000000000
           Size.Width = 67.000000000000000000
           Size.Height = 41.000000000000000000
           Size.PlatformDefault = False
@@ -71,7 +70,7 @@ object FormQuery: TFormQuery
           Margins.Top = 5.000000000000000000
           Margins.Right = 5.000000000000000000
           Margins.Bottom = 5.000000000000000000
-          Position.X = 333.000000000000000000
+          Position.X = 377.000000000000000000
           Position.Y = 5.000000000000000000
           Size.Width = 16.000000000000000000
           Size.Height = 31.000000000000000000
@@ -93,47 +92,47 @@ object FormQuery: TFormQuery
         Align = Client
         Margins.Top = 5.000000000000000000
         Margins.Right = 5.000000000000000000
-        Size.Width = 354.000000000000000000
-        Size.Height = 275.000000000000000000
+        Size.Width = 398.000000000000000000
+        Size.Height = 354.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 1
-        Viewport.Width = 342.000000000000000000
-        Viewport.Height = 267.000000000000000000
+        Viewport.Width = 394.000000000000000000
+        Viewport.Height = 350.000000000000000000
       end
       object grdQuery: TGrid
         Align = Bottom
         CanFocus = True
         ClipChildren = True
         Margins.Right = 5.000000000000000000
-        Position.Y = 335.000000000000000000
-        Size.Width = 354.000000000000000000
+        Position.Y = 414.000000000000000000
+        Size.Width = 398.000000000000000000
         Size.Height = 120.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 2
-        Viewport.Width = 350.000000000000000000
+        Viewport.Width = 394.000000000000000000
         Viewport.Height = 95.000000000000000000
       end
       object spl2: TSplitter
         Align = Bottom
         Cursor = crVSplit
         MinSize = 20.000000000000000000
-        Position.Y = 326.000000000000000000
-        Size.Width = 359.000000000000000000
+        Position.Y = 405.000000000000000000
+        Size.Width = 403.000000000000000000
         Size.Height = 9.000000000000000000
         Size.PlatformDefault = False
       end
     end
     object stb1: TStatusBar
       Position.X = 50.000000000000000000
-      Position.Y = 455.000000000000000000
+      Position.Y = 534.000000000000000000
       ShowSizeGrip = True
-      Size.Width = 590.000000000000000000
+      Size.Width = 634.000000000000000000
       Size.Height = 25.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 3
       object lblStatusBar: TLabel
         Align = Client
-        Size.Width = 590.000000000000000000
+        Size.Width = 634.000000000000000000
         Size.Height = 25.000000000000000000
         Size.PlatformDefault = False
         Text = 'lblStatusBar'
@@ -150,7 +149,7 @@ object FormQuery: TFormQuery
       Position.X = 50.000000000000000000
       Position.Y = 5.000000000000000000
       Size.Width = 223.000000000000000000
-      Size.Height = 450.000000000000000000
+      Size.Height = 529.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 4
       OnItemClick = lvTablesItemClick

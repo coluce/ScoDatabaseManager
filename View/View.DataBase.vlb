@@ -17,9 +17,6 @@ Coordinates=381,234,135,36
 [lvTables]
 Coordinates=10,10,107,168
 
-[layConteudo]
-Coordinates=284,234,87,36
-
 [pnlComandos]
 Coordinates=180,234,94,36
 
@@ -83,4 +80,7 @@ Coordinates=127,10,106,80
 
 [BindingsList1]
 Coordinates=136,109,91,36
+
+[layPrincipal]
+Coordinates=284,234,87,36
 

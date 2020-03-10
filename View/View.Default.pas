@@ -15,9 +15,6 @@ type
     { Public declarations }
   end;
 
-var
-  FormPadrao: TFormPadrao;
-
 implementation
 
 {$R *.fmx}
