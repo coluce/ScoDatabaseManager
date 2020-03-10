@@ -9,12 +9,11 @@ uses
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, FMX.StdCtrls,
   FMX.Controls.Presentation, FMX.Layouts, FMX.ListBox, FireDAC.Stan.StorageXML,
-  FMX.Objects, FMX.TabControl, View.Query, Model.Config, View.FileLayout,
-  Model.FileLayout, Controller.Principal;
+  FMX.Objects, FMX.TabControl, Controller.Principal;
 
 type
 
-  TFormPrincipal = class(TForm)
+  TFormPrincipal = class(TForm, IFormThemed)
     FDStanStorageXMLLink1: TFDStanStorageXMLLink;
     styLight: TStyleBook;
     styDark: TStyleBook;
@@ -24,6 +23,10 @@ type
     { Private declarations }
   public
     { Public declarations }
+    procedure SetDark;
+    procedure SetLight;
+    function IsDark: boolean;
+    function IsLight: boolean;
   end;
 
 var
@@ -33,7 +36,6 @@ implementation
 
 uses
   System.IOUtils,
-  Model.Interfaces,
   View.Config;
 
 {$R *.fmx}
@@ -48,6 +50,26 @@ end;
 procedure TFormPrincipal.FormDestroy(Sender: TObject);
 begin
   TControllerPrincipal.Stop;
+end;
+
+function TFormPrincipal.IsDark: boolean;
+begin
+  Result := Self.StyleBook = styDark;
+end;
+
+function TFormPrincipal.IsLight: boolean;
+begin
+  Result := not IsDark;
+end;
+
+procedure TFormPrincipal.SetDark;
+begin
+  Self.StyleBook := styDark;
+end;
+
+procedure TFormPrincipal.SetLight;
+begin
+  Self.StyleBook := styLight;
 end;
 
 end.

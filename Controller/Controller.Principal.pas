@@ -8,11 +8,20 @@ uses
   Model.Interfaces;
 
 type
+
+  IFormThemed = interface
+    ['{0805C599-DA67-477B-BCD3-9FA49149C129}']
+    procedure SetDark;
+    procedure SetLight;
+    function IsDark: boolean;
+    function IsLight: boolean;
+  end;
+
   TControllerPrincipal = class
   private
     FFileLayout: IFileLayout;
     FOwner: TForm;
-    FMainLaoyout: TSCOFMXMainLayout;
+    FMainLayout: TSCOFMXMainLayout;
     class var FSelf: TControllerPrincipal;
   public
     constructor Create(const AOwner: TForm);
@@ -22,6 +31,8 @@ type
     procedure ShowConfig(AConfig: IDataBaseConfig);
     procedure ShowDataBase(const AConfig: IDataBaseConfig);
     procedure SaveToDisk(const AConfig: IDataBaseConfig);
+    procedure SetDark;
+    procedure SetLight;
     class procedure Start(const AOwner: TForm);
     class procedure Stop;
     class function Instance: TControllerPrincipal;
@@ -35,6 +46,7 @@ uses
   View.FileLayout,
   View.Menu,
   View.Config,
+  View.DataBase,
   Controller.Menu,
   System.Classes,
   FMX.Types,
@@ -50,16 +62,16 @@ var
   vDAO: TFileLayoutDao;
 begin
   FOwner := AOwner;
-  FMainLaoyout := TSCOFMXMainLayout.Create(FOwner);
-  FOwner.AddObject(FMainLaoyout);
-  FMainLaoyout.Align := TAlignLayout.Contents;
+  FMainLayout := TSCOFMXMainLayout.Create(FOwner);
+  FOwner.AddObject(FMainLayout);
+  FMainLayout.Align := TAlignLayout.Contents;
   vDAO := TFileLayoutDao.Create;
   try
     FFileLayout := vDAO.Get(ChangeFileExt(ParamStr(0),'.db'))[0];
   finally
     vDAO.Free;
   end;
-  FMainLaoyout.OpenForm(TViewMenu);
+  FMainLayout.OpenForm(TViewMenu);
 end;
 
 function TControllerPrincipal.GetActualID: string;
@@ -108,6 +120,26 @@ begin
     end;
   end;
   TControllerMenu.Instance.Refresh(TControllerPrincipal.Instance.GetActualID);
+end;
+
+procedure TControllerPrincipal.SetDark;
+var
+  vFormThemed: IFormThemed;
+begin
+  if Supports(FOwner, IFormThemed, vFormThemed) then
+  begin
+    vFormThemed.SetDark;
+  end;
+end;
+
+procedure TControllerPrincipal.SetLight;
+var
+  vFormThemed: IFormThemed;
+begin
+  if Supports(FOwner, IFormThemed, vFormThemed) then
+  begin
+    vFormThemed.SetLight;
+  end;
 end;
 
 procedure TControllerPrincipal.ShowConfig(AConfig: IDataBaseConfig);
@@ -168,17 +200,19 @@ end;
 
 procedure TControllerPrincipal.ShowDataBase(const AConfig: IDataBaseConfig);
 begin
-
+  FMainLayout.OpenForm(TViewDataBase);
+  TViewDataBase(FMainLayout.ActualForm).Start(AConfig);
 end;
 
 procedure TControllerPrincipal.ShowFileLayout;
 begin
-  FMainLaoyout.OpenForm(TViewFileLayout);
+  FMainLayout.OpenForm(TViewFileLayout);
+  TViewFileLayout(FMainLayout.ActualForm).Start(FFileLayout);
 end;
 
 procedure TControllerPrincipal.ShowMenu;
 begin
-  FMainLaoyout.OpenForm(TViewMenu);
+  FMainLayout.OpenForm(TViewMenu);
   TControllerMenu.Instance.Refresh(TControllerPrincipal.Instance.GetActualID);
 end;
 

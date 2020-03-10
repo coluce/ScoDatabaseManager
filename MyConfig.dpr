@@ -5,7 +5,7 @@ uses
   FMX.Forms,
   Form.Principal in 'View\Form.Principal.pas' {FormPrincipal},
   View.Config in 'View\View.Config.pas' {FormConfig},
-  View.Query in 'View\View.Query.pas' {FormQuery},
+  View.DataBase in 'View\View.DataBase.pas' {ViewDataBase},
   View.Default in 'View\View.Default.pas' {FormPadrao},
   View.FileLayout in 'View\View.FileLayout.pas' {ViewFileLayout},
   Model.Config in 'Model\Model.Config.pas',

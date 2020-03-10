@@ -5,7 +5,7 @@ interface
 uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants, 
   FMX.Types, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs, FMX.StdCtrls,
-  View.Default, FMX.Layouts, FMX.ListBox, FMX.Controls.Presentation;
+  View.Default, FMX.Layouts, FMX.ListBox, FMX.Controls.Presentation, FMX.Objects, FMX.ImgList, System.ImageList;
 
 type
 
@@ -13,12 +13,17 @@ type
     tlbMenu: TToolBar;
     btnAdd: TSpeedButton;
     btnRefresh: TSpeedButton;
-    btnFileLayout: TSpeedButton;
-    procedure btnFileLayoutClick(Sender: TObject);
+    il1: TImageList;
+    gphTema: TGlyph;
+    rtgTema: TRectangle;
+    rtgLayout: TRectangle;
+    Glyph2: TGlyph;
     procedure btnAddClick(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure rtgLayoutClick(Sender: TObject);
+    procedure rtgTemaClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -37,12 +42,6 @@ procedure TViewMenu.btnAddClick(Sender: TObject);
 begin
   inherited;
   TControllerPrincipal.Instance.ShowConfig(nil);
-end;
-
-procedure TViewMenu.btnFileLayoutClick(Sender: TObject);
-begin
-  inherited;
-  TControllerPrincipal.Instance.ShowFileLayout;
 end;
 
 procedure TViewMenu.btnRefreshClick(Sender: TObject);
@@ -64,6 +63,27 @@ procedure TViewMenu.FormDestroy(Sender: TObject);
 begin
   inherited;
   TControllerMenu.Stop;
+end;
+
+procedure TViewMenu.rtgLayoutClick(Sender: TObject);
+begin
+  inherited;
+  TControllerPrincipal.Instance.ShowFileLayout;
+end;
+
+procedure TViewMenu.rtgTemaClick(Sender: TObject);
+begin
+  inherited;
+  if gphTema.ImageIndex = 4 then
+  begin
+    TControllerPrincipal.Instance.SetDark;
+    gphTema.ImageIndex := 3;
+  end
+  else
+  begin
+    TControllerPrincipal.Instance.SetLight;
+    gphTema.ImageIndex := 4;
+  end;
 end;
 
 end.

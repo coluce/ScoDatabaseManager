@@ -1,4 +1,4 @@
-unit View.Query;
+unit View.DataBase;
 
 interface
 
@@ -16,7 +16,7 @@ uses
   FireDAC.DApt.Intf, Data.Bind.EngExt, Fmx.Bind.DBEngExt, Fmx.Bind.Grid,
   System.Bindings.Outputs, Fmx.Bind.Editors, Data.Bind.Components,
   Data.Bind.Grid, Data.Bind.DBScope, FireDAC.Comp.DataSet, FireDAC.DApt,
-  Model.Interfaces;
+  Model.Interfaces, View.Default;
 
 type
 
@@ -38,11 +38,11 @@ type
     property Connection: TFDCOnnection read FConnection;
   end;
 
-  TFormQuery = class(TForm)
+  TViewDataBase = class(TForm)
     tlbQuery: TToolBar;
     spl1: TSplitter;
     mmoQuery: TMemo;
-    layConteudo: TLayout;
+    layPrincipal: TLayout;
     btnAdd: TSpeedButton;
     ilQuery: TImageList;
     pmTable: TPopupMenu;
@@ -93,18 +93,19 @@ implementation
 {$R *.fmx}
 
 uses
+  Controller.Principal,
   Form.Principal,
   System.IOUtils;
 
 { TFormQuery }
 
-procedure TFormQuery.btnAddClick(Sender: TObject);
+procedure TViewDataBase.btnAddClick(Sender: TObject);
 begin
   Stop;
-  //FormPrincipal.tbcPrincipal.ActiveTab := FormPrincipal.tabMenu;
+  TControllerPrincipal.Instance.ShowMenu;
 end;
 
-procedure TFormQuery.btnRunClick(Sender: TObject);
+procedure TViewDataBase.btnRunClick(Sender: TObject);
 begin
   TThread.CreateAnonymousThread(
     procedure
@@ -150,17 +151,17 @@ begin
   ).Start;
 end;
 
-procedure TFormQuery.FormCreate(Sender: TObject);
+procedure TViewDataBase.FormCreate(Sender: TObject);
 begin
   FTables := TStringList.Create;
 end;
 
-procedure TFormQuery.FormDestroy(Sender: TObject);
+procedure TViewDataBase.FormDestroy(Sender: TObject);
 begin
   FTables.DisposeOf;
 end;
 
-procedure TFormQuery.lvTablesItemClick(const Sender: TObject;
+procedure TViewDataBase.lvTablesItemClick(const Sender: TObject;
   const AItem: TListViewItem);
 begin
   mmoQuery.Lines.Clear;
@@ -172,12 +173,12 @@ begin
   mmoQuery.Lines.Add('  1 = 2');
 end;
 
-procedure TFormQuery.SetConfig(const Value: IDataBaseConfig);
+procedure TViewDataBase.SetConfig(const Value: IDataBaseConfig);
 begin
   FConfig := Value;
 end;
 
-procedure TFormQuery.Start(const AConfig: IDataBaseConfig);
+procedure TViewDataBase.Start(const AConfig: IDataBaseConfig);
 begin
   mmoQuery.Lines.Clear;
   lvTables.Items.Clear;
@@ -190,7 +191,7 @@ begin
   FConnectionWidget.Start;
 end;
 
-procedure TFormQuery.Stop;
+procedure TViewDataBase.Stop;
 begin
   FConnectionWidget.Terminate;
   if not FConnectionWidget.Terminated then

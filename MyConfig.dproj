@@ -155,8 +155,8 @@
         <DCCReference Include="View\View.Config.pas">
             <Form>FormConfig</Form>
         </DCCReference>
-        <DCCReference Include="View\View.Query.pas">
-            <Form>FormQuery</Form>
+        <DCCReference Include="View\View.DataBase.pas">
+            <Form>ViewDataBase</Form>
         </DCCReference>
         <DCCReference Include="View\View.Default.pas">
             <Form>FormPadrao</Form>
