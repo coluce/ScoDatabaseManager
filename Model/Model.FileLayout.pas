@@ -3,24 +3,9 @@ unit Model.FileLayout;
 interface
 
 uses
-  Model.DAO;
+  Model.Interfaces;
 
 type
-  IFileLayout = interface
-    ['{0BA0C01A-91CE-4382-9DFE-7E715873E39E}']
-
-    function GetDefaultDirectory: string;
-    function GetDefaultName: string;
-    function GetLayout: string;
-
-    procedure SetDefaultDirectory(const Value: string);
-    procedure SetDefaultName(const Value: string);
-    procedure SetLayout(const Value: string);
-
-    property DefaultDirectory: string read GetDefaultDirectory write SetDefaultDirectory;
-    property DefaultName: string read GetDefaultName write SetDefaultName;
-    property Layout: string read GetLayout write SetLayout;
-  end;
 
   TFileLayout = class(TInterfacedObject, IFileLayout)
   private

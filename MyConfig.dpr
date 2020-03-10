@@ -12,18 +12,17 @@ uses
   Model.Conexao in 'Model\Model.Conexao.pas',
   Controller.Conexao in 'Controller\Controller.Conexao.pas',
   Model.FileLayout in 'Model\Model.FileLayout.pas',
-  Model.DAO in 'Model\Model.DAO.pas',
   SCO.FMX.MainLayout in 'View\Componentes\SCO.FMX.MainLayout.pas',
   Controller.Principal in 'Controller\Controller.Principal.pas',
-  View.Menu in 'View\View.Menu.pas' {ViewMenu};
+  View.Menu in 'View\View.Menu.pas' {ViewMenu},
+  Controller.Menu in 'Controller\Controller.Menu.pas',
+  Model.Interfaces in 'Model\Model.Interfaces.pas',
+  Model.Factory in 'Model\Model.Factory.pas';
 
 {$R *.res}
 
 begin
   Application.Initialize;
   Application.CreateForm(TFormPrincipal, FormPrincipal);
-  Application.CreateForm(TFormPadrao, FormPadrao);
-  Application.CreateForm(TViewFileLayout, ViewFileLayout);
-  Application.CreateForm(TViewMenu, ViewMenu);
   Application.Run;
 end.

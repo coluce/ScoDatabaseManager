@@ -8,30 +8,9 @@ uses
   FireDAC.Stan.StorageXML,
   Data.DB,
   System.Classes,
-  Model.DAO;
+  Model.Interfaces;
 
 type
-
-  IDataBaseConfig = interface
-    ['{53B98FFB-22DC-454C-B54C-467A179E872C}']
-
-    function GetID: string;
-    procedure SetID(const Value: string);
-    property ID: string read GetID write SetID;
-
-    function GetDescription: string;
-    procedure SetDescription(const Value: string);
-    property Description: string read GetDescription write SetDescription;
-
-    function GetServerName: string;
-    procedure SetServerName(const Value: string);
-    property ServerName: string read GetServerName write SetServerName;
-
-    function GetDataBase: string;
-    procedure SetDataBase(const Value: string);
-    property DataBase: string read GetDataBase write SetDataBase;
-
-  end;
 
   TDataBaseConfig = class(TInterfacedObject, IDataBaseConfig)
   private
@@ -71,12 +50,6 @@ type
     function Get(ID: string = ''): TArray<IDataBaseConfig>;
   end;
 
-  TDataBaseConfigFactory = class
-  public
-    class function Config: IDataBaseConfig;
-    class function Dao: IDao<IDataBaseConfig>;
-  end;
-
 implementation
 
 uses
@@ -84,9 +57,10 @@ uses
   System.Rtti,
   System.Variants,
   System.SysUtils,
-  FireDAC.Stan.Intf;
+  FireDAC.Stan.Intf,
+  Model.Factory;
 
-{ TConfigDao }
+{ TDataBaseConfigDao }
 
 constructor TDataBaseConfigDao.Create;
 begin
@@ -429,18 +403,6 @@ end;
 procedure TDataBaseConfig.SetServerName(const Value: string);
 begin
   FServerName := Value;
-end;
-
-{ TConficFactory }
-
-class function TDataBaseConfigFactory.Dao: IDao<IDataBaseConfig>;
-begin
-  Result := TDataBaseConfigDao.Create;
-end;
-
-class function TDataBaseConfigFactory.Config: IDataBaseConfig;
-begin
-  Result := TDataBaseConfig.Create;
 end;
 
 end.

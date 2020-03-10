@@ -15,7 +15,8 @@ uses
   FMX.ListView.Adapters.Base, FMX.ListView, FireDAC.Stan.Param, FireDAC.DatS,
   FireDAC.DApt.Intf, Data.Bind.EngExt, Fmx.Bind.DBEngExt, Fmx.Bind.Grid,
   System.Bindings.Outputs, Fmx.Bind.Editors, Data.Bind.Components,
-  Data.Bind.Grid, Data.Bind.DBScope, FireDAC.Comp.DataSet, FireDAC.DApt;
+  Data.Bind.Grid, Data.Bind.DBScope, FireDAC.Comp.DataSet, FireDAC.DApt,
+  Model.Interfaces;
 
 type
 

@@ -6,7 +6,7 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs, FMX.StdCtrls, View.Default,
   FMX.Layouts, FMX.Controls.Presentation, FMX.Edit, FMX.ScrollBox,
-  FMX.Memo, FMX.Effects, FMX.Objects, Model.FileLayout;
+  FMX.Memo, FMX.Effects, FMX.Objects, Model.Interfaces;
 
 type
   TViewFileLayout = class(TFormPadrao)
@@ -29,13 +29,11 @@ type
     procedure Start(const AFileLayout: IFileLayout);
   end;
 
-var
-  ViewFileLayout: TViewFileLayout;
-
 implementation
 
 uses
-  Form.Principal, Controller.Principal;
+  Form.Principal,
+  Controller.Principal, Model.FileLayout;
 
 {$R *.fmx}
 
@@ -48,7 +46,7 @@ begin
 
   TFileLayoutDao.Create.Save(FLayout);
 
-  //FormPrincipal.tbcPrincipal.ActiveTab := FormPrincipal.tabMenu;
+  TControllerPrincipal.Instance.ShowMenu;
 
 end;
 

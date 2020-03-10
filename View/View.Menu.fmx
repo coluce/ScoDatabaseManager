@@ -1,5 +1,7 @@
 inherited ViewMenu: TViewMenu
   Caption = 'Menu'
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
   DesignerMasterStyle = 0
   inherited layPrincipal: TLayout
     object tlbMenu: TToolBar
@@ -11,7 +13,7 @@ inherited ViewMenu: TViewMenu
       Size.Width = 50.000000000000000000
       Size.Height = 480.000000000000000000
       Size.PlatformDefault = False
-      TabOrder = 1
+      TabOrder = 0
       object btnAdd: TSpeedButton
         Align = Top
         Position.X = 5.000000000000000000
@@ -20,6 +22,7 @@ inherited ViewMenu: TViewMenu
         Size.Height = 40.000000000000000000
         Size.PlatformDefault = False
         StyleLookup = 'additembutton'
+        OnClick = btnAddClick
       end
       object btnRefresh: TSpeedButton
         Align = Top
@@ -29,6 +32,7 @@ inherited ViewMenu: TViewMenu
         Size.Height = 40.000000000000000000
         Size.PlatformDefault = False
         StyleLookup = 'refreshtoolbutton'
+        OnClick = btnRefreshClick
       end
       object btnFileLayout: TSpeedButton
         Align = Bottom
@@ -42,23 +46,6 @@ inherited ViewMenu: TViewMenu
         Text = 'btnFileLayout'
         OnClick = btnFileLayoutClick
       end
-    end
-    object lstConfigs: TListBox
-      Align = Client
-      Margins.Left = 8.000000000000000000
-      Margins.Top = 8.000000000000000000
-      Margins.Right = 8.000000000000000000
-      Margins.Bottom = 8.000000000000000000
-      Size.Width = 574.000000000000000000
-      Size.Height = 464.000000000000000000
-      Size.PlatformDefault = False
-      TabOrder = 0
-      DisableFocusEffect = True
-      DefaultItemStyles.ItemStyle = 'listboxitembottomdetail'
-      DefaultItemStyles.GroupHeaderStyle = ''
-      DefaultItemStyles.GroupFooterStyle = ''
-      Viewport.Width = 570.000000000000000000
-      Viewport.Height = 460.000000000000000000
     end
   end
 end

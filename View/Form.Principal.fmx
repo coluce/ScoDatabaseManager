@@ -27486,10 +27486,6 @@ object FormPrincipal: TFormPrincipal
     Left = 168
     Top = 216
   end
-  object FDStanStorageXMLLink1: TFDStanStorageXMLLink
-    Left = 440
-    Top = 208
-  end
   object styDark: TStyleBook
     Styles = <
       item
@@ -50703,5 +50699,9 @@ object FormPrincipal: TFormPrincipal
       end>
     Left = 170
     Top = 280
+  end
+  object FDStanStorageXMLLink1: TFDStanStorageXMLLink
+    Left = 440
+    Top = 208
   end
 end
