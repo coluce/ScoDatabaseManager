@@ -101,6 +101,12 @@ uses
 
 procedure TViewDataBase.btnAddClick(Sender: TObject);
 begin
+  grdQuery.BeginUpdate;
+  try
+    grdQuery.ClearColumns;
+  finally
+    grdQuery.EndUpdate;
+  end;
   Stop;
   TControllerPrincipal.Instance.ShowMenu;
 end;
