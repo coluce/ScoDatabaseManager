@@ -1,4 +1,4 @@
-program MyConfig;
+program FTConfig;
 
 uses
   System.StartUpCopy,
@@ -12,12 +12,14 @@ uses
   Model.Conexao in 'Model\Model.Conexao.pas',
   Controller.Conexao in 'Controller\Controller.Conexao.pas',
   Model.FileLayout in 'Model\Model.FileLayout.pas',
-  SCO.FMX.MainLayout in 'View\Componentes\SCO.FMX.MainLayout.pas',
+  FMX.MainLayout in 'View\Componentes\FMX.MainLayout.pas',
   Controller.Principal in 'Controller\Controller.Principal.pas',
   View.Menu in 'View\View.Menu.pas' {ViewMenu},
   Controller.Menu in 'Controller\Controller.Menu.pas',
   Model.Interfaces in 'Model\Model.Interfaces.pas',
-  Model.Factory in 'Model\Model.Factory.pas';
+  Model.Factory in 'Model\Model.Factory.pas',
+  Controller.Interfaces in 'Controller\Controller.Interfaces.pas',
+  Controller.Factory in 'Controller\Controller.Factory.pas';
 
 {$R *.res}
 

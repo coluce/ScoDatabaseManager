@@ -35,6 +35,7 @@ type
     constructor Create(AStatusRec: TRectangle; AIndicator: TAniIndicator; ATreeTable: TListView; AConfig: IDataBaseConfig; ALabelStatus: TLabel);
     destructor Destroy; override;
   published
+    { TODO : trocar IControllerConexao }
     property Connection: TFDCOnnection read FConnection;
   end;
 

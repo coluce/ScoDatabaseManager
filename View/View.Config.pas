@@ -5,7 +5,7 @@ interface
 uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.StdCtrls,
-  FMX.Edit, FMX.Controls.Presentation, FMX.Objects, FMX.Layouts;
+  FMX.Edit, FMX.Controls.Presentation, FMX.Objects, FMX.Layouts, Model.Interfaces;
 
 type
   TCrudAction = (caNone, caSave, caDelete);
@@ -24,11 +24,13 @@ type
     btnDelete: TButton;
     edtDescription: TEdit;
     lblDescription: TLabel;
+    btnTeste: TButton;
     procedure EditButton1Click(Sender: TObject);
     procedure btnDeleteClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnSaveToDatabaseClick(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
+    procedure btnTesteClick(Sender: TObject);
   private
     FAction: TCrudAction;
     procedure SetDataBase(const Value: string);
@@ -42,6 +44,7 @@ type
     { Private declarations }
   public
     { Public declarations }
+    function GetAsDataBaseConfig: IDataBaseConfig;
   published
     { Published declarations }
     property ID: string read GetID write SetID;
@@ -56,7 +59,10 @@ implementation
 {$R *.fmx}
 
 uses
-  Form.Principal;
+  Form.Principal,
+  Model.Factory,
+  Controller.Interfaces,
+  Controller.Factory;
 
 { TFormConfig }
 
@@ -78,6 +84,23 @@ begin
   Close;
 end;
 
+procedure TFormConfig.btnTesteClick(Sender: TObject);
+var
+  vController: IControllerConexao;
+  vConfig: IDataBaseConfig;
+begin
+  vConfig := Self.GetAsDataBaseConfig;
+  vController := TControllerFactory.ControllerConexao(vConfig);
+  if vController.TestConnection then
+  begin
+    ShowMessage('Configuração correta!');
+  end
+  else
+  begin
+    ShowMessage('Não foi possível conectar!');
+  end;
+end;
+
 procedure TFormConfig.EditButton1Click(Sender: TObject);
 begin
   edtID.Text := TGUID.NewGuid.ToString;
@@ -86,6 +109,15 @@ end;
 procedure TFormConfig.FormCreate(Sender: TObject);
 begin
   FAction := caNone;
+end;
+
+function TFormConfig.GetAsDataBaseConfig: IDataBaseConfig;
+begin
+  Result := TModelFactory.Config;
+  Result.ID := edtID.Text;
+  Result.Description := edtDescription.Text;
+  Result.ServerName := edtServerName.Text;
+  Result.DataBase := edtDataBase.Text;
 end;
 
 function TFormConfig.GetDataBase: string;

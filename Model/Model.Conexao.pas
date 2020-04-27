@@ -11,29 +11,34 @@ type
   TConexao = class(TInterfacedObject, IConexao)
   private
     FConexao: TFDConnection;
+    FConfig: IDataBaseConfig;
     function GetBanco: TFDConnection;
-    function GetFileName: string;
+    procedure SetupConnection;
   public
-    constructor Create(const AFileName: string);
+    constructor Create(const AConfig: IDataBaseConfig);
     destructor Destroy; override;
+    procedure Open;
+    procedure Close;
   published
     property Banco: TFDConnection read GetBanco;
-    property FileName: string read GetFileName;
   end;
 
 implementation
 
 uses
-  System.SysUtils;
+  System.SysUtils, System.IOUtils;
 
 { TConexao }
 
-constructor TConexao.Create(const AFileName: string);
+procedure TConexao.Close;
 begin
+  FConexao.Close;
+end;
+
+constructor TConexao.Create(const AConfig: IDataBaseConfig);
+begin
+  FConfig := AConfig;
   FConexao := TFDConnection.Create(nil);
-  FConexao.DriverName := 'SQLite';
-  FConexao.LoginPrompt := False;
-  FConexao.Params.Database := AFileName;
 end;
 
 destructor TConexao.Destroy;
@@ -51,9 +56,20 @@ begin
   Result := FConexao;
 end;
 
-function TConexao.GetFileName: string;
+procedure TConexao.Open;
 begin
-  Result := FConexao.Params.Database;
+  SetupConnection;
+  FConexao.Open;
+end;
+
+procedure TConexao.SetupConnection;
+begin
+  FConexao.DriverName := 'FB';
+  FConexao.LoginPrompt := False;
+  FConexao.Params.Database := TPath.Combine(FConfig.DataBase,'ALTERDB.IB');
+  FConexao.Params.Values['Server'] := FConfig.ServerName;
+  FConexao.Params.UserName := 'SYSDBA';
+  FConexao.Params.Password := 'masterkey';
 end;
 
 end.

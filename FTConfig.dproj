@@ -3,7 +3,7 @@
         <ProjectGuid>{507FE846-E4EB-4EE2-9909-0C41F908A6F2}</ProjectGuid>
         <ProjectVersion>18.7</ProjectVersion>
         <FrameworkType>FMX</FrameworkType>
-        <MainSource>MyConfig.dpr</MainSource>
+        <MainSource>FTConfig.dpr</MainSource>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
@@ -76,7 +76,7 @@
         <AUP_READ_PHONE_STATE>true</AUP_READ_PHONE_STATE>
         <Icon_MainIcon>$(BDS)\bin\delphi_PROJECTICON.ico</Icon_MainIcon>
         <Icns_MainIcns>$(BDS)\bin\delphi_PROJECTICNS.icns</Icns_MainIcns>
-        <SanitizedProjectName>MyConfig</SanitizedProjectName>
+        <SanitizedProjectName>FTConfig</SanitizedProjectName>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <DCC_UsePackage>DBXSqliteDriver;IndyIPCommon;RESTComponents;bindcompdbx;DBXInterBaseDriver;vcl;IndyIPServer;vclactnband;vclFireDAC;IndySystem;frxDB26;tethering;svnui;dsnapcon;FireDACADSDriver;FireDACMSAccDriver;fmxFireDAC;vclimg;TeeDB;FireDAC;vcltouch;vcldb;bindcompfmx;svn;frxe26;FireDACSqliteDriver;FireDACPgDriver;ibmonitor;inetdb;FMXTee;soaprtl;DbxCommonDriver;FmxTeeUI;ibxpress;fmx;FireDACIBDriver;fmxdae;xmlrtl;soapmidas;ibxbindings;fmxobj;vclwinx;vclib;rtl;Tee;DbxClientDriver;frxTee26;fs26;CustomIPTransport;vcldsnap;dbexpress;IndyCore;vclx;SynEditDR;bindcomp;appanalytics;dsnap;FireDACCommon;IndyIPClient;bindcompvcl;RESTBackendComponents;TeeUI;VCLRESTComponents;soapserver;dbxcds;VclSmp;adortl;vclie;bindengine;DBXMySQLDriver;CloudService;dsnapxml;FireDACMySQLDriver;dbrtl;IndyProtocols;inetdbxpress;frx26;pkgFagronTools;FireDACCommonODBC;FireDACCommonDriver;inet;fmxase;$(DCC_UsePackage)</DCC_UsePackage>
@@ -168,7 +168,7 @@
         <DCCReference Include="Model\Model.Conexao.pas"/>
         <DCCReference Include="Controller\Controller.Conexao.pas"/>
         <DCCReference Include="Model\Model.FileLayout.pas"/>
-        <DCCReference Include="View\Componentes\SCO.FMX.MainLayout.pas"/>
+        <DCCReference Include="View\Componentes\FMX.MainLayout.pas"/>
         <DCCReference Include="Controller\Controller.Principal.pas"/>
         <DCCReference Include="View\View.Menu.pas">
             <Form>ViewMenu</Form>
@@ -177,6 +177,8 @@
         <DCCReference Include="Controller\Controller.Menu.pas"/>
         <DCCReference Include="Model\Model.Interfaces.pas"/>
         <DCCReference Include="Model\Model.Factory.pas"/>
+        <DCCReference Include="Controller\Controller.Interfaces.pas"/>
+        <DCCReference Include="Controller\Controller.Factory.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -195,7 +197,7 @@
         <BorlandProject>
             <Delphi.Personality>
                 <Source>
-                    <Source Name="MainSource">MyConfig.dpr</Source>
+                    <Source Name="MainSource">FTConfig.dpr</Source>
                 </Source>
                 <Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dcloffice2k260.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
@@ -228,9 +230,9 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Win32\Debug\MyConfig.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="Win32\Debug\FTConfig.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
-                        <RemoteName>MyConfig.exe</RemoteName>
+                        <RemoteName>FTConfig.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

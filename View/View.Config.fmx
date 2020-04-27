@@ -5,7 +5,6 @@ object FormConfig: TFormConfig
   ClientHeight = 348
   ClientWidth = 486
   Position = OwnerFormCenter
-  StyleBook = FormPrincipal.sty1
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
@@ -130,7 +129,7 @@ object FormConfig: TFormConfig
       Size.Width = 100.000000000000000000
       Size.Height = 49.000000000000000000
       Size.PlatformDefault = False
-      TabOrder = 3
+      TabOrder = 4
       Text = 'Salvar'
       OnClick = btnSaveToDatabaseClick
     end
@@ -142,9 +141,21 @@ object FormConfig: TFormConfig
       Size.Width = 100.000000000000000000
       Size.Height = 49.000000000000000000
       Size.PlatformDefault = False
-      TabOrder = 2
+      TabOrder = 3
       Text = 'Apagar'
       OnClick = btnDeleteClick
+    end
+    object btnTeste: TButton
+      Align = Left
+      Margins.Left = 5.000000000000000000
+      Position.X = 225.000000000000000000
+      Position.Y = 10.000000000000000000
+      Size.Width = 100.000000000000000000
+      Size.Height = 49.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      Text = 'Testar Conex'#227'o'
+      OnClick = btnTesteClick
     end
   end
   object edtDescription: TEdit

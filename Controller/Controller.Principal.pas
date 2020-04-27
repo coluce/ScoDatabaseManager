@@ -3,19 +3,12 @@ unit Controller.Principal;
 interface
 
 uses
-  SCO.FMX.MainLayout,
+  FMX.MainLayout,
   FMX.Forms,
+  Controller.Interfaces,
   Model.Interfaces;
 
 type
-
-  IFormThemed = interface
-    ['{0805C599-DA67-477B-BCD3-9FA49149C129}']
-    procedure SetDark;
-    procedure SetLight;
-    function IsDark: boolean;
-    function IsLight: boolean;
-  end;
 
   TControllerPrincipal = class
   private
@@ -194,7 +187,7 @@ begin
   try
     if vNew then
     begin
-      AConfig := TDataBaseConfigFactory.Config;
+      AConfig := TModelFactory.Config;
       AConfig.ID := TGUID.NewGuid.ToString;
       vForm.btnDelete.Enabled := False;
       vForm.btnOK.Enabled := False;
@@ -206,7 +199,7 @@ begin
     vForm.ShowModal;
     if vForm.Action <> TCrudAction.caNone then
     begin
-      vDao := TDataBaseConfigFactory.Dao;
+      vDao := TModelFactory.Dao;
       if vForm.Action = TCrudAction.caSave then
       begin
         AConfig.ID := vForm.ID;

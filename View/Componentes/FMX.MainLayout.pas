@@ -1,10 +1,12 @@
-unit SCO.FMX.MainLayout;
+unit FMX.MainLayout;
 
 interface
 
 uses
   FMX.TabControl,
-  System.Classes, FMX.Forms, System.Generics.Collections;
+  System.Classes,
+  FMX.Forms,
+  System.Generics.Collections;
 
 type
 
@@ -38,7 +40,8 @@ type
 implementation
 
 uses
-  FMX.Layouts, System.SysUtils;
+  FMX.Layouts,
+  System.SysUtils;
 
 { TSCOFMXMainLayout }
 
@@ -98,38 +101,38 @@ procedure TSCOFMXMainLayout.OpenForm(AClassType : TComponentClass; SmoothTransit
     FLastAccess := AClassType;
   end;
 var
-   xControle: TControleTela;
-   xLayoutPrincipal: TLayout;
+  vControle: TControleTela;
+  vLayoutPrincipal: TLayout;
 begin
   if not FLista.ContainsKey(AClassType) then
   begin
-    Application.CreateForm(AClassType,xControle.Objeto);
-    xLayoutPrincipal := TLayout(xControle.Objeto.FindComponent(FLayoutName));
-    if not Assigned(xLayoutPrincipal) then
+    Application.CreateForm(AClassType,vControle.Objeto);
+    vLayoutPrincipal := TLayout(vControle.Objeto.FindComponent(FLayoutName));
+    if not Assigned(vLayoutPrincipal) then
     begin
-      xControle.Objeto.DisposeOf;
-      xControle.Objeto := nil;
+      vControle.Objeto.DisposeOf;
+      vControle.Objeto := nil;
       raise Exception.Create('Formulário não contem um "' + FLayoutName + '"');
     end else begin
-      xControle.ClassType := AClassType;
-      xControle.TabItem   := TTabItem.Create(Self);
-      AddObject(xControle.TabItem);
+      vControle.ClassType := AClassType;
+      vControle.TabItem   := TTabItem.Create(Self);
+      AddObject(vControle.TabItem);
 
-      xControle.TabItem.AddObject(xLayoutPrincipal);
-      FLista.Add(AClassType,xControle);
+      vControle.TabItem.AddObject(vLayoutPrincipal);
+      FLista.Add(AClassType,vControle);
     end;
   end else begin
-    FLista.TryGetValue(AClassType,xControle);
+    FLista.TryGetValue(AClassType,vControle);
   end;
   RegisterAccess;
-  FActualForm  := xControle.Objeto;
+  FActualForm  := vControle.Objeto;
   if SmoothTransition then
   begin
     acnChaneTab.Target := Self;
-    acnChaneTab.Tab    := xControle.TabItem;
+    acnChaneTab.Tab    := vControle.TabItem;
     acnChaneTab.Execute;
   end else begin
-    ActiveTab          := xControle.TabItem;
+    ActiveTab          := vControle.TabItem;
   end;
 end;
 

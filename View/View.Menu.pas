@@ -17,13 +17,14 @@ type
     gphTema: TGlyph;
     rtgTema: TRectangle;
     rtgLayout: TRectangle;
-    Glyph2: TGlyph;
+    SpeedButton1: TSpeedButton;
     procedure btnAddClick(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure rtgLayoutClick(Sender: TObject);
     procedure rtgTemaClick(Sender: TObject);
+    procedure SpeedButton1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -84,6 +85,12 @@ begin
     TControllerPrincipal.Instance.SetLight;
     gphTema.ImageIndex := 4;
   end;
+end;
+
+procedure TViewMenu.SpeedButton1Click(Sender: TObject);
+begin
+  inherited;
+  TControllerPrincipal.Instance.ShowFileLayout;
 end;
 
 end.

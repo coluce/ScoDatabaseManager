@@ -9,7 +9,7 @@ uses
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, FMX.StdCtrls,
   FMX.Controls.Presentation, FMX.Layouts, FMX.ListBox, FireDAC.Stan.StorageXML,
-  FMX.Objects, FMX.TabControl, Controller.Principal;
+  FMX.Objects, FMX.TabControl, Controller.Interfaces;
 
 type
 
@@ -36,6 +36,8 @@ implementation
 
 uses
   System.IOUtils,
+  { TODO : refatorar para apenas usar a interface }
+  Controller.Principal,
   View.Config;
 
 {$R *.fmx}

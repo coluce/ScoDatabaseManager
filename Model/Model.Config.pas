@@ -82,7 +82,7 @@ var
   Valor: variant;
   Componente: TComponent;
 begin
-  Result := TDataBaseConfigFactory.Config;
+  Result := TModelFactory.Config;
   (*
   // Cria o contexto do RTTI
   Contexto := TRttiContext.Create;

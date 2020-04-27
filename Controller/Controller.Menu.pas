@@ -178,7 +178,7 @@ var
   vItem: TListBoxItem;
   vLista: TArray<IDataBaseConfig>;
 begin
-  vDao := TDataBaseConfigFactory.Dao;
+  vDao := TModelFactory.Dao;
   vLista := vDao.Get;
 
   FListBox.Clear;

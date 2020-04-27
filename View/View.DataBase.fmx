@@ -96,8 +96,8 @@ object ViewDataBase: TViewDataBase
         Size.Height = 354.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 1
-        Viewport.Width = 394.000000000000000000
-        Viewport.Height = 350.000000000000000000
+        Viewport.Width = 398.000000000000000000
+        Viewport.Height = 354.000000000000000000
       end
       object grdQuery: TGrid
         Align = Bottom
@@ -109,8 +109,8 @@ object ViewDataBase: TViewDataBase
         Size.Height = 120.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 2
-        Viewport.Width = 394.000000000000000000
-        Viewport.Height = 95.000000000000000000
+        Viewport.Width = 398.000000000000000000
+        Viewport.Height = 120.000000000000000000
       end
       object spl2: TSplitter
         Align = Bottom
