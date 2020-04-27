@@ -1,4 +1,4 @@
-program FTConfig;
+program FCConfig;
 
 uses
   System.StartUpCopy,
