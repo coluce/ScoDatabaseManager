@@ -1,4 +1,4 @@
-program MyConfig;
+program FCConfig;
 
 uses
   System.StartUpCopy,
