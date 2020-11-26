@@ -20,6 +20,7 @@ type
 
     function ApplyUpdates: boolean;
     procedure Open(const AWhere: string);
+    function Delete(const AID: string): boolean;
 
     function GetDataSet: TDataSet;
     property DataSet: TDataset read GetDataSet;

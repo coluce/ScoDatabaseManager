@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.ComCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.Menus;
 
 type
   TViewPrincipal = class(TForm)
@@ -12,8 +12,13 @@ type
     Panel1: TPanel;
     TreeView1: TTreeView;
     btnNovo: TButton;
+    PopupMenuTreeView: TPopupMenu;
+    Editar1: TMenuItem;
+    Deletar1: TMenuItem;
+    NovoBanco1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure btnNovoClick(Sender: TObject);
+    procedure TreeView1DblClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -40,6 +45,11 @@ procedure TViewPrincipal.FormCreate(Sender: TObject);
 begin
   ControllerPrincipal := TControllerPrincipal.Create(Self);
   ControllerPrincipal.FillList;
+end;
+
+procedure TViewPrincipal.TreeView1DblClick(Sender: TObject);
+begin
+  ShowMessage(TreeView1.Selected.Level.ToString);
 end;
 
 end.

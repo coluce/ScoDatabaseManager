@@ -38,7 +38,7 @@ object ViewPrincipal: TViewPrincipal
       Width = 75
       Height = 35
       Align = alLeft
-      Caption = 'Novo'
+      Caption = 'Novo Server'
       TabOrder = 0
       OnClick = btnNovoClick
       ExplicitLeft = 56
@@ -54,6 +54,21 @@ object ViewPrincipal: TViewPrincipal
     Height = 386
     Align = alClient
     Indent = 19
+    PopupMenu = PopupMenuTreeView
     TabOrder = 2
+    OnDblClick = TreeView1DblClick
+  end
+  object PopupMenuTreeView: TPopupMenu
+    Left = 320
+    Top = 120
+    object Editar1: TMenuItem
+      Caption = 'Editar'
+    end
+    object Deletar1: TMenuItem
+      Caption = 'Deletar'
+    end
+    object NovoBanco1: TMenuItem
+      Caption = 'Novo Banco'
+    end
   end
 end

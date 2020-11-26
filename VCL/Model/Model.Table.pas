@@ -17,6 +17,7 @@ type
     destructor Destroy; override;
     function ApplyUpdates: boolean;
     procedure Open(const AWhere: string);
+    function Delete(const AID: string): boolean;
   published
     property DataSet: TDataset read GetDataSet;
   end;
@@ -42,6 +43,18 @@ begin
   FQuery.CachedUpdates := True;
   FQuery.SQL.Text := 'select * from ' + FTableName;
   FQuery.Open;
+end;
+
+function TModelTable.Delete(const AID: string): boolean;
+begin
+  FQuery.Close;
+  FQuery.SQL.Clear;
+  FQuery.SQL.Add('delete from ' + FTableName);
+  FQuery.SQL.Add('where');
+  FQuery.SQL.Add('  ID = :ID');
+  FQuery.ParamByName('ID').AsString := AID;
+  FQuery.ExecSQL;
+  Result := FQuery.RowsAffected > 0;
 end;
 
 destructor TModelTable.Destroy;

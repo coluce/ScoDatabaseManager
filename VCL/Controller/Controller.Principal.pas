@@ -22,7 +22,7 @@ var
 implementation
 
 uses
-  Model.Factory, Vcl.Dialogs, System.SysUtils;
+  Model.Factory, Vcl.Dialogs, System.SysUtils, Vcl.ComCtrls;
 
 { TControllerPrincipal }
 
@@ -48,6 +48,8 @@ begin
 end;
 
 procedure TControllerPrincipal.FillList;
+var
+  vItem: TTreeNode;
 begin
   FView.TreeView1.Items.Clear;
   FModelServer.DataSet.Close;
@@ -55,7 +57,10 @@ begin
 
   while not FModelServer.DataSet.Eof do
   begin
-    FView.TreeView1.Items.Add(nil, FModelServer.DataSet.FieldByName('IP').AsString + ' | ' + FModelServer.DataSet.FieldByName('NAME').AsString);
+    vItem := FView.TreeView1.Items.Add(nil, FModelServer.DataSet.FieldByName('IP').AsString + ' | ' + FModelServer.DataSet.FieldByName('NAME').AsString);
+//    vItem.ID := FModelServer.DataSet.FieldByName('ID').AsString;
+//    vItem.Name := FModelServer.DataSet.FieldByName('Name').AsString;
+//    vItem.IP := FModelServer.DataSet.FieldByName('IP').AsString;
     FModelServer.DataSet.Next;
   end;
 
