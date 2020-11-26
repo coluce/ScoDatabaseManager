@@ -97,6 +97,9 @@ begin
   vList := TStringList.Create;
   try
     FConnection.GetConnection.GetTableNames('','','', vList);
+
+    FView.SynSQLSyn1.TableNames := vList;
+
     FView.TreeViewTabelas.Items.BeginUpdate;
     try
       for vTable in vList do
@@ -125,6 +128,17 @@ procedure TControllerDataBase.SetConnected(const Value: boolean);
 begin
   FConnection.Active := Value;
   UpdateStatusbar;
+
+  if FConnection.Active then
+  begin
+    FView.FDQuery1.Connection := FConnection.GetConnection;
+  end
+  else
+  begin
+    FView.FDQuery1.Close;
+    FView.FDQuery1.Connection := nil;
+  end;
+
 end;
 
 procedure TControllerDataBase.Show;
