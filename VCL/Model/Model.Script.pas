@@ -18,6 +18,7 @@ type
     procedure SetSQL(const Value: TStrings);
   public
     constructor Create(const ASQL: string);
+    destructor Destroy; override;
 
     property ID: string read GetID write SetID;
     property SQL: TStrings read GetSQL write SetSQL;
@@ -36,6 +37,12 @@ begin
   FID := TGuid.NewGuid.ToString;
   FSQL := TStringList.Create;
   FSQL.Add(ASQL);
+end;
+
+destructor TModelScript.Destroy;
+begin
+  FSQL.Free;
+  inherited;
 end;
 
 function TModelScript.GetID: string;

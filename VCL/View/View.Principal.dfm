@@ -13,6 +13,7 @@ object ViewPrincipal: TViewPrincipal
   OldCreateOrder = False
   WindowState = wsMaximized
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
   object StatusBar1: TStatusBar
@@ -55,6 +56,7 @@ object ViewPrincipal: TViewPrincipal
     PopupMenu = PopupMenuTreeView
     ReadOnly = True
     RightClickSelect = True
+    RowSelect = True
     SortType = stText
     TabOrder = 2
     OnDblClick = TreeView1DblClick

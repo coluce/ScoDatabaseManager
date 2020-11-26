@@ -13,6 +13,15 @@ type
     ['{57DC635F-1707-4C36-B298-6AF1A7CB4DEA}']
     function GetConnection: TFDCustomConnection;
     function ExecScript(const AScript: IModelScript): boolean;
+
+    procedure Close;
+    procedure Open;
+
+    function GetActive: boolean;
+    procedure SetActive(const Value: boolean);
+
+    property Active: boolean read GetActive write SetActive;
+
   end;
 
   IModelTable = interface

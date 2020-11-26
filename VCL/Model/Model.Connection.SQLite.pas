@@ -13,12 +13,21 @@ type
   TModelConnectionSQLite = class(TInterfacedObject, IModelConnection)
   private
     FConection: TFDCustomConnection;
+
+    function GetActive: boolean;
+    procedure SetActive(const Value: boolean);
+
   public
     constructor Create;
     destructor Destroy; override;
 
     function GetConnection: TFDCustomConnection;
     function ExecScript(const AScript: IModelScript): boolean;
+
+    procedure Close;
+    procedure Open;
+
+    property Active: boolean read GetActive write SetActive;
 
   end;
 
@@ -29,12 +38,16 @@ uses
 
 { TModelConexao }
 
+procedure TModelConnectionSQLite.Close;
+begin
+  FConection.Close;
+end;
+
 constructor TModelConnectionSQLite.Create;
 begin
   FConection := TFDCustomConnection.Create(nil);
   FConection.DriverName := 'SQLite';
   FConection.Params.Database := TPath.ChangeExtension(ParamStr(0),'.sqlite');
-  FConection.Open;
 end;
 
 destructor TModelConnectionSQLite.Destroy;
@@ -66,9 +79,31 @@ begin
 
 end;
 
+function TModelConnectionSQLite.GetActive: boolean;
+begin
+
+end;
+
 function TModelConnectionSQLite.GetConnection: TFDCustomConnection;
 begin
   Result := FConection;
+end;
+
+procedure TModelConnectionSQLite.Open;
+begin
+  FConection.Open;
+end;
+
+procedure TModelConnectionSQLite.SetActive(const Value: boolean);
+begin
+  if Value then
+  begin
+    Self.Open;
+  end
+  else
+  begin
+    Self.Close;
+  end;
 end;
 
 end.

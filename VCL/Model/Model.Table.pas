@@ -38,6 +38,7 @@ constructor TModelTable.Create(const ATableName: string);
 begin
   FTableName := ATableName;
   FConnection := TModelConnectionFactory.New;
+  FConnection.Open;
   FQuery := TFDQuery.Create(nil);
   FQuery.Connection := FConnection.GetConnection;
   FQuery.CachedUpdates := True;

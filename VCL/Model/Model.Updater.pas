@@ -44,6 +44,7 @@ end;
 constructor TModelStrcutureUpdater.Create;
 begin
   FConnection := TModelConnectionFactory.New;
+  FConnection.Open;
   SetLength(FScripts, 0);
 end;
 

@@ -10,13 +10,19 @@ uses
   Model.Table in 'Model\Model.Table.pas',
   Model.Script in 'Model\Model.Script.pas',
   Model.Types in 'Model\Model.Types.pas',
-  Model.Updater in 'Model\Model.Updater.pas';
+  Model.Updater in 'Model\Model.Updater.pas',
+  View.Database in 'View\View.Database.pas' {ViewDatabase},
+  Controller.DataBase in 'Controller\Controller.DataBase.pas',
+  Controller.Interfaces in 'Controller\Controller.Interfaces.pas',
+  Controller.Factory in 'Controller\Controller.Factory.pas';
 
 {$R *.res}
 
 var
   vUpdater: IModelStructureUpdater;
 begin
+
+  ReportMemoryLeaksOnShutdown := True;
 
   Model.Types.ConnectionType := TModelConnectionType.SQLite;
 

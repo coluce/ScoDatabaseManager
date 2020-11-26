@@ -24,6 +24,7 @@ type
     procedure DeleteServer(const ATreeNode: TTreeNode);
     procedure NewDataBase(const ATreeNode: TTreeNode);
     procedure DeleteDataBase(const ATreeNode: TTreeNode);
+    procedure ShowDataBase(const ATreeNode: TTreeNode);
   end;
 
 var
@@ -32,7 +33,8 @@ var
 implementation
 
 uses
-  Model.Factory, Vcl.Dialogs, System.SysUtils;
+  Model.Factory, Vcl.Dialogs, System.SysUtils, Controller.Interfaces,
+  Controller.Factory;
 
 { TControllerPrincipal }
 
@@ -79,6 +81,18 @@ begin
   FModelServer.DataSet.FieldByName('IP').AsString := vIP;
   FModelServer.DataSet.Post;
   FModelServer.ApplyUpdates;
+end;
+
+procedure TControllerPrincipal.ShowDataBase(const ATreeNode: TTreeNode);
+var
+  vDataBase: TDataBase;
+  vController: IControllerDataBase;
+begin
+  if FDatabases.TryGetValue(ATreeNode, vDataBase) then
+  begin
+    vController := TControllerFactory.DataBase(vDataBase);
+    vController.Show;
+  end;
 end;
 
 procedure TControllerPrincipal.DeleteDataBase(const ATreeNode: TTreeNode);

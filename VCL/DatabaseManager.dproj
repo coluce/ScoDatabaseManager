@@ -110,6 +110,13 @@
         <DCCReference Include="Model\Model.Script.pas"/>
         <DCCReference Include="Model\Model.Types.pas"/>
         <DCCReference Include="Model\Model.Updater.pas"/>
+        <DCCReference Include="View\View.Database.pas">
+            <Form>ViewDatabase</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Controller\Controller.DataBase.pas"/>
+        <DCCReference Include="Controller\Controller.Interfaces.pas"/>
+        <DCCReference Include="Controller\Controller.Factory.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
