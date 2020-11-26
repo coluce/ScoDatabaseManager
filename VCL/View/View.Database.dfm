@@ -109,6 +109,7 @@ object ViewDatabase: TViewDatabase
             Height = 63
             Align = alClient
             BorderStyle = bsNone
+            DataSource = DataSource1
             TabOrder = 0
             TitleFont.Charset = DEFAULT_CHARSET
             TitleFont.Color = clWindowText
@@ -130,6 +131,8 @@ object ViewDatabase: TViewDatabase
               Top = 3
               Width = 240
               Height = 26
+              DataSource = DataSource1
+              VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbDelete, nbEdit, nbPost, nbCancel, nbRefresh, nbApplyUpdates, nbCancelUpdates]
               Align = alLeft
               TabOrder = 0
             end
@@ -217,5 +220,15 @@ object ViewDatabase: TViewDatabase
     SQLDialect = sqlInterbase6
     Left = 549
     Top = 92
+  end
+  object FDQuery1: TFDQuery
+    CachedUpdates = True
+    Left = 482
+    Top = 303
+  end
+  object DataSource1: TDataSource
+    DataSet = FDQuery1
+    Left = 554
+    Top = 303
   end
 end
