@@ -19,7 +19,7 @@ type
     ['{A7E026BC-0DA0-46DD-9195-0565737059DF}']
 
     function ApplyUpdates: boolean;
-    procedure Open(const AWhere: string);
+    procedure Open(const AWhere: string = '');
     function Delete(const AID: string): boolean;
 
     function GetDataSet: TDataSet;

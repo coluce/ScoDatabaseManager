@@ -16,7 +16,7 @@ type
     constructor Create(const ATableName: string);
     destructor Destroy; override;
     function ApplyUpdates: boolean;
-    procedure Open(const AWhere: string);
+    procedure Open(const AWhere: string = '');
     function Delete(const AID: string): boolean;
   published
     property DataSet: TDataset read GetDataSet;
@@ -68,7 +68,7 @@ begin
   Result := FQuery;
 end;
 
-procedure TModelTable.Open(const AWhere: string);
+procedure TModelTable.Open(const AWhere: string = '');
 begin
   FQuery.Close;
   FQuery.SQL.Clear;
@@ -78,6 +78,7 @@ begin
     FQuery.SQL.Add('where');
     FQuery.SQL.Add(AWhere);
   end;
+  FQuery.Open;
 end;
 
 end.

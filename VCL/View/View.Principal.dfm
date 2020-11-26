@@ -66,6 +66,7 @@ object ViewPrincipal: TViewPrincipal
     end
     object Deletar1: TMenuItem
       Caption = 'Deletar'
+      OnClick = Deletar1Click
     end
     object NovoBanco1: TMenuItem
       Caption = 'Novo Banco'

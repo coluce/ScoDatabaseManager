@@ -19,6 +19,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure btnNovoClick(Sender: TObject);
     procedure TreeView1DblClick(Sender: TObject);
+    procedure Deletar1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -38,6 +39,12 @@ uses
 procedure TViewPrincipal.btnNovoClick(Sender: TObject);
 begin
   ControllerPrincipal.NewServer;
+  ControllerPrincipal.FillList;
+end;
+
+procedure TViewPrincipal.Deletar1Click(Sender: TObject);
+begin
+  ControllerPrincipal.DeleteServer(TreeView1.Selected);
   ControllerPrincipal.FillList;
 end;
 
