@@ -1,4 +1,4 @@
-unit Model.Connection.SQLite;
+unit Model.Connection.Firebird;
 
 interface
 
@@ -6,22 +6,23 @@ uses
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf,
   FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
   FireDAC.Phys, FireDAC.VCLUI.Wait, Data.DB, FireDAC.Comp.Client, FireDAC.DApt,
-  FireDAC.Stan.ExprFuncs, FireDAC.Phys.SQLiteDef, FireDAC.Phys.SQLite,
-  Model.Interfaces;
+  FireDAC.Stan.ExprFuncs, FireDAC.Phys.IBBase, FireDAC.Phys.FB, Model.Interfaces,
+  Model.Types;
 
 type
 
   { TODO : criar classe ancestral, tem muito codigo repetido }
 
-  TModelConnectionSQLite = class(TInterfacedObject, IModelConnection)
+  TModelConnectionFirebird = class(TInterfacedObject, IModelConnection)
   private
     FConection: TFDCustomConnection;
+    FDataBase: TDataBase;
 
     function GetActive: boolean;
     procedure SetActive(const Value: boolean);
 
   public
-    constructor Create;
+    constructor Create(ADataBase: TDataBase);
     destructor Destroy; override;
 
     function GetConnection: TFDCustomConnection;
@@ -37,29 +38,35 @@ type
 implementation
 
 uses
-  System.SysUtils, System.IOUtils;
+  System.IOUtils, System.SysUtils;
 
-{ TModelConexao }
+{ TModelConnectionFirebird }
 
-procedure TModelConnectionSQLite.Close;
+procedure TModelConnectionFirebird.Close;
 begin
   FConection.Close;
 end;
 
-constructor TModelConnectionSQLite.Create;
+constructor TModelConnectionFirebird.Create(ADataBase: TDataBase);
 begin
+  FDataBase := ADataBase;
   FConection := TFDCustomConnection.Create(nil);
-  FConection.DriverName := 'SQLite';
-  FConection.Params.Database := TPath.ChangeExtension(ParamStr(0),'.sqlite');
+  FConection.DriverName := 'FB';
+  FConection.LoginPrompt := False;
+  FConection.Params.Database := TPath.Combine(FDataBase.Path, 'ALTERDB.IB');
+  FConection.Params.Values['Server'] := FDataBase.Server.IP;
+  FConection.Params.UserName := 'SYSDBA';
+  FConection.Params.Password := 'masterkey';
 end;
 
-destructor TModelConnectionSQLite.Destroy;
+destructor TModelConnectionFirebird.Destroy;
 begin
   FreeAndNil(FConection);
   inherited;
 end;
 
-function TModelConnectionSQLite.ExecScript(const AScript: IModelScript): boolean;
+function TModelConnectionFirebird.ExecScript(const AScript: IModelScript): boolean;
+
   function IsAlreadyExecuted(const AID: string): boolean;
   begin
     {verificar se ja existe na tabela de scripts}
@@ -81,22 +88,22 @@ begin
   end;
 end;
 
-function TModelConnectionSQLite.GetActive: boolean;
+function TModelConnectionFirebird.GetActive: boolean;
 begin
   Result := FConection.Connected;
 end;
 
-function TModelConnectionSQLite.GetConnection: TFDCustomConnection;
+function TModelConnectionFirebird.GetConnection: TFDCustomConnection;
 begin
   Result := FConection;
 end;
 
-procedure TModelConnectionSQLite.Open;
+procedure TModelConnectionFirebird.Open;
 begin
   FConection.Open;
 end;
 
-procedure TModelConnectionSQLite.SetActive(const Value: boolean);
+procedure TModelConnectionFirebird.SetActive(const Value: boolean);
 begin
   if Value then
   begin

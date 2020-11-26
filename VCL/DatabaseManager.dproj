@@ -117,6 +117,7 @@
         <DCCReference Include="Controller\Controller.DataBase.pas"/>
         <DCCReference Include="Controller\Controller.Interfaces.pas"/>
         <DCCReference Include="Controller\Controller.Factory.pas"/>
+        <DCCReference Include="Model\Model.Connection.Firebird.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

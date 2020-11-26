@@ -171,23 +171,27 @@ begin
   FView.TreeView1.Items.Clear;
   FModelServer.Open;
 
-  while not FModelServer.DataSet.Eof do
-  begin
-    vItem := FView.TreeView1.Items.Add(nil, FModelServer.DataSet.FieldByName('IP').AsString + ' | ' + FModelServer.DataSet.FieldByName('NAME').AsString);
-    FServers.Add(
-      vItem,
-      TServer.Create(
-        FModelServer.DataSet.FieldByName('ID').AsString,
-        FModelServer.DataSet.FieldByName('Name').AsString,
-        FModelServer.DataSet.FieldByName('IP').AsString
-      )
-    );
+  FView.TreeView1.Items.BeginUpdate;
+  try
+    while not FModelServer.DataSet.Eof do
+    begin
+      vItem := FView.TreeView1.Items.Add(nil, FModelServer.DataSet.FieldByName('IP').AsString + ' | ' + FModelServer.DataSet.FieldByName('NAME').AsString);
+      FServers.Add(
+        vItem,
+        TServer.Create(
+          FModelServer.DataSet.FieldByName('ID').AsString,
+          FModelServer.DataSet.FieldByName('Name').AsString,
+          FModelServer.DataSet.FieldByName('IP').AsString
+        )
+      );
 
-    AddDataBasesToTree(vItem);
+      AddDataBasesToTree(vItem);
 
-    FModelServer.DataSet.Next;
+      FModelServer.DataSet.Next;
+    end;
+  finally
+    FView.TreeView1.Items.EndUpdate;
   end;
-
 end;
 
 end.

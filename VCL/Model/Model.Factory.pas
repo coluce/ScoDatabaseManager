@@ -9,9 +9,9 @@ type
 
   TModelConnectionFactory = class
   private
-    class function SQLite: IModelConnection;
-    class function Firebird: IModelConnection;    
   public
+    class function SQLite: IModelConnection;
+    class function Firebird(ADataBase: TDatabase): IModelConnection;
     class function New: IModelConnection;
   end;
 
@@ -32,16 +32,29 @@ implementation
 
 uses
   Model.Connection.SQLite, System.SysUtils, Model.Updater,
-  Model.Script, Model.Table;
+  Model.Script, Model.Table, Model.Connection.Firebird;
 
 { TModelConnectionFactory }
 
 class function TModelConnectionFactory.New: IModelConnection;
+var
+  vFirebirdDatabase: TDataBase;
 begin
 
   case Model.Types.ConnectionType of
     TModelConnectionType.SQLite: Result := TModelConnectionFactory.SQLite;
-    TModelConnectionType.Firebird: Result := TModelConnectionFactory.Firebird;
+    TModelConnectionType.Firebird:
+    begin
+      {esses dados abaixo não são utilizados}
+      {estão aqui como exemplo, para futura implementação para a possibilidade de usar o Firebird para guardar as configurações}
+      vFirebirdDatabase.ID := TGUID.NewGuid.ToString;
+      vFirebirdDatabase.Server := TServer.Create(TGUID.NewGuid.ToString, 'Localhost', '127.0.0.1)');
+      vFirebirdDatabase.Name := 'Local';
+      vFirebirdDatabase.Path := 'E:\Database\config.db';
+      vFirebirdDatabase.UserName := 'SYSDBA';
+      vFirebirdDatabase.Password := 'MASTERKEY';
+      Result := TModelConnectionFactory.Firebird(vFirebirdDatabase);
+    end;
   end;
 
 end;
@@ -51,10 +64,9 @@ begin
   Result := TModelConnectionSQLite.Create;
 end;
 
-class function TModelConnectionFactory.Firebird: IModelConnection;
+class function TModelConnectionFactory.Firebird(ADataBase: TDatabase): IModelConnection;
 begin
-  Result := nil;
-  raise Exception.Create('Conexão ao banco Firebird não implementada!');
+  Result := TModelConnectionFirebird.Create(ADataBase);
 end;
 
 { TModelStructureUpdaterFactory }

@@ -42,7 +42,7 @@ constructor TControllerDataBase.Create(const ADataBase: TDataBase);
 begin
   FDataBase := ADataBase;
   FView := TViewDatabase.Create(Self);
-  FConnection := TModelConnectionFactory.New;
+  FConnection := TModelConnectionFactory.Firebird(FDataBase);
 
 end;
 
@@ -60,9 +60,14 @@ begin
   vList := TStringList.Create;
   try
     FConnection.GetConnection.GetTableNames('','','', vList);
-    for vTable in vList do
-    begin
-      FView.TreeViewTabelas.Items.Add(nil, vTable);
+    FView.TreeViewTabelas.Items.BeginUpdate;
+    try
+      for vTable in vList do
+      begin
+        FView.TreeViewTabelas.Items.Add(nil, vTable);
+      end;
+    finally
+      FView.TreeViewTabelas.Items.EndUpdate;
     end;
 
   finally
