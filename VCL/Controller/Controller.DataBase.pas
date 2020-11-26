@@ -34,7 +34,7 @@ type
 implementation
 
 uses
-  System.Classes, Model.Factory;
+  System.Classes, Model.Factory, Vcl.ComCtrls;
 
 { TControllerDataBase }
 
@@ -53,9 +53,46 @@ begin
 end;
 
 procedure TControllerDataBase.FillTableNames;
+
+  procedure FillTriggers(const ANode: TTreeNode; const ATableName: string);
+  var
+    vNodeTitulo: TTreeNode;
+  begin
+    vNodeTitulo := FView.TreeViewTabelas.Items.AddChild(ANode, 'Triggers');
+    FView.TreeViewTabelas.Items.AddChild(vNodeTitulo, 'Não implementado ainda');
+  end;
+
+  procedure FillContraints(const ANode: TTreeNode; const ATableName: string);
+  var
+    vNodeTitulo: TTreeNode;
+  begin
+    vNodeTitulo := FView.TreeViewTabelas.Items.AddChild(ANode, 'Constraints');
+    FView.TreeViewTabelas.Items.AddChild(vNodeTitulo, 'Não implementado ainda');
+  end;
+
+  procedure FillFields(const ANode: TTreeNode; const ATableName: string);
+  var
+    vNodeTitulo: TTreeNode;
+    vFields: TStrings;
+    vField: string;
+  begin
+    vNodeTitulo := FView.TreeViewTabelas.Items.AddChild(ANode, 'Fields');
+    vFields := TStringList.Create;
+    try
+      FConnection.GetConnection.GetFieldNames('','', ATableName, '', vFields);
+      for vField in vFields do
+      begin
+        FView.TreeViewTabelas.Items.AddChild(vNodeTitulo, vField);
+      end;
+    finally
+      vFields.Free;
+    end;
+  end;
+
 var
   vList: TStringList;
   vTable: string;
+  vNode: TTreeNode;
 begin
   vList := TStringList.Create;
   try
@@ -64,7 +101,10 @@ begin
     try
       for vTable in vList do
       begin
-        FView.TreeViewTabelas.Items.Add(nil, vTable);
+        vNode := FView.TreeViewTabelas.Items.Add(nil, vTable);
+        FillFields(vNode, vTable);
+        FillTriggers(vNode, vTable);
+        FillContraints(vNode, vTable);
       end;
     finally
       FView.TreeViewTabelas.Items.EndUpdate;

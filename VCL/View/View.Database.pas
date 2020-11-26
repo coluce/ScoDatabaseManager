@@ -30,6 +30,7 @@ type
     ToggleSwitch1: TToggleSwitch;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ToggleSwitch1Click(Sender: TObject);
+    procedure TreeViewTabelasDblClick(Sender: TObject);
   private
     { Private declarations }
     FController: IControllerDataBase;
@@ -75,6 +76,18 @@ begin
   if FController.Connected then
   begin
     FController.FillTableNames;
+  end;
+end;
+
+procedure TViewDatabase.TreeViewTabelasDblClick(Sender: TObject);
+begin
+  if TreeViewTabelas.Selected.Level = 0 then
+  begin
+    MemoQuery.Clear;
+    MemoQuery.Lines.Add('select');
+    MemoQuery.Lines.Add('  *');
+    MemoQuery.Lines.Add('from');
+    MemoQuery.Lines.Add('  ' + TreeViewTabelas.Selected.Text);
   end;
 end;
 

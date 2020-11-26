@@ -52,8 +52,6 @@ object ViewDatabase: TViewDatabase
       Align = alLeft
       TabOrder = 0
       OnClick = ToggleSwitch1Click
-      ExplicitLeft = 24
-      ExplicitTop = 16
       ExplicitHeight = 20
     end
   end
@@ -66,6 +64,7 @@ object ViewDatabase: TViewDatabase
     Align = alLeft
     Indent = 19
     TabOrder = 2
+    OnDblClick = TreeViewTabelasDblClick
   end
   object Panel2: TPanel
     Left = 146
@@ -196,7 +195,11 @@ object ViewDatabase: TViewDatabase
         Gutter.ShowLineNumbers = True
         Highlighter = SynSQLSyn1
         Lines.Strings = (
-          'MemoQuery')
+          '/* Exemplo de SQL*/'
+          'select'
+          '  *'
+          'from'
+          '  TABELA')
         FontSmoothing = fsmNone
       end
     end
@@ -205,6 +208,13 @@ object ViewDatabase: TViewDatabase
     Options.AutoDetectEnabled = False
     Options.AutoDetectLineLimit = 0
     Options.Visible = False
+    CommentAttri.Foreground = clGreen
+    KeyAttri.Foreground = clNavy
+    TableNameAttri.Foreground = 8404992
+    TableNameAttri.Style = [fsBold]
+    TableNames.Strings = (
+      'TABELA')
+    SQLDialect = sqlInterbase6
     Left = 549
     Top = 92
   end
