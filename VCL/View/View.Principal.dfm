@@ -11,6 +11,7 @@ object ViewPrincipal: TViewPrincipal
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  WindowState = wsMaximized
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
@@ -41,9 +42,6 @@ object ViewPrincipal: TViewPrincipal
       Caption = 'Novo Server'
       TabOrder = 0
       OnClick = btnNovoClick
-      ExplicitLeft = 56
-      ExplicitTop = 16
-      ExplicitHeight = 25
     end
   end
   object TreeView1: TTreeView
@@ -55,10 +53,14 @@ object ViewPrincipal: TViewPrincipal
     Align = alClient
     Indent = 19
     PopupMenu = PopupMenuTreeView
+    ReadOnly = True
+    RightClickSelect = True
+    SortType = stText
     TabOrder = 2
     OnDblClick = TreeView1DblClick
   end
   object PopupMenuTreeView: TPopupMenu
+    OnPopup = PopupMenuTreeViewPopup
     Left = 320
     Top = 120
     object Editar1: TMenuItem
@@ -70,6 +72,7 @@ object ViewPrincipal: TViewPrincipal
     end
     object NovoBanco1: TMenuItem
       Caption = 'Novo Banco'
+      OnClick = NovoBanco1Click
     end
   end
 end

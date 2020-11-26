@@ -13,6 +13,17 @@ type
     constructor Create(const AID, AName, AIP: string);
   end;
 
+  TDataBase = record
+    ID: string;
+    Server: TServer;
+    Name: string;
+    Path: string;
+    UserName: string;
+    Password: string;
+  public
+    constructor Create(const AID, AName, APath, AUserName, APassword: string; AServer: TServer);
+  end;
+
 var
   ConnectionType: TModelConnectionType;
 
@@ -25,6 +36,18 @@ begin
   Self.ID := AID;
   Self.Name := AName;
   Self.IP := AIP;
+end;
+
+{ TDataBase }
+
+constructor TDataBase.Create(const AID, AName, APath, AUserName, APassword: string; AServer: TServer);
+begin
+  Self.ID := AID;
+  Self.Name := AName;
+  Self.Path := APath;
+  Self.UserName := AUserName;
+  Self.Password := APassword;
+  Self.Server := AServer;
 end;
 
 end.

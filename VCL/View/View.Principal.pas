@@ -20,6 +20,8 @@ type
     procedure btnNovoClick(Sender: TObject);
     procedure TreeView1DblClick(Sender: TObject);
     procedure Deletar1Click(Sender: TObject);
+    procedure NovoBanco1Click(Sender: TObject);
+    procedure PopupMenuTreeViewPopup(Sender: TObject);
   private
     { Private declarations }
   public
@@ -44,7 +46,14 @@ end;
 
 procedure TViewPrincipal.Deletar1Click(Sender: TObject);
 begin
-  ControllerPrincipal.DeleteServer(TreeView1.Selected);
+  if TreeView1.Selected.Level = 0 then
+  begin
+    ControllerPrincipal.DeleteServer(TreeView1.Selected);
+  end
+  else
+  begin
+    ControllerPrincipal.DeleteDataBase(TreeView1.Selected);
+  end;
   ControllerPrincipal.FillList;
 end;
 
@@ -54,9 +63,33 @@ begin
   ControllerPrincipal.FillList;
 end;
 
+procedure TViewPrincipal.NovoBanco1Click(Sender: TObject);
+begin
+  if TreeView1.Selected.Level = 0 then
+  begin
+    ControllerPrincipal.NewDataBase(TreeView1.Selected);
+    ControllerPrincipal.FillList;
+  end;
+end;
+
+procedure TViewPrincipal.PopupMenuTreeViewPopup(Sender: TObject);
+begin
+  if TreeView1.Selected.Level = 0 then
+  begin
+    NovoBanco1.Visible := True;
+  end
+  else
+  begin
+    NovoBanco1.Visible := False;
+  end;
+end;
+
 procedure TViewPrincipal.TreeView1DblClick(Sender: TObject);
 begin
-  ShowMessage(TreeView1.Selected.Level.ToString);
+  if TreeView1.Selected.Level = 1 then
+  begin
+    ShowMessage(TreeView1.Selected.Text);
+  end;
 end;
 
 end.

@@ -63,7 +63,7 @@ class function TModelStructureUpdaterFactory.SQLite: IModelStructureUpdater;
 begin
   Result := TModelStrcutureUpdater.Create;
   Result.AddScript(TModelScript.Create('create table if not exists TSERVER (ID text primaty key, NAME text, IP text)'));
-  Result.AddScript(TModelScript.Create('create table if not exists TDATABASE (ID text primaty key, ID_SERVER text, NAME text, PATH text, USERNAME text, PASSWAORD text)'));
+  Result.AddScript(TModelScript.Create('create table if not exists TDATABASE (ID text primaty key, ID_SERVER text, NAME text, PATH text, USERNAME text, PASSWORD text)'));
 end;
 
 class function TModelStructureUpdaterFactory.Firebird: IModelStructureUpdater;

@@ -11,13 +11,19 @@ type
   private
     FView: TViewPrincipal;
     FModelServer: IModelTable;
+    FModelDataBase: IModelTable;
+
     FServers: TDictionary<TTreeNode, TServer>;
+    FDatabases: TDictionary<TTreeNode, TDataBase>;
+
   public
     constructor Create(const AView: TViewPrincipal);
     destructor Destroy; override;
     procedure FillList;
     procedure NewServer;
     procedure DeleteServer(const ATreeNode: TTreeNode);
+    procedure NewDataBase(const ATreeNode: TTreeNode);
+    procedure DeleteDataBase(const ATreeNode: TTreeNode);
   end;
 
 var
@@ -34,7 +40,30 @@ constructor TControllerPrincipal.Create(const AView: TViewPrincipal);
 begin
   FView := AView;
   FModelServer := TModelTablefactory.New('TSERVER');
+  FModelDataBase := TModelTablefactory.New('TDATABASE');
   FServers := TDictionary<TTreeNode, TServer>.Create;
+  FDatabases := TDictionary<TTreeNode, TDataBase>.Create;
+end;
+
+procedure TControllerPrincipal.NewDataBase(const ATreeNode: TTreeNode);
+var
+  vServer: TServer;
+  vNode: TTreeNode;
+  vName: string;
+  vPath: string;
+begin
+  if FServers.TryGetValue(ATreeNode, vServer) then
+  begin
+    vName := InputBox('Database', 'Nome', 'Meu banco');
+    vPath := InputBox('Database', 'Local', 'E:\DataBases\[pasta]\');
+    FModelDataBase.DataSet.Append;
+    FModelDataBase.DataSet.FieldByName('ID').AsString := TGUID.NewGuid.ToString;
+    FModelDataBase.DataSet.FieldByName('ID_SERVER').AsString := vServer.ID;
+    FModelDataBase.DataSet.FieldByName('NAME').AsString := vName;
+    FModelDataBase.DataSet.FieldByName('PATH').AsString := vPath;
+    FModelDataBase.DataSet.Post;
+    FModelDataBase.ApplyUpdates;
+  end;
 end;
 
 procedure TControllerPrincipal.NewServer;
@@ -52,6 +81,16 @@ begin
   FModelServer.ApplyUpdates;
 end;
 
+procedure TControllerPrincipal.DeleteDataBase(const ATreeNode: TTreeNode);
+var
+  vDataBase: TDataBase;
+begin
+  if FDatabases.TryGetValue(ATreeNode, vDataBase) then
+  begin
+    FModelDataBase.Delete(vDataBase.ID);
+  end;
+end;
+
 procedure TControllerPrincipal.DeleteServer(const ATreeNode: TTreeNode);
 var
   vServer: TServer;
@@ -59,7 +98,11 @@ begin
   if FServers.TryGetValue(ATreeNode, vServer) then
   begin
     FModelServer.Delete(vServer.ID);
-    //FModelDataBase.Delete(vServer.ID);
+    FModelDataBase.Open('ID_SERVER = ' + QuotedStr(vServer.ID));
+    while not FModelDataBase.DataSet.Eof do
+    begin
+      FModelDataBase.DataSet.Delete;
+    end;
   end;
 end;
 
@@ -67,10 +110,43 @@ destructor TControllerPrincipal.Destroy;
 begin
   FServers.Clear;
   FServers.Free;
+
+  FDatabases.Clear;
+  FDatabases.Free;
+
   inherited;
 end;
 
 procedure TControllerPrincipal.FillList;
+  procedure AddDataBasesToTree(const ATreeNode: TTreeNode);
+  var
+    vServer: TServer;
+    vNode: TTreeNode;
+    vItem: TTreeNode;
+  begin
+    if FServers.TryGetValue(ATreeNode, vServer) then
+    begin
+      FModelDataBase.Open('ID_SERVER = ' + QuotedStr(vServer.ID));
+      while not FModelDataBase.DataSet.Eof do
+      begin
+        vItem := FView.TreeView1.Items.AddChild(ATreeNode, FModelDataBase.DataSet.FieldByName('NAME').AsString);
+
+        FDatabases.Add(
+          vItem,
+          TDataBase.Create(
+            FModelDataBase.DataSet.FieldByName('ID').AsString,
+            FModelDataBase.DataSet.FieldByName('NAME').AsString,
+            FModelDataBase.DataSet.FieldByName('PATH').AsString,
+            FModelDataBase.DataSet.FieldByName('USERNAME').AsString,
+            FModelDataBase.DataSet.FieldByName('PASSWORD').AsString,
+            vServer
+          )
+        );
+
+        FModelDataBase.DataSet.Next;
+      end;
+    end;
+  end;
 var
   vItem: TTreeNode;
 begin
@@ -92,6 +168,9 @@ begin
         FModelServer.DataSet.FieldByName('IP').AsString
       )
     );
+
+    AddDataBasesToTree(vItem);
+
     FModelServer.DataSet.Next;
   end;
 
