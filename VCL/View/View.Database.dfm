@@ -4,7 +4,7 @@ object ViewDatabase: TViewDatabase
   Caption = 'ViewDatabase'
   ClientHeight = 401
   ClientWidth = 632
-  Color = clBtnFace
+  Color = clWhite
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -62,6 +62,9 @@ object ViewDatabase: TViewDatabase
     Width = 137
     Height = 335
     Align = alLeft
+    BevelInner = bvNone
+    BevelOuter = bvNone
+    BorderStyle = bsNone
     Images = ImageList1
     Indent = 27
     TabOrder = 2
@@ -81,7 +84,7 @@ object ViewDatabase: TViewDatabase
       Width = 486
       Height = 3
       Cursor = crVSplit
-      Align = alBottom
+      Align = alTop
       ExplicitTop = 0
       ExplicitWidth = 216
     end
@@ -91,7 +94,7 @@ object ViewDatabase: TViewDatabase
       Top = 213
       Width = 480
       Height = 125
-      Align = alBottom
+      Align = alClient
       TabOrder = 0
       object PageControl1: TPageControl
         Left = 1
@@ -161,7 +164,7 @@ object ViewDatabase: TViewDatabase
       Top = 3
       Width = 480
       Height = 201
-      Align = alClient
+      Align = alTop
       BevelOuter = bvNone
       TabOrder = 1
       object ToolBar2: TToolBar
@@ -192,7 +195,6 @@ object ViewDatabase: TViewDatabase
         CodeFolding.ShowCollapsedLine = True
         CodeFolding.ShowHintMark = True
         UseCodeFolding = False
-        BorderStyle = bsNone
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
         Gutter.Font.Height = -11
