@@ -26,6 +26,7 @@ type
     procedure ShowModal;
 
     procedure FillTableNames;
+    procedure ExecuteQuery(const ASQL: string);
 
   published
     property Connected: boolean read GetConnected write SetConnected;
@@ -34,7 +35,7 @@ type
 implementation
 
 uses
-  System.Classes, Model.Factory, Vcl.ComCtrls;
+  System.Classes, Model.Factory, Vcl.ComCtrls, System.SysUtils;
 
 { TControllerDataBase }
 
@@ -50,6 +51,36 @@ destructor TControllerDataBase.Destroy;
 begin
   FView.Free;
   inherited;
+end;
+
+procedure TControllerDataBase.ExecuteQuery(const ASQL: string);
+begin
+  if not FConnection.GetConnection.Connected then
+    Exit;
+
+  FView.FDQuery1.Close;
+
+  if not ASQL.Trim.IsEmpty then
+  begin
+    FView.FDQuery1.SQL.Text := ASQL;
+    if
+      UpperCase(ASQL).Contains('UPDATE') or
+      UpperCase(ASQL).Contains('DELETE') or
+      UpperCase(ASQL).Contains('CREATE') or
+      UpperCase(ASQL).Contains('ALTER') or
+      UpperCase(ASQL).Contains('DROP') or
+      UpperCase(ASQL).Contains('INSERT')
+    then
+    begin
+      FView.FDQuery1.ExecSQL;
+    end
+    else
+    begin
+      FView.FDQuery1.Open;
+    end;
+
+  end;
+
 end;
 
 procedure TControllerDataBase.FillTableNames;

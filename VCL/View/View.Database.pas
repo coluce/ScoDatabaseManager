@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.ComCtrls, Data.DB, SynEdit, SynMemo, Vcl.Grids, Vcl.DBGrids, Vcl.ToolWin, SynEditHighlighter,
   SynHighlighterSQL, Model.Types, Controller.Interfaces, Vcl.StdCtrls, Vcl.DBCtrls, Vcl.WinXCtrls, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
-  System.ImageList, Vcl.ImgList;
+  System.ImageList, Vcl.ImgList, System.Actions, Vcl.ActnList;
 
 type
   TViewDatabase = class(TForm)
@@ -32,10 +32,15 @@ type
     ToggleSwitch1: TToggleSwitch;
     FDQuery1: TFDQuery;
     DataSource1: TDataSource;
-    ImageList1: TImageList;
+    ImageListTabelas: TImageList;
+    ImageListQuery: TImageList;
+    ActionListQuery: TActionList;
+    acnQueryExecutar: TAction;
+    ToolButton1: TToolButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ToggleSwitch1Click(Sender: TObject);
     procedure TreeViewTabelasDblClick(Sender: TObject);
+    procedure acnQueryExecutarExecute(Sender: TObject);
   private
     { Private declarations }
     FController: IControllerDataBase;
@@ -54,6 +59,20 @@ implementation
 {$R *.dfm}
 
 { TViewDatabase }
+
+procedure TViewDatabase.acnQueryExecutarExecute(Sender: TObject);
+var
+  vQuery: string;
+begin
+  vQuery := MemoQuery.SelText.Trim;
+
+  if vQuery.IsEmpty then
+  begin
+    vQuery := MemoQuery.Text;
+  end;
+
+  FController.ExecuteQuery(vQuery);
+end;
 
 constructor TViewDatabase.Create(const AController: IControllerDatabase);
 begin

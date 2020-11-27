@@ -11,6 +11,7 @@ type
 
 
     procedure FillTableNames;
+    procedure ExecuteQuery(const ASQL: string);
 
     function GetConnected: boolean;
     procedure SetConnected(const Value: boolean);
