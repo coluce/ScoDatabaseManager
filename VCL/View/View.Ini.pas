@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Buttons, SynEditHighlighter, SynHighlighterIni, SynEdit, SynMemo, Vcl.DBCtrls, Vcl.StdCtrls,
-  System.Actions, Vcl.ActnList, Data.DB, Controller.Interfaces;
+  System.Actions, Vcl.ActnList, Data.DB, Controller.Interfaces,
+  System.ImageList, Vcl.ImgList;
 
 type
   TViewIni = class(TForm)
@@ -22,13 +23,15 @@ type
     acnCancelar: TAction;
     ComboBoxLayout: TComboBox;
     FileSaveDialog1: TFileSaveDialog;
-    edtLocalDestino: TButtonedEdit;
     Label3: TLabel;
+    ImageList1: TImageList;
+    edtLocalDestino: TEdit;
+    SpeedButton3: TSpeedButton;
     procedure acnExportarExecute(Sender: TObject);
     procedure acnCancelarExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ComboBoxLayoutCloseUp(Sender: TObject);
-    procedure edtLocalDestinoRightButtonClick(Sender: TObject);
+    procedure SpeedButton3Click(Sender: TObject);
   private
     { Private declarations }
     FController: IControllerIni;
@@ -66,15 +69,15 @@ begin
   FController := AController;
 end;
 
-procedure TViewIni.edtLocalDestinoRightButtonClick(Sender: TObject);
-begin
-  if FileSaveDialog1.Execute then
-    edtLocalDestino.Text := FileSaveDialog1.FileName;
-end;
-
 procedure TViewIni.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   FController._Release;
+end;
+
+procedure TViewIni.SpeedButton3Click(Sender: TObject);
+begin
+  if FileSaveDialog1.Execute then
+    edtLocalDestino.Text := FileSaveDialog1.FileName;
 end;
 
 end.
