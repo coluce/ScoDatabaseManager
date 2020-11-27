@@ -5,26 +5,40 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.Menus,
-  System.ImageList, Vcl.ImgList;
+  System.ImageList, Vcl.ImgList, System.Actions, Vcl.ActnList, Vcl.Buttons;
 
 type
   TViewPrincipal = class(TForm)
     StatusBar1: TStatusBar;
     Panel1: TPanel;
     TreeView1: TTreeView;
-    btnNovo: TButton;
     PopupMenuTreeView: TPopupMenu;
     Editar1: TMenuItem;
     Deletar1: TMenuItem;
     NovoBanco1: TMenuItem;
-    ImageList1: TImageList;
+    ImageListTreeView: TImageList;
+    SpeedButton1: TSpeedButton;
+    ActionListAcoes: TActionList;
+    ImageListActionList: TImageList;
+    acnServerNovo: TAction;
+    acnCadastroLayouts: TAction;
+    SpeedButton2: TSpeedButton;
+    acnPopupMenuEditar: TAction;
+    acnPopupMenuExcluir: TAction;
+    acnPopupMenuRegistrarBanco: TAction;
+    acnPopupMenuDefinirAtual: TAction;
+    acnPopupMenuDefinirAtual1: TMenuItem;
+    acnPopupMenuConectar: TAction;
+    Conectar1: TMenuItem;
     procedure FormCreate(Sender: TObject);
-    procedure btnNovoClick(Sender: TObject);
     procedure TreeView1DblClick(Sender: TObject);
-    procedure Deletar1Click(Sender: TObject);
-    procedure NovoBanco1Click(Sender: TObject);
     procedure PopupMenuTreeViewPopup(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure acnServerNovoExecute(Sender: TObject);
+    procedure acnCadastroLayoutsExecute(Sender: TObject);
+    procedure acnPopupMenuExcluirExecute(Sender: TObject);
+    procedure acnPopupMenuRegistrarBancoExecute(Sender: TObject);
+    procedure acnPopupMenuConectarExecute(Sender: TObject);
   private
     { Private declarations }
   public
@@ -41,22 +55,44 @@ uses
 
 {$R *.dfm}
 
-procedure TViewPrincipal.btnNovoClick(Sender: TObject);
+procedure TViewPrincipal.acnCadastroLayoutsExecute(Sender: TObject);
 begin
-  ControllerPrincipal.NewServer;
-  ControllerPrincipal.FillList;
+  ControllerPrincipal.IrParaCadastroLayout;
 end;
 
-procedure TViewPrincipal.Deletar1Click(Sender: TObject);
+procedure TViewPrincipal.acnPopupMenuConectarExecute(Sender: TObject);
+begin
+  if TreeView1.Selected.Level = 1 then
+  begin
+    ControllerPrincipal.ShowDataBase(TreeView1.Selected);
+  end;
+end;
+
+procedure TViewPrincipal.acnPopupMenuExcluirExecute(Sender: TObject);
 begin
   if TreeView1.Selected.Level = 0 then
   begin
-    ControllerPrincipal.DeleteServer(TreeView1.Selected);
+    ControllerPrincipal.UnregisterServer(TreeView1.Selected);
   end
   else
   begin
-    ControllerPrincipal.DeleteDataBase(TreeView1.Selected);
+    ControllerPrincipal.UnregisterDataBase(TreeView1.Selected);
   end;
+  ControllerPrincipal.FillList;
+end;
+
+procedure TViewPrincipal.acnPopupMenuRegistrarBancoExecute(Sender: TObject);
+begin
+  if TreeView1.Selected.Level = 0 then
+  begin
+    ControllerPrincipal.RegisterDataBase(TreeView1.Selected);
+    ControllerPrincipal.FillList;
+  end;
+end;
+
+procedure TViewPrincipal.acnServerNovoExecute(Sender: TObject);
+begin
+  ControllerPrincipal.RegisterServer;
   ControllerPrincipal.FillList;
 end;
 
@@ -71,33 +107,17 @@ begin
   ControllerPrincipal.Free;
 end;
 
-procedure TViewPrincipal.NovoBanco1Click(Sender: TObject);
-begin
-  if TreeView1.Selected.Level = 0 then
-  begin
-    ControllerPrincipal.NewDataBase(TreeView1.Selected);
-    ControllerPrincipal.FillList;
-  end;
-end;
-
 procedure TViewPrincipal.PopupMenuTreeViewPopup(Sender: TObject);
 begin
-  if TreeView1.Selected.Level = 0 then
-  begin
-    NovoBanco1.Visible := True;
-  end
-  else
-  begin
-    NovoBanco1.Visible := False;
-  end;
+  acnPopupMenuRegistrarBanco.Visible := TreeView1.Selected.Level = 0;
+  acnPopupMenuEditar.Visible := TreeView1.Selected.Level = 0;
+  acnPopupMenuDefinirAtual.Visible := TreeView1.Selected.Level = 1;
+  acnPopupMenuConectar.Visible := TreeView1.Selected.Level = 1;
 end;
 
 procedure TViewPrincipal.TreeView1DblClick(Sender: TObject);
 begin
-  if TreeView1.Selected.Level = 1 then
-  begin
-    ControllerPrincipal.ShowDataBase(TreeView1.Selected);
-  end;
+  acnPopupMenuConectar.Execute;
 end;
 
 end.

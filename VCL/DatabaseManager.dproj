@@ -118,6 +118,11 @@
         <DCCReference Include="Controller\Controller.Interfaces.pas"/>
         <DCCReference Include="Controller\Controller.Factory.pas"/>
         <DCCReference Include="Model\Model.Connection.Firebird.pas"/>
+        <DCCReference Include="View\View.Layout.pas">
+            <Form>ViewLayout</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Controller\Controller.Layout.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

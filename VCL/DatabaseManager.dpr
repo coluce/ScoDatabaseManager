@@ -15,7 +15,9 @@ uses
   Controller.DataBase in 'Controller\Controller.DataBase.pas',
   Controller.Interfaces in 'Controller\Controller.Interfaces.pas',
   Controller.Factory in 'Controller\Controller.Factory.pas',
-  Model.Connection.Firebird in 'Model\Model.Connection.Firebird.pas';
+  Model.Connection.Firebird in 'Model\Model.Connection.Firebird.pas',
+  View.Layout in 'View\View.Layout.pas' {ViewLayout},
+  Controller.Layout in 'Controller\Controller.Layout.pas';
 
 {$R *.res}
 

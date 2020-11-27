@@ -20,11 +20,12 @@ type
     constructor Create(const AView: TViewPrincipal);
     destructor Destroy; override;
     procedure FillList;
-    procedure NewServer;
-    procedure DeleteServer(const ATreeNode: TTreeNode);
-    procedure NewDataBase(const ATreeNode: TTreeNode);
-    procedure DeleteDataBase(const ATreeNode: TTreeNode);
+    procedure RegisterServer;
+    procedure UnregisterServer(const ATreeNode: TTreeNode);
+    procedure RegisterDatabase(const ATreeNode: TTreeNode);
+    procedure UnregisterDataBase(const ATreeNode: TTreeNode);
     procedure ShowDataBase(const ATreeNode: TTreeNode);
+    procedure IrParaCadastroLayout;
   end;
 
 var
@@ -47,7 +48,7 @@ begin
   FDatabases := TDictionary<TTreeNode, TDataBase>.Create;
 end;
 
-procedure TControllerPrincipal.NewDataBase(const ATreeNode: TTreeNode);
+procedure TControllerPrincipal.RegisterDatabase(const ATreeNode: TTreeNode);
 var
   vServer: TServer;
   vNode: TTreeNode;
@@ -68,7 +69,7 @@ begin
   end;
 end;
 
-procedure TControllerPrincipal.NewServer;
+procedure TControllerPrincipal.RegisterServer;
 var
   vName: string;
   vIP: string;
@@ -86,7 +87,7 @@ end;
 procedure TControllerPrincipal.ShowDataBase(const ATreeNode: TTreeNode);
 var
   vDataBase: TDataBase;
-  vController: IControllerDataBase;
+  vController: IController;
 begin
   if FDatabases.TryGetValue(ATreeNode, vDataBase) then
   begin
@@ -95,7 +96,7 @@ begin
   end;
 end;
 
-procedure TControllerPrincipal.DeleteDataBase(const ATreeNode: TTreeNode);
+procedure TControllerPrincipal.UnregisterDataBase(const ATreeNode: TTreeNode);
 var
   vDataBase: TDataBase;
 begin
@@ -105,7 +106,7 @@ begin
   end;
 end;
 
-procedure TControllerPrincipal.DeleteServer(const ATreeNode: TTreeNode);
+procedure TControllerPrincipal.UnregisterServer(const ATreeNode: TTreeNode);
 var
   vServer: TServer;
 begin
@@ -195,6 +196,14 @@ begin
   finally
     FView.TreeView1.Items.EndUpdate;
   end;
+end;
+
+procedure TControllerPrincipal.IrParaCadastroLayout;
+var
+  vController: IController;
+begin
+  vController := TControllerFactory.Layout;
+  vController.Show;
 end;
 
 end.
