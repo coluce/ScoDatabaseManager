@@ -20,9 +20,13 @@ type
     procedure Show;
     procedure ShowModal;
     procedure FillPreview;
+    procedure ExportToDrive;
   end;
 
 implementation
+
+uses
+  Vcl.FileCtrl, System.SysUtils;
 
 { TControllerIni }
 
@@ -40,9 +44,28 @@ begin
   inherited;
 end;
 
+procedure TControllerIni.ExportToDrive;
+begin
+  if not DirectoryExists(FView.edtLocalDestino.Text) then
+    raise Exception.Create('Local de exportação inválido!');
+
+  FView.SynMemo1.Lines.SaveToFile(FView.edtLocalDestino.Text);
+end;
+
 procedure TControllerIni.FillPreview;
 begin
+  FView.SynMemo1.Clear;
 
+  FModelLayout.DataSet.First;
+  while not FModelLayout.DataSet.Eof do
+  begin
+    if FModelLayout.DataSet.RecNo = (FView.ComboBoxLayout.ItemIndex + 1) then
+    begin
+      FView.SynMemo1.Text := FModelLayout.DataSet.FieldByName('LAYOUT').AsString;
+      Exit;
+    end;
+    FModelLayout.DataSet.Next;
+  end;
 end;
 
 procedure TControllerIni.PrepareData;

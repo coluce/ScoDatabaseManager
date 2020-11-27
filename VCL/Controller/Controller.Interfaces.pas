@@ -31,6 +31,7 @@ type
   IControllerIni = interface(IController)
     ['{15A44337-42BC-408E-9B2D-383DEE1276B7}']
     procedure FillPreview;
+    procedure ExportToDrive;
   end;
 
 implementation

@@ -21,10 +21,14 @@ type
     acnExportar: TAction;
     acnCancelar: TAction;
     ComboBoxLayout: TComboBox;
+    FileSaveDialog1: TFileSaveDialog;
+    edtLocalDestino: TButtonedEdit;
+    Label3: TLabel;
     procedure acnExportarExecute(Sender: TObject);
     procedure acnCancelarExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ComboBoxLayoutCloseUp(Sender: TObject);
+    procedure edtLocalDestinoRightButtonClick(Sender: TObject);
   private
     { Private declarations }
     FController: IControllerIni;
@@ -47,6 +51,7 @@ end;
 
 procedure TViewIni.acnExportarExecute(Sender: TObject);
 begin
+  FController.ExportToDrive;
   Close;
 end;
 
@@ -59,6 +64,12 @@ constructor TViewIni.Create(const AController: IControllerIni);
 begin
   inherited Create(nil);
   FController := AController;
+end;
+
+procedure TViewIni.edtLocalDestinoRightButtonClick(Sender: TObject);
+begin
+  if FileSaveDialog1.Execute then
+    edtLocalDestino.Text := FileSaveDialog1.FileName;
 end;
 
 procedure TViewIni.FormClose(Sender: TObject; var Action: TCloseAction);
