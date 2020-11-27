@@ -62,6 +62,9 @@ begin
     if FModelLayout.DataSet.RecNo = (FView.ComboBoxLayout.ItemIndex + 1) then
     begin
       FView.SynMemo1.Text := FModelLayout.DataSet.FieldByName('LAYOUT').AsString;
+      FView.SynMemo1.Text := FView.SynMemo1.Text.Replace('#server',FDatabase.Server.IP, [rfReplaceAll, rfIgnoreCase]);
+      FView.SynMemo1.Text := FView.SynMemo1.Text.Replace('#database',FDatabase.Path, [rfReplaceAll, rfIgnoreCase]);
+
       Exit;
     end;
     FModelLayout.DataSet.Next;
