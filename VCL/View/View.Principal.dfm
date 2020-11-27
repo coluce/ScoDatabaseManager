@@ -3,7 +3,7 @@ object ViewPrincipal: TViewPrincipal
   Top = 0
   Caption = 'DataBase Manager'
   ClientHeight = 452
-  ClientWidth = 574
+  ClientWidth = 274
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -11,7 +11,6 @@ object ViewPrincipal: TViewPrincipal
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
-  WindowState = wsMaximized
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   PixelsPerInch = 96
@@ -19,20 +18,22 @@ object ViewPrincipal: TViewPrincipal
   object StatusBar1: TStatusBar
     Left = 0
     Top = 433
-    Width = 574
+    Width = 274
     Height = 19
     Panels = <>
+    ExplicitWidth = 574
   end
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 574
+    Width = 274
     Height = 41
     Align = alTop
     BevelOuter = bvNone
     Color = clWhite
     ParentBackground = False
     TabOrder = 1
+    ExplicitWidth = 574
     object btnNovo: TButton
       AlignWithMargins = True
       Left = 3
@@ -49,7 +50,7 @@ object ViewPrincipal: TViewPrincipal
     AlignWithMargins = True
     Left = 3
     Top = 44
-    Width = 568
+    Width = 268
     Height = 386
     Align = alClient
     Indent = 19
@@ -60,6 +61,7 @@ object ViewPrincipal: TViewPrincipal
     SortType = stText
     TabOrder = 2
     OnDblClick = TreeView1DblClick
+    ExplicitWidth = 568
   end
   object PopupMenuTreeView: TPopupMenu
     OnPopup = PopupMenuTreeViewPopup
