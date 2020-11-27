@@ -17,7 +17,9 @@ uses
   Controller.Factory in 'Controller\Controller.Factory.pas',
   Model.Connection.Firebird in 'Model\Model.Connection.Firebird.pas',
   View.Layout in 'View\View.Layout.pas' {ViewLayout},
-  Controller.Layout in 'Controller\Controller.Layout.pas';
+  Controller.Layout in 'Controller\Controller.Layout.pas',
+  View.Ini in 'View\View.Ini.pas' {ViewIni},
+  Controller.Ini in 'Controller\Controller.Ini.pas';
 
 {$R *.res}
 
@@ -35,5 +37,6 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TViewPrincipal, ViewPrincipal);
+  Application.CreateForm(TViewIni, ViewIni);
   Application.Run;
 end.

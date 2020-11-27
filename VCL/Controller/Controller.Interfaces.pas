@@ -28,6 +28,11 @@ type
     ['{15A44337-42BC-408E-9B2D-383DEE1276B7}']
   end;
 
+  IControllerIni = interface(IController)
+    ['{15A44337-42BC-408E-9B2D-383DEE1276B7}']
+    procedure FillPreview;
+  end;
+
 implementation
 
 end.

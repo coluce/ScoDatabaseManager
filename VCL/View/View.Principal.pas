@@ -26,7 +26,7 @@ type
     acnPopupMenuEditar: TAction;
     acnPopupMenuExcluir: TAction;
     acnPopupMenuRegistrarBanco: TAction;
-    acnPopupMenuDefinirAtual: TAction;
+    acnPopupMenuExport: TAction;
     acnPopupMenuDefinirAtual1: TMenuItem;
     acnPopupMenuConectar: TAction;
     Conectar1: TMenuItem;
@@ -39,6 +39,7 @@ type
     procedure acnPopupMenuExcluirExecute(Sender: TObject);
     procedure acnPopupMenuRegistrarBancoExecute(Sender: TObject);
     procedure acnPopupMenuConectarExecute(Sender: TObject);
+    procedure acnPopupMenuExportExecute(Sender: TObject);
   private
     { Private declarations }
   public
@@ -81,6 +82,11 @@ begin
   ControllerPrincipal.FillList;
 end;
 
+procedure TViewPrincipal.acnPopupMenuExportExecute(Sender: TObject);
+begin
+  ControllerPrincipal.ExportToDrive(Self.TreeView1.Selected);
+end;
+
 procedure TViewPrincipal.acnPopupMenuRegistrarBancoExecute(Sender: TObject);
 begin
   if TreeView1.Selected.Level = 0 then
@@ -111,7 +117,7 @@ procedure TViewPrincipal.PopupMenuTreeViewPopup(Sender: TObject);
 begin
   acnPopupMenuRegistrarBanco.Visible := TreeView1.Selected.Level = 0;
   acnPopupMenuEditar.Visible := TreeView1.Selected.Level = 0;
-  acnPopupMenuDefinirAtual.Visible := TreeView1.Selected.Level = 1;
+  acnPopupMenuExport.Visible := TreeView1.Selected.Level = 1;
   acnPopupMenuConectar.Visible := TreeView1.Selected.Level = 1;
 end;
 

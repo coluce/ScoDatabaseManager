@@ -25,6 +25,7 @@ type
     procedure RegisterDatabase(const ATreeNode: TTreeNode);
     procedure UnregisterDataBase(const ATreeNode: TTreeNode);
     procedure ShowDataBase(const ATreeNode: TTreeNode);
+    procedure ExportToDrive(const ATreeNode: TTreeNode);
     procedure IrParaCadastroLayout;
   end;
 
@@ -130,6 +131,18 @@ begin
   FDatabases.Free;
 
   inherited;
+end;
+
+procedure TControllerPrincipal.ExportToDrive(const ATreeNode: TTreeNode);
+var
+  vDataBase: TDataBase;
+  vController: IController;
+begin
+  if FDatabases.TryGetValue(ATreeNode, vDataBase) then
+  begin
+    vController := TControllerFactory.Exportini(vDataBase);
+    vController.Show;
+  end;
 end;
 
 procedure TControllerPrincipal.FillList;

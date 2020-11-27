@@ -21,7 +21,6 @@ object ViewPrincipal: TViewPrincipal
     Width = 246
     Height = 19
     Panels = <>
-    ExplicitWidth = 274
   end
   object Panel1: TPanel
     Left = 0
@@ -82,9 +81,6 @@ object ViewPrincipal: TViewPrincipal
     SortType = stText
     TabOrder = 2
     OnDblClick = TreeView1DblClick
-    ExplicitTop = 44
-    ExplicitWidth = 268
-    ExplicitHeight = 386
   end
   object PopupMenuTreeView: TPopupMenu
     OnPopup = PopupMenuTreeViewPopup
@@ -100,7 +96,7 @@ object ViewPrincipal: TViewPrincipal
       Action = acnPopupMenuRegistrarBanco
     end
     object acnPopupMenuDefinirAtual1: TMenuItem
-      Action = acnPopupMenuDefinirAtual
+      Action = acnPopupMenuExport
     end
     object Conectar1: TMenuItem
       Action = acnPopupMenuConectar
@@ -448,9 +444,10 @@ object ViewPrincipal: TViewPrincipal
       Caption = 'Registrar Banco'
       OnExecute = acnPopupMenuRegistrarBancoExecute
     end
-    object acnPopupMenuDefinirAtual: TAction
+    object acnPopupMenuExport: TAction
       Category = 'PopupMenu'
       Caption = 'Usar no FCerta'
+      OnExecute = acnPopupMenuExportExecute
     end
     object acnPopupMenuConectar: TAction
       Category = 'PopupMenu'
