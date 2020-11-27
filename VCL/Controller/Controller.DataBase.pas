@@ -59,7 +59,8 @@ procedure TControllerDataBase.FillTableNames;
     vNodeTitulo: TTreeNode;
   begin
     vNodeTitulo := FView.TreeViewTabelas.Items.AddChild(ANode, 'Triggers');
-    FView.TreeViewTabelas.Items.AddChild(vNodeTitulo, 'Não implementado ainda');
+    vNodeTitulo.ImageIndex := 3;
+    FView.TreeViewTabelas.Items.AddChild(vNodeTitulo, 'Não implementado ainda').ImageIndex := 3;
   end;
 
   procedure FillContraints(const ANode: TTreeNode; const ATableName: string);
@@ -67,7 +68,8 @@ procedure TControllerDataBase.FillTableNames;
     vNodeTitulo: TTreeNode;
   begin
     vNodeTitulo := FView.TreeViewTabelas.Items.AddChild(ANode, 'Constraints');
-    FView.TreeViewTabelas.Items.AddChild(vNodeTitulo, 'Não implementado ainda');
+    vNodeTitulo.ImageIndex := 1;
+    FView.TreeViewTabelas.Items.AddChild(vNodeTitulo, 'Não implementado ainda').ImageIndex := 1;
   end;
 
   procedure FillFields(const ANode: TTreeNode; const ATableName: string);
@@ -77,12 +79,13 @@ procedure TControllerDataBase.FillTableNames;
     vField: string;
   begin
     vNodeTitulo := FView.TreeViewTabelas.Items.AddChild(ANode, 'Fields');
+    vNodeTitulo.ImageIndex := 4;
     vFields := TStringList.Create;
     try
       FConnection.GetConnection.GetFieldNames('','', ATableName, '', vFields);
       for vField in vFields do
       begin
-        FView.TreeViewTabelas.Items.AddChild(vNodeTitulo, vField);
+        FView.TreeViewTabelas.Items.AddChild(vNodeTitulo, vField).ImageIndex := 4;;
       end;
     finally
       vFields.Free;
@@ -105,6 +108,8 @@ begin
       for vTable in vList do
       begin
         vNode := FView.TreeViewTabelas.Items.Add(nil, vTable);
+        vNode.ImageIndex := 0;
+
         FillFields(vNode, vTable);
         FillTriggers(vNode, vTable);
         FillContraints(vNode, vTable);

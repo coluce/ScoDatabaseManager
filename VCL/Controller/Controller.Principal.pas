@@ -144,6 +144,7 @@ procedure TControllerPrincipal.FillList;
       while not FModelDataBase.DataSet.Eof do
       begin
         vItem := FView.TreeView1.Items.AddChild(ATreeNode, FModelDataBase.DataSet.FieldByName('NAME').AsString);
+        vItem.ImageIndex := 1;
 
         FDatabases.Add(
           vItem,
@@ -176,6 +177,8 @@ begin
     while not FModelServer.DataSet.Eof do
     begin
       vItem := FView.TreeView1.Items.Add(nil, FModelServer.DataSet.FieldByName('IP').AsString + ' | ' + FModelServer.DataSet.FieldByName('NAME').AsString);
+      vItem.ImageIndex := 0;
+
       FServers.Add(
         vItem,
         TServer.Create(

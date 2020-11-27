@@ -4,7 +4,8 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.Menus;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.Menus,
+  System.ImageList, Vcl.ImgList;
 
 type
   TViewPrincipal = class(TForm)
@@ -16,6 +17,7 @@ type
     Editar1: TMenuItem;
     Deletar1: TMenuItem;
     NovoBanco1: TMenuItem;
+    ImageList1: TImageList;
     procedure FormCreate(Sender: TObject);
     procedure btnNovoClick(Sender: TObject);
     procedure TreeView1DblClick(Sender: TObject);
