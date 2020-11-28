@@ -34,6 +34,12 @@ type
     procedure ExportToDrive;
   end;
 
+  IControllerParam = interface
+    ['{D8D428EE-DAE2-4D0E-B987-90F7604B0DC1}']
+    function GetParam(const ASession, AKey, ADefault: string): string;
+    procedure SetParam(const ASession, AKey, AValue: string);
+  end;
+
 implementation
 
 end.

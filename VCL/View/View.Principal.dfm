@@ -20,7 +20,15 @@ object ViewPrincipal: TViewPrincipal
     Top = 433
     Width = 246
     Height = 19
-    Panels = <>
+    Panels = <
+      item
+        Text = '127.0.0.1'
+        Width = 80
+      end
+      item
+        Text = 'defaul path'
+        Width = 50
+      end>
   end
   object Panel1: TPanel
     Left = 0

@@ -61,7 +61,6 @@ object ViewLayout: TViewLayout
       Width = 240
       Height = 27
       DataSource = DataSource1
-      VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbDelete, nbEdit, nbPost, nbCancel, nbRefresh, nbApplyUpdates, nbCancelUpdates]
       Align = alLeft
       TabOrder = 0
     end

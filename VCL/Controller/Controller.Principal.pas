@@ -16,6 +16,8 @@ type
     FServers: TDictionary<TTreeNode, TServer>;
     FDatabases: TDictionary<TTreeNode, TDataBase>;
 
+    procedure SetStatusBar(const AServer, APath: string);
+
   public
     constructor Create(const AView: TViewPrincipal);
     destructor Destroy; override;
@@ -85,6 +87,12 @@ begin
   FModelServer.ApplyUpdates;
 end;
 
+procedure TControllerPrincipal.SetStatusBar(const AServer, APath: string);
+begin
+  FView.StatusBar1.Panels[0].Text := AServer;
+  FView.StatusBar1.Panels[1].Text := APath;
+end;
+
 procedure TControllerPrincipal.ShowDataBase(const ATreeNode: TTreeNode);
 var
   vDataBase: TDataBase;
@@ -146,12 +154,24 @@ begin
 end;
 
 procedure TControllerPrincipal.FillList;
+
+  function GetLastID: string;
+  var
+    vControllerParam: IControllerParam;
+  begin
+    vControllerParam := TControllerFactory.Param;
+    Result := vControllerParam.GetParam('INI', 'LAST_IN', EmptyStr);
+  end;
+
   procedure AddDataBasesToTree(const ATreeNode: TTreeNode);
   var
     vServer: TServer;
     vNode: TTreeNode;
     vItem: TTreeNode;
+    vLastID: string;
   begin
+    vLastID := GetLastID;
+
     if FServers.TryGetValue(ATreeNode, vServer) then
     begin
       FModelDataBase.Open('ID_SERVER = ' + QuotedStr(vServer.ID));
@@ -159,6 +179,11 @@ procedure TControllerPrincipal.FillList;
       begin
         vItem := FView.TreeView1.Items.AddChild(ATreeNode, FModelDataBase.DataSet.FieldByName('NAME').AsString);
         vItem.ImageIndex := 1;
+
+        if vLastID.Equals(FModelDataBase.DataSet.FieldByName('ID').AsString) then
+        begin
+          SetStatusBar(vServer.IP, FModelDataBase.DataSet.FieldByName('PATH').AsString);
+        end;
 
         FDatabases.Add(
           vItem,
@@ -176,6 +201,7 @@ procedure TControllerPrincipal.FillList;
       end;
     end;
   end;
+
 var
   vItem: TTreeNode;
 begin

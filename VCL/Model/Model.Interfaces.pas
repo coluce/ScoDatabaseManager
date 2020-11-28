@@ -3,7 +3,7 @@ unit Model.Interfaces;
 interface
 
 uses
-  FireDAC.Comp.Client, System.Classes, Data.DB;
+  FireDAC.Comp.Client, System.Classes, Data.DB, Model.Types;
 
 type
 
@@ -29,6 +29,8 @@ type
 
     function ApplyUpdates: boolean;
     procedure Open(const AWhere: string = '');
+    procedure Find(const AID: string); overload;
+    procedure Find(AParams: TArray<TTableParam>); overload;
     function Delete(const AID: string): boolean;
 
     function GetDataSet: TDataSet;

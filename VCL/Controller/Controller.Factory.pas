@@ -11,6 +11,7 @@ type
     class function DataBase(const ADataBase: TDataBase): IControllerDataBase;
     class function Layout: IControllerLayout;
     class function Exportini(const ADataBase: TDataBase): IControllerIni;
+    class function Param: IControllerParam;
   end;
 
 implementation
@@ -18,7 +19,8 @@ implementation
 uses
   Controller.DataBase,
   Controller.Layout,
-  Controller.Ini;
+  Controller.Ini,
+  Controller.Param;
 
 { TControllerFactory }
 
@@ -35,6 +37,11 @@ end;
 class function TControllerFactory.Layout: IControllerLayout;
 begin
   Result := TControllerLayout.Create;
+end;
+
+class function TControllerFactory.Param: IControllerParam;
+begin
+  Result := TControllerParam.Create;
 end;
 
 end.

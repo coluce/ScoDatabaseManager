@@ -24,6 +24,12 @@ type
     constructor Create(const AID, AName, APath, AUserName, APassword: string; AServer: TServer);
   end;
 
+  TTableParam = record
+    FieldName: string;
+    FieldValue: string;
+    constructor Create(const AFieldName, AFieldValue: string);
+  end;
+
 var
   ConnectionType: TModelConnectionType;
 
@@ -48,6 +54,14 @@ begin
   Self.UserName := AUserName;
   Self.Password := APassword;
   Self.Server := AServer;
+end;
+
+{ TTableParam }
+
+constructor TTableParam.Create(const AFieldName, AFieldValue: string);
+begin
+  Self.FieldName := AFieldName;
+  Self.FieldValue := AFieldValue;
 end;
 
 end.
