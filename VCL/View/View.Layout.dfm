@@ -4,7 +4,7 @@ object ViewLayout: TViewLayout
   Caption = 'Layout'
   ClientHeight = 456
   ClientWidth = 578
-  Color = clBtnFace
+  Color = clWhite
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -64,9 +64,6 @@ object ViewLayout: TViewLayout
       VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbDelete, nbEdit, nbPost, nbCancel, nbRefresh, nbApplyUpdates, nbCancelUpdates]
       Align = alLeft
       TabOrder = 0
-      ExplicitLeft = 8
-      ExplicitTop = 8
-      ExplicitHeight = 25
     end
   end
   object StatusBar1: TStatusBar
@@ -75,9 +72,6 @@ object ViewLayout: TViewLayout
     Width = 578
     Height = 19
     Panels = <>
-    ExplicitLeft = 88
-    ExplicitTop = 440
-    ExplicitWidth = 0
   end
   object Panel2: TPanel
     Left = 154
@@ -87,10 +81,6 @@ object ViewLayout: TViewLayout
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 3
-    ExplicitLeft = 296
-    ExplicitTop = 112
-    ExplicitWidth = 185
-    ExplicitHeight = 41
     DesignSize = (
       424
       404)

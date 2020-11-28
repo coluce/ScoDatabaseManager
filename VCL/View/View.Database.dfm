@@ -15,9 +15,9 @@ object ViewDatabase: TViewDatabase
   PixelsPerInch = 96
   TextHeight = 13
   object Splitter1: TSplitter
-    Left = 143
-    Top = 41
-    Height = 341
+    Left = 185
+    Top = 0
+    Height = 382
     ExplicitLeft = 232
     ExplicitTop = 192
     ExplicitHeight = 100
@@ -35,58 +35,22 @@ object ViewDatabase: TViewDatabase
         Width = 50
       end>
   end
-  object Panel1: TPanel
-    Left = 0
-    Top = 0
-    Width = 632
-    Height = 41
-    Align = alTop
-    BevelOuter = bvNone
-    TabOrder = 1
-    object ToggleSwitch1: TToggleSwitch
-      AlignWithMargins = True
-      Left = 5
-      Top = 3
-      Width = 124
-      Height = 35
-      Margins.Left = 5
-      Margins.Right = 5
-      Align = alLeft
-      StateCaptions.CaptionOn = 'Conectado'
-      StateCaptions.CaptionOff = 'Desconectado'
-      TabOrder = 0
-      OnClick = ToggleSwitch1Click
-      ExplicitLeft = 3
-      ExplicitHeight = 20
-    end
-  end
-  object TreeViewTabelas: TTreeView
-    AlignWithMargins = True
-    Left = 3
-    Top = 44
-    Width = 137
-    Height = 335
-    Align = alLeft
-    BevelInner = bvNone
-    BevelOuter = bvNone
-    BorderStyle = bsNone
-    Images = ImageListTabelas
-    Indent = 27
-    TabOrder = 2
-    OnDblClick = TreeViewTabelasDblClick
-  end
   object Panel2: TPanel
-    Left = 146
-    Top = 41
-    Width = 486
-    Height = 341
+    Left = 188
+    Top = 0
+    Width = 444
+    Height = 382
     Align = alClient
     BevelOuter = bvNone
-    TabOrder = 3
+    TabOrder = 1
+    ExplicitLeft = 146
+    ExplicitTop = 41
+    ExplicitWidth = 486
+    ExplicitHeight = 341
     object Splitter2: TSplitter
       Left = 0
       Top = 207
-      Width = 486
+      Width = 444
       Height = 3
       Cursor = crVSplit
       Align = alTop
@@ -97,25 +61,31 @@ object ViewDatabase: TViewDatabase
       AlignWithMargins = True
       Left = 3
       Top = 213
-      Width = 480
-      Height = 125
+      Width = 438
+      Height = 166
       Align = alClient
       TabOrder = 0
+      ExplicitWidth = 480
+      ExplicitHeight = 125
       object PageControl1: TPageControl
         Left = 1
         Top = 1
-        Width = 478
-        Height = 123
+        Width = 436
+        Height = 164
         ActivePage = TabSheet1
         Align = alClient
         TabOrder = 0
+        ExplicitWidth = 478
+        ExplicitHeight = 123
         object TabSheet1: TTabSheet
           Caption = 'Dataset'
+          ExplicitWidth = 470
+          ExplicitHeight = 95
           object GridResultado: TDBGrid
             Left = 0
             Top = 32
-            Width = 470
-            Height = 63
+            Width = 428
+            Height = 104
             Align = alClient
             BorderStyle = bsNone
             DataSource = DataSource1
@@ -129,11 +99,12 @@ object ViewDatabase: TViewDatabase
           object Panel5: TPanel
             Left = 0
             Top = 0
-            Width = 470
+            Width = 428
             Height = 32
             Align = alTop
             BevelOuter = bvNone
             TabOrder = 1
+            ExplicitWidth = 470
             object DBNavigator1: TDBNavigator
               AlignWithMargins = True
               Left = 3
@@ -150,13 +121,17 @@ object ViewDatabase: TViewDatabase
         object TabSheet2: TTabSheet
           Caption = 'Log'
           ImageIndex = 1
+          ExplicitWidth = 470
+          ExplicitHeight = 95
           object MemoLog: TMemo
             Left = 0
             Top = 0
-            Width = 470
-            Height = 95
+            Width = 428
+            Height = 136
             Align = alClient
             TabOrder = 0
+            ExplicitWidth = 470
+            ExplicitHeight = 95
           end
         end
       end
@@ -165,21 +140,23 @@ object ViewDatabase: TViewDatabase
       AlignWithMargins = True
       Left = 3
       Top = 3
-      Width = 480
+      Width = 438
       Height = 201
       Align = alTop
       BevelOuter = bvNone
       TabOrder = 1
+      ExplicitWidth = 480
       object ToolBar2: TToolBar
         Left = 0
         Top = 0
-        Width = 480
+        Width = 438
         Height = 29
         ButtonHeight = 30
         ButtonWidth = 31
         Caption = 'ToolBar2'
         Images = ImageListQuery
         TabOrder = 0
+        ExplicitWidth = 480
         object ToolButton1: TToolButton
           Left = 0
           Top = 0
@@ -189,7 +166,7 @@ object ViewDatabase: TViewDatabase
       object MemoQuery: TSynMemo
         Left = 0
         Top = 29
-        Width = 480
+        Width = 438
         Height = 172
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
@@ -198,11 +175,13 @@ object ViewDatabase: TViewDatabase
         Font.Name = 'Courier New'
         Font.Style = []
         TabOrder = 1
+        CodeFolding.GutterShapeSize = 11
         CodeFolding.CollapsedLineColor = clGrayText
         CodeFolding.FolderBarLinesColor = clGrayText
-        CodeFolding.ShowCollapsedLine = True
         CodeFolding.IndentGuidesColor = clGray
         CodeFolding.IndentGuides = True
+        CodeFolding.ShowCollapsedLine = True
+        CodeFolding.ShowHintMark = True
         UseCodeFolding = False
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
@@ -218,7 +197,61 @@ object ViewDatabase: TViewDatabase
           'from'
           '  TABELA')
         FontSmoothing = fsmNone
+        ExplicitWidth = 480
       end
+    end
+  end
+  object Panel6: TPanel
+    Left = 0
+    Top = 0
+    Width = 185
+    Height = 382
+    Align = alLeft
+    BevelOuter = bvNone
+    TabOrder = 2
+    ExplicitLeft = 48
+    ExplicitTop = 79
+    ExplicitHeight = 41
+    object Panel1: TPanel
+      Left = 0
+      Top = 0
+      Width = 185
+      Height = 41
+      Align = alTop
+      BevelOuter = bvNone
+      TabOrder = 0
+      ExplicitTop = 8
+      object ToggleSwitch1: TToggleSwitch
+        AlignWithMargins = True
+        Left = 5
+        Top = 3
+        Width = 124
+        Height = 35
+        Margins.Left = 5
+        Margins.Right = 5
+        Align = alLeft
+        StateCaptions.CaptionOn = 'Conectado'
+        StateCaptions.CaptionOff = 'Desconectado'
+        TabOrder = 0
+        OnClick = ToggleSwitch1Click
+        ExplicitHeight = 20
+      end
+    end
+    object TreeViewTabelas: TTreeView
+      AlignWithMargins = True
+      Left = 3
+      Top = 44
+      Width = 179
+      Height = 335
+      Align = alClient
+      BevelInner = bvNone
+      BevelOuter = bvNone
+      BorderStyle = bsNone
+      Images = ImageListTabelas
+      Indent = 27
+      TabOrder = 1
+      OnDblClick = TreeViewTabelasDblClick
+      ExplicitWidth = 137
     end
   end
   object SynSQLSyn1: TSynSQLSyn

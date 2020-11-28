@@ -12,8 +12,6 @@ uses
 type
   TViewDatabase = class(TForm)
     StatusBar1: TStatusBar;
-    Panel1: TPanel;
-    TreeViewTabelas: TTreeView;
     Splitter1: TSplitter;
     Panel2: TPanel;
     Panel3: TPanel;
@@ -29,7 +27,6 @@ type
     MemoLog: TMemo;
     DBNavigator1: TDBNavigator;
     Panel5: TPanel;
-    ToggleSwitch1: TToggleSwitch;
     FDQuery1: TFDQuery;
     DataSource1: TDataSource;
     ImageListTabelas: TImageList;
@@ -37,6 +34,10 @@ type
     ActionListQuery: TActionList;
     acnQueryExecutar: TAction;
     ToolButton1: TToolButton;
+    Panel6: TPanel;
+    Panel1: TPanel;
+    ToggleSwitch1: TToggleSwitch;
+    TreeViewTabelas: TTreeView;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ToggleSwitch1Click(Sender: TObject);
     procedure TreeViewTabelasDblClick(Sender: TObject);
