@@ -53,7 +53,8 @@ begin
 
   vControllerParam := TControllerFactory.Param;
   vControllerParam.SetParam('INI', 'DEFAULT_PATH', ExtractFilePath(FView.edtLocalDestino.Text));
-  vControllerParam.SetParam('INI','DEFAULT_FILE_NAME', ExtractFileName(FView.edtLocalDestino.Text));
+  vControllerParam.SetParam('INI', 'DEFAULT_FILE_NAME', ExtractFileName(FView.edtLocalDestino.Text));
+  vControllerParam.SetParam('INI', 'LAST_ID', FModelLayout.DataSet.FieldByName('ID').AsString);
   FView.SynMemo1.Lines.SaveToFile(FView.edtLocalDestino.Text);
 end;
 
@@ -68,8 +69,6 @@ begin
   begin
     if FModelLayout.DataSet.RecNo = (FView.ComboBoxLayout.ItemIndex + 1) then
     begin
-      vControllerParam := TControllerFactory.Param;
-      vControllerParam.SetParam('INI', 'LAST_ID', FModelLayout.DataSet.FieldByName('ID').AsString);
       FView.SynMemo1.Lines.Add(FModelLayout.DataSet.FieldByName('LAYOUT').AsString);
       FView.SynMemo1.Text := FView.SynMemo1.Text.Replace('#server',FDatabase.Server.IP, [rfReplaceAll, rfIgnoreCase]);
       FView.SynMemo1.Text := FView.SynMemo1.Text.Replace('#database',FDatabase.Path, [rfReplaceAll, rfIgnoreCase]);

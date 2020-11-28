@@ -2,8 +2,8 @@ object ViewPrincipal: TViewPrincipal
   Left = 0
   Top = 0
   Caption = 'DataBase Manager'
-  ClientHeight = 452
-  ClientWidth = 246
+  ClientHeight = 393
+  ClientWidth = 276
   Color = clWhite
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,8 +17,8 @@ object ViewPrincipal: TViewPrincipal
   TextHeight = 13
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 433
-    Width = 246
+    Top = 374
+    Width = 276
     Height = 19
     Panels = <
       item
@@ -29,17 +29,20 @@ object ViewPrincipal: TViewPrincipal
         Text = 'defaul path'
         Width = 50
       end>
+    ExplicitTop = 433
+    ExplicitWidth = 246
   end
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 246
+    Width = 276
     Height = 32
     Align = alTop
     BevelOuter = bvNone
     Color = clWhite
     ParentBackground = False
     TabOrder = 1
+    ExplicitWidth = 246
     object SpeedButton1: TSpeedButton
       AlignWithMargins = True
       Left = 3
@@ -70,8 +73,8 @@ object ViewPrincipal: TViewPrincipal
     AlignWithMargins = True
     Left = 3
     Top = 35
-    Width = 240
-    Height = 395
+    Width = 270
+    Height = 336
     Align = alClient
     BevelInner = bvNone
     BevelOuter = bvNone
@@ -88,6 +91,8 @@ object ViewPrincipal: TViewPrincipal
     SortType = stText
     TabOrder = 2
     OnDblClick = TreeView1DblClick
+    ExplicitWidth = 240
+    ExplicitHeight = 395
   end
   object PopupMenuTreeView: TPopupMenu
     Images = ImageListActionList

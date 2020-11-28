@@ -160,7 +160,7 @@ procedure TControllerPrincipal.FillList;
     vControllerParam: IControllerParam;
   begin
     vControllerParam := TControllerFactory.Param;
-    Result := vControllerParam.GetParam('INI', 'LAST_IN', EmptyStr);
+    Result := vControllerParam.GetParam('INI', 'LAST_ID', EmptyStr);
   end;
 
   procedure AddDataBasesToTree(const ATreeNode: TTreeNode);
