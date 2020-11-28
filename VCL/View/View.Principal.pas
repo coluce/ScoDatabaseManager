@@ -40,6 +40,7 @@ type
     procedure acnPopupMenuRegistrarBancoExecute(Sender: TObject);
     procedure acnPopupMenuConectarExecute(Sender: TObject);
     procedure acnPopupMenuExportExecute(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -100,6 +101,11 @@ procedure TViewPrincipal.acnServerNovoExecute(Sender: TObject);
 begin
   ControllerPrincipal.RegisterServer;
   ControllerPrincipal.FillList;
+end;
+
+procedure TViewPrincipal.FormActivate(Sender: TObject);
+begin
+  ControllerPrincipal.FindInUse;
 end;
 
 procedure TViewPrincipal.FormCreate(Sender: TObject);

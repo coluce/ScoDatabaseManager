@@ -55,7 +55,7 @@ begin
   if FModelParam.DataSet.IsEmpty then
   begin
     FModelParam.DataSet.Append;
-    FModelParam.DataSet.FieldByName('SESSION').AsString := AKey;
+    FModelParam.DataSet.FieldByName('SESSION').AsString := ASession;
     FModelParam.DataSet.FieldByName('KEY').AsString := AKey;
   end
   else
@@ -64,7 +64,7 @@ begin
   end;
   FModelParam.DataSet.FieldByName('VALUE').AsString := AValue;
   FModelParam.DataSet.Post;
-  FModelParam.ApplyUpdates;
+  //FModelParam.ApplyUpdates;
 end;
 
 end.

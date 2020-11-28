@@ -12,10 +12,12 @@ type
     FConnection: IModelConnection;
     FQuery: TFDQuery;
     function GetDataSet: TDataSet;
+    procedure DoAfterPost(DataSet: TDataSet);
+    procedure DoOnNewRecord(DataSet: TDataSet);
+    function ApplyUpdates: boolean;
   public
     constructor Create(const ATableName: string);
     destructor Destroy; override;
-    function ApplyUpdates: boolean;
     procedure Open(const AWhere: string = '');
     function Delete(const AID: string): boolean;
     procedure Find(const AID: string); overload;
@@ -43,7 +45,9 @@ begin
   FConnection.Open;
   FQuery := TFDQuery.Create(nil);
   FQuery.Connection := FConnection.GetConnection;
-  FQuery.CachedUpdates := True;
+  //FQuery.CachedUpdates := True;
+  FQuery.AfterPost := DoAfterPost;
+  FQuery.OnNewRecord := DoOnNewRecord;
   FQuery.SQL.Text := 'select * from ' + FTableName;
   FQuery.Open;
 end;
@@ -64,6 +68,19 @@ destructor TModelTable.Destroy;
 begin
   FreeAndNil(FQuery);
   inherited;
+end;
+
+procedure TModelTable.DoAfterPost(DataSet: TDataSet);
+begin
+  //Self.ApplyUpdates;
+end;
+
+procedure TModelTable.DoOnNewRecord(DataSet: TDataSet);
+begin
+  if Assigned(DataSet.FindField('ID')) then
+  begin
+    DataSet.FieldByName('ID').AsString := TGuid.NewGuid.ToString;
+  end;
 end;
 
 procedure TModelTable.Find(AParams: TArray<TTableParam>);

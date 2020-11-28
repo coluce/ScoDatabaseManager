@@ -12,7 +12,6 @@ type
     FModelLayout: IModelTable;
 
     procedure PrepareData;
-    procedure DoOnNewRecord(DataSet: TDataSet);
 
   public
     constructor Create;
@@ -34,18 +33,12 @@ constructor TControllerLayout.Create;
 begin
   FView := TViewLayout.Create(Self);
   FModelLayout := TModelTableFactory.New('TLAYOUT');
-  FModelLayout.DataSet.OnNewRecord := DoOnNewRecord;
 end;
 
 destructor TControllerLayout.Destroy;
 begin
   FView.Free;
   inherited;
-end;
-
-procedure TControllerLayout.DoOnNewRecord(DataSet: TDataSet);
-begin
-  DataSet.FieldByName('ID').AsString := TGuid.NewGuid.ToString;
 end;
 
 procedure TControllerLayout.PrepareData;

@@ -54,7 +54,7 @@ begin
   vControllerParam := TControllerFactory.Param;
   vControllerParam.SetParam('INI', 'DEFAULT_PATH', ExtractFilePath(FView.edtLocalDestino.Text));
   vControllerParam.SetParam('INI', 'DEFAULT_FILE_NAME', ExtractFileName(FView.edtLocalDestino.Text));
-  vControllerParam.SetParam('INI', 'LAST_ID', FModelLayout.DataSet.FieldByName('ID').AsString);
+  vControllerParam.SetParam('INI', 'LAST_ID', FDatabase.ID);
   FView.SynMemo1.Lines.SaveToFile(FView.edtLocalDestino.Text);
 end;
 

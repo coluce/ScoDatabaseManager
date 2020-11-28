@@ -27,7 +27,7 @@ type
   IModelTable = interface
     ['{A7E026BC-0DA0-46DD-9195-0565737059DF}']
 
-    function ApplyUpdates: boolean;
+    //function ApplyUpdates: boolean;
     procedure Open(const AWhere: string = '');
     procedure Find(const AID: string); overload;
     procedure Find(AParams: TArray<TTableParam>); overload;

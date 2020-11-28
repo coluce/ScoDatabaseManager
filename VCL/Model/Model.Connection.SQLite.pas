@@ -49,6 +49,8 @@ end;
 constructor TModelConnectionSQLite.Create;
 begin
   FConection := TFDCustomConnection.Create(nil);
+  FConection.LoginPrompt := False;
+  //FConection.UpdateOptions.AutoCommitUpdates := True;
   FConection.DriverName := 'SQLite';
   FConection.Params.Database := TPath.ChangeExtension(ParamStr(0),'.sqlite');
 end;

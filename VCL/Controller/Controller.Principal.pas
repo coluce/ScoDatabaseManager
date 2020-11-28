@@ -21,6 +21,7 @@ type
   public
     constructor Create(const AView: TViewPrincipal);
     destructor Destroy; override;
+    procedure FindInUse;
     procedure FillList;
     procedure RegisterServer;
     procedure UnregisterServer(const ATreeNode: TTreeNode);
@@ -63,12 +64,10 @@ begin
     vName := InputBox('Database', 'Nome', 'Meu banco');
     vPath := InputBox('Database', 'Local', 'E:\DataBases\[pasta]\');
     FModelDataBase.DataSet.Append;
-    FModelDataBase.DataSet.FieldByName('ID').AsString := TGUID.NewGuid.ToString;
     FModelDataBase.DataSet.FieldByName('ID_SERVER').AsString := vServer.ID;
     FModelDataBase.DataSet.FieldByName('NAME').AsString := vName;
     FModelDataBase.DataSet.FieldByName('PATH').AsString := vPath;
     FModelDataBase.DataSet.Post;
-    FModelDataBase.ApplyUpdates;
   end;
 end;
 
@@ -80,11 +79,9 @@ begin
   vName := InputBox('Novo Server', 'Nome', 'Localhost');
   vIP := InputBox('Novo Server', 'IP', '127.0.0.1');
   FModelServer.DataSet.Append;
-  FModelServer.DataSet.FieldByName('ID').AsString := TGUID.NewGuid.ToString;
   FModelServer.DataSet.FieldByName('NAME').AsString := vName;
   FModelServer.DataSet.FieldByName('IP').AsString := vIP;
   FModelServer.DataSet.Post;
-  FModelServer.ApplyUpdates;
 end;
 
 procedure TControllerPrincipal.SetStatusBar(const AServer, APath: string);
@@ -155,22 +152,12 @@ end;
 
 procedure TControllerPrincipal.FillList;
 
-  function GetLastID: string;
-  var
-    vControllerParam: IControllerParam;
-  begin
-    vControllerParam := TControllerFactory.Param;
-    Result := vControllerParam.GetParam('INI', 'LAST_ID', EmptyStr);
-  end;
-
   procedure AddDataBasesToTree(const ATreeNode: TTreeNode);
   var
     vServer: TServer;
     vNode: TTreeNode;
     vItem: TTreeNode;
-    vLastID: string;
   begin
-    vLastID := GetLastID;
 
     if FServers.TryGetValue(ATreeNode, vServer) then
     begin
@@ -179,11 +166,6 @@ procedure TControllerPrincipal.FillList;
       begin
         vItem := FView.TreeView1.Items.AddChild(ATreeNode, FModelDataBase.DataSet.FieldByName('NAME').AsString);
         vItem.ImageIndex := 1;
-
-        if vLastID.Equals(FModelDataBase.DataSet.FieldByName('ID').AsString) then
-        begin
-          SetStatusBar(vServer.IP, FModelDataBase.DataSet.FieldByName('PATH').AsString);
-        end;
 
         FDatabases.Add(
           vItem,
@@ -234,6 +216,28 @@ begin
     end;
   finally
     FView.TreeView1.Items.EndUpdate;
+  end;
+end;
+
+procedure TControllerPrincipal.FindInUse;
+
+  function GetLastID: string;
+  var
+    vControllerParam: IControllerParam;
+  begin
+    vControllerParam := TControllerFactory.Param;
+    Result := vControllerParam.GetParam('INI', 'LAST_ID', EmptyStr);
+  end;
+
+var
+  vLastID: string;
+begin
+  SetStatusBar(EmptyStr, EmptyStr);
+  vLastID := GetLastID;
+  FModelDataBase.Find(vLastID);
+  if not FModelDataBase.DataSet.IsEmpty then
+  begin
+    SetStatusBar(FModelDataBase.DataSet.FieldByName('NAME').AsString, FModelDataBase.DataSet.FieldByName('PATH').AsString);
   end;
 end;
 
