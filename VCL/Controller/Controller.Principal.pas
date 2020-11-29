@@ -39,7 +39,7 @@ implementation
 
 uses
   Model.Factory, Vcl.Dialogs, System.SysUtils,
-  Controller.Factory;
+  Controller.Factory, View.Server, View.Database.Register, System.UITypes;
 
 { TControllerPrincipal }
 
@@ -56,18 +56,26 @@ procedure TControllerPrincipal.RegisterDatabase(const ATreeNode: TTreeNode);
 var
   vServer: TServer;
   vNode: TTreeNode;
-  vName: string;
-  vPath: string;
+  vView: TViewRegisterDatabase;
 begin
   if FServers.TryGetValue(ATreeNode, vServer) then
   begin
-    vName := InputBox('Database', 'Nome', 'Meu banco');
-    vPath := InputBox('Database', 'Local', 'E:\DataBases\[pasta]\');
-    FModelDataBase.DataSet.Append;
-    FModelDataBase.DataSet.FieldByName('ID_SERVER').AsString := vServer.ID;
-    FModelDataBase.DataSet.FieldByName('NAME').AsString := vName;
-    FModelDataBase.DataSet.FieldByName('PATH').AsString := vPath;
-    FModelDataBase.DataSet.Post;
+    vView := TViewRegisterDatabase.Create(nil);
+    try
+      vView.EditNome.Text := 'Meu banco';
+      vView.EditLocal.Text := 'E:\DataBases\[pasta]\';
+      vView.ShowModal;
+      if vView.Resultado = mrOK then
+      begin
+        FModelDataBase.DataSet.Append;
+        FModelDataBase.DataSet.FieldByName('ID_SERVER').AsString := vServer.ID;
+        FModelDataBase.DataSet.FieldByName('NAME').AsString := vView.EditNome.Text;
+        FModelDataBase.DataSet.FieldByName('PATH').AsString := vView.EditLocal.Text;
+        FModelDataBase.DataSet.Post;
+      end;
+    finally
+
+    end;
   end;
 end;
 
@@ -167,7 +175,7 @@ procedure TControllerPrincipal.FillList;
         vItem := FView.TreeView1.Items.AddChild(ATreeNode, FModelDataBase.DataSet.FieldByName('NAME').AsString);
         vItem.ImageIndex := 1;
 
-        FDatabases.Add(
+        FDatabases.AddOrSetValue(
           vItem,
           TDataBase.Create(
             FModelDataBase.DataSet.FieldByName('ID').AsString,
@@ -191,9 +199,9 @@ begin
   FServers.Clear;
   FServers.TrimExcess;
 
-  FView.TreeView1.Items.Clear;
   FModelServer.Open;
 
+  FView.TreeView1.Items.Clear;
   FView.TreeView1.Items.BeginUpdate;
   try
     while not FModelServer.DataSet.Eof do
@@ -201,7 +209,7 @@ begin
       vItem := FView.TreeView1.Items.Add(nil, FModelServer.DataSet.FieldByName('IP').AsString + ' | ' + FModelServer.DataSet.FieldByName('NAME').AsString);
       vItem.ImageIndex := 0;
 
-      FServers.Add(
+      FServers.AddOrSetValue(
         vItem,
         TServer.Create(
           FModelServer.DataSet.FieldByName('ID').AsString,

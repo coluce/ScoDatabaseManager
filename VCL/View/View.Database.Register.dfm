@@ -80,6 +80,7 @@ inherited ViewRegisterDatabase: TViewRegisterDatabase
       Height = 35
       Align = alRight
       Caption = 'OK'
+      OnClick = SpeedButton1Click
       ExplicitLeft = 352
     end
     object SpeedButton2: TSpeedButton
@@ -90,6 +91,7 @@ inherited ViewRegisterDatabase: TViewRegisterDatabase
       Height = 35
       Align = alRight
       Caption = 'Cancelar'
+      OnClick = SpeedButton2Click
       ExplicitLeft = 352
     end
   end
