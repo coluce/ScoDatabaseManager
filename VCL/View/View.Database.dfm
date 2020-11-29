@@ -94,6 +94,24 @@ object ViewDatabase: TViewDatabase
             Align = alTop
             BevelOuter = bvNone
             TabOrder = 1
+            object SpeedButton1: TSpeedButton
+              AlignWithMargins = True
+              Left = 249
+              Top = 3
+              Width = 50
+              Height = 26
+              Action = acnDataSetExportar
+              Align = alLeft
+            end
+            object SpeedButton2: TSpeedButton
+              AlignWithMargins = True
+              Left = 305
+              Top = 3
+              Width = 50
+              Height = 26
+              Action = acnDataSetImportar
+              Align = alLeft
+            end
             object DBNavigator1: TDBNavigator
               AlignWithMargins = True
               Left = 3
@@ -110,10 +128,6 @@ object ViewDatabase: TViewDatabase
         object TabSheet2: TTabSheet
           Caption = 'Log'
           ImageIndex = 1
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object MemoLog: TMemo
             Left = 0
             Top = 0
@@ -1193,6 +1207,12 @@ object ViewDatabase: TViewDatabase
       ImageIndex = 0
       ShortCut = 16453
       OnExecute = acnQueryExecutarExecute
+    end
+    object acnDataSetExportar: TAction
+      Caption = 'Exportar'
+    end
+    object acnDataSetImportar: TAction
+      Caption = 'Importar'
     end
   end
 end
