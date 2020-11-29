@@ -8,9 +8,12 @@ uses
 
 type
   TViewDefault = class(TForm)
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
-  Protected
+  protected
     FControllerWindow: IControllerWindow;
   public
     { Public declarations }
@@ -18,6 +21,24 @@ type
 
 implementation
 
+uses
+  Controller.Factory;
+
 {$R *.dfm}
+
+procedure TViewDefault.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  FControllerWindow.SavePosition;
+end;
+
+procedure TViewDefault.FormCreate(Sender: TObject);
+begin
+  FControllerWindow := TControllerFactory.Window(Self);
+end;
+
+procedure TViewDefault.FormShow(Sender: TObject);
+begin
+  FControllerWindow.RestorePosition;
+end;
 
 end.

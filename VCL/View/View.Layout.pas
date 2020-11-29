@@ -45,6 +45,7 @@ end;
 
 procedure TViewLayout.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+  inherited;
   {liberar da memoria esta instancia de interface, se não fica presa nesta tela, e quem destroi esta tela é a interface ao ser destruida}
   FController._Release;
 end;

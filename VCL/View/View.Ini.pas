@@ -71,6 +71,7 @@ end;
 
 procedure TViewIni.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+  inherited;
   FController._Release;
 end;
 

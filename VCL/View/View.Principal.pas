@@ -57,7 +57,7 @@ var
 implementation
 
 uses
-  Controller.Factory, Controller.Factory;
+  Controller.Factory;
 
 {$R *.dfm}
 

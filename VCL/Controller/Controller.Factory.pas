@@ -23,7 +23,8 @@ uses
   Controller.DataBase,
   Controller.Layout,
   Controller.Ini,
-  Controller.Param;
+  Controller.Param,
+  Controller.Window;
 
 { TControllerFactory }
 
@@ -55,7 +56,7 @@ end;
 
 class function TControllerFactory.Window(const AView: TForm): IControllerWindow;
 begin
-  Result := nil;
+  Result := TControllerWindow.Create(AView);
 end;
 
 end.

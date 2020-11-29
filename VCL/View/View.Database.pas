@@ -69,6 +69,7 @@ end;
 
 procedure TViewDatabase.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+  inherited;
   {FController é o dono desta tela, e é uma interface, este é o unico ponto onde a interface está sendo usada
    se não decrementar o uso da interface ao fechar a tela, não destroi o objeto e não destroi esta tela
   }
