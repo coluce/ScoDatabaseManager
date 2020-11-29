@@ -110,6 +110,10 @@ object ViewDatabase: TViewDatabase
         object TabSheet2: TTabSheet
           Caption = 'Log'
           ImageIndex = 1
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object MemoLog: TMemo
             Left = 0
             Top = 0
@@ -141,9 +145,12 @@ object ViewDatabase: TViewDatabase
         Images = ImageListQuery
         TabOrder = 0
         object ToolButton1: TToolButton
+          AlignWithMargins = True
           Left = 0
           Top = 0
           Action = acnQueryExecutar
+          ParentShowHint = False
+          ShowHint = True
         end
       end
       object MemoQuery: TSynMemo
@@ -208,9 +215,11 @@ object ViewDatabase: TViewDatabase
         Margins.Left = 5
         Margins.Right = 5
         Align = alLeft
+        FrameColor = clMenuText
         StateCaptions.CaptionOn = 'Conectado'
         StateCaptions.CaptionOff = 'Desconectado'
         TabOrder = 0
+        ThumbColor = clRed
         OnClick = ToggleSwitch1Click
         ExplicitHeight = 20
       end
@@ -1180,7 +1189,9 @@ object ViewDatabase: TViewDatabase
     Top = 148
     object acnQueryExecutar: TAction
       Caption = 'Executar'
+      Hint = 'Executar comando SQL'
       ImageIndex = 0
+      ShortCut = 16453
       OnExecute = acnQueryExecutarExecute
     end
   end

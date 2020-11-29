@@ -12,8 +12,9 @@ object ViewPrincipal: TViewPrincipal
   Font.Style = []
   OldCreateOrder = False
   OnActivate = FormActivate
+  OnClose = FormClose
   OnCreate = FormCreate
-  OnDestroy = FormDestroy
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object StatusBar1: TStatusBar
@@ -30,8 +31,6 @@ object ViewPrincipal: TViewPrincipal
         Text = 'defaul path'
         Width = 50
       end>
-    ExplicitTop = 433
-    ExplicitWidth = 246
   end
   object Panel1: TPanel
     Left = 0
@@ -43,7 +42,6 @@ object ViewPrincipal: TViewPrincipal
     Color = clWhite
     ParentBackground = False
     TabOrder = 1
-    ExplicitWidth = 246
     object SpeedButton1: TSpeedButton
       AlignWithMargins = True
       Left = 3
@@ -53,6 +51,8 @@ object ViewPrincipal: TViewPrincipal
       Action = acnServerNovo
       Align = alLeft
       Flat = True
+      ParentShowHint = False
+      ShowHint = True
       ExplicitLeft = 104
       ExplicitTop = 8
       ExplicitHeight = 22
@@ -66,6 +66,8 @@ object ViewPrincipal: TViewPrincipal
       Action = acnCadastroLayouts
       Align = alLeft
       Flat = True
+      ParentShowHint = False
+      ShowHint = True
       ExplicitLeft = 75
       ExplicitTop = 0
     end
@@ -92,8 +94,6 @@ object ViewPrincipal: TViewPrincipal
     SortType = stText
     TabOrder = 2
     OnDblClick = TreeView1DblClick
-    ExplicitWidth = 240
-    ExplicitHeight = 395
   end
   object PopupMenuTreeView: TPopupMenu
     Images = ImageListActionList
@@ -436,11 +436,13 @@ object ViewPrincipal: TViewPrincipal
     Top = 96
     object acnServerNovo: TAction
       Category = 'ToolBar'
+      Hint = 'Registrar novo servidor'
       ImageIndex = 0
       OnExecute = acnServerNovoExecute
     end
     object acnCadastroLayouts: TAction
       Category = 'ToolBar'
+      Hint = 'Cadastro de layouts de arquivos ini'
       ImageIndex = 1
       OnExecute = acnCadastroLayoutsExecute
     end

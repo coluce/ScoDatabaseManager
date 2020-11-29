@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.Menus,
-  System.ImageList, Vcl.ImgList, System.Actions, Vcl.ActnList, Vcl.Buttons;
+  System.ImageList, Vcl.ImgList, System.Actions, Vcl.ActnList, Vcl.Buttons,
+  Controller.Interfaces;
 
 type
   TViewPrincipal = class(TForm)
@@ -33,7 +34,6 @@ type
     procedure FormCreate(Sender: TObject);
     procedure TreeView1DblClick(Sender: TObject);
     procedure PopupMenuTreeViewPopup(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
     procedure acnServerNovoExecute(Sender: TObject);
     procedure acnCadastroLayoutsExecute(Sender: TObject);
     procedure acnPopupMenuExcluirExecute(Sender: TObject);
@@ -41,8 +41,12 @@ type
     procedure acnPopupMenuConectarExecute(Sender: TObject);
     procedure acnPopupMenuExportExecute(Sender: TObject);
     procedure FormActivate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
+    FControllerPrincipal: IControllerPrincipal;
+    FControllerWindow: IControllerWindow;
   public
     { Public declarations }
   end;
@@ -53,20 +57,20 @@ var
 implementation
 
 uses
-  Controller.Principal;
+  Controller.Factory, Controller.Factory;
 
 {$R *.dfm}
 
 procedure TViewPrincipal.acnCadastroLayoutsExecute(Sender: TObject);
 begin
-  ControllerPrincipal.IrParaCadastroLayout;
+  FControllerPrincipal.IrParaCadastroLayout;
 end;
 
 procedure TViewPrincipal.acnPopupMenuConectarExecute(Sender: TObject);
 begin
   if TreeView1.Selected.Level = 1 then
   begin
-    ControllerPrincipal.ShowDataBase(TreeView1.Selected);
+    FControllerPrincipal.ShowDataBase(TreeView1.Selected);
   end;
 end;
 
@@ -74,49 +78,57 @@ procedure TViewPrincipal.acnPopupMenuExcluirExecute(Sender: TObject);
 begin
   if TreeView1.Selected.Level = 0 then
   begin
-    ControllerPrincipal.UnregisterServer(TreeView1.Selected);
+    FControllerPrincipal.UnregisterServer(TreeView1.Selected);
   end
   else
   begin
-    ControllerPrincipal.UnregisterDataBase(TreeView1.Selected);
+    FControllerPrincipal.UnregisterDataBase(TreeView1.Selected);
   end;
-  ControllerPrincipal.FillList;
+  FControllerPrincipal.FillList;
 end;
 
 procedure TViewPrincipal.acnPopupMenuExportExecute(Sender: TObject);
 begin
-  ControllerPrincipal.ExportToDrive(Self.TreeView1.Selected);
+  FControllerPrincipal.ExportToDrive(Self.TreeView1.Selected);
 end;
 
 procedure TViewPrincipal.acnPopupMenuRegistrarBancoExecute(Sender: TObject);
 begin
   if TreeView1.Selected.Level = 0 then
   begin
-    ControllerPrincipal.RegisterDataBase(TreeView1.Selected);
-    ControllerPrincipal.FillList;
+    FControllerPrincipal.RegisterDataBase(TreeView1.Selected);
+    FControllerPrincipal.FillList;
   end;
 end;
 
 procedure TViewPrincipal.acnServerNovoExecute(Sender: TObject);
 begin
-  ControllerPrincipal.RegisterServer;
-  ControllerPrincipal.FillList;
+  FControllerPrincipal.RegisterServer;
+  FControllerPrincipal.FillList;
 end;
 
 procedure TViewPrincipal.FormActivate(Sender: TObject);
 begin
-  ControllerPrincipal.FindInUse;
+  FControllerPrincipal.FindInUse;
+end;
+
+procedure TViewPrincipal.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  FControllerWindow.SavePosition;
 end;
 
 procedure TViewPrincipal.FormCreate(Sender: TObject);
 begin
-  ControllerPrincipal := TControllerPrincipal.Create(Self);
-  ControllerPrincipal.FillList;
+  FControllerPrincipal := TControllerFactory.Principal(Self);
+  FControllerPrincipal.FillList;
+
+  FControllerWindow :=  TControllerFactory.Window(Self);
+
 end;
 
-procedure TViewPrincipal.FormDestroy(Sender: TObject);
+procedure TViewPrincipal.FormShow(Sender: TObject);
 begin
-  ControllerPrincipal.Free;
+  FControllerWindow.RestorePosition;
 end;
 
 procedure TViewPrincipal.PopupMenuTreeViewPopup(Sender: TObject);

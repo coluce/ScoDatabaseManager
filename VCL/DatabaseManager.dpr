@@ -20,7 +20,8 @@ uses
   Controller.Layout in 'Controller\Controller.Layout.pas',
   View.Ini in 'View\View.Ini.pas' {ViewIni},
   Controller.Ini in 'Controller\Controller.Ini.pas',
-  Controller.Param in 'Controller\Controller.Param.pas';
+  Controller.Param in 'Controller\Controller.Param.pas',
+  View.Default in 'View\View.Default.pas' {ViewDefault};
 
 {$R *.res}
 
@@ -38,6 +39,5 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TViewPrincipal, ViewPrincipal);
-  Application.CreateForm(TViewIni, ViewIni);
   Application.Run;
 end.

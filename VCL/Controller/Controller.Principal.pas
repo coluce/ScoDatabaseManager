@@ -4,10 +4,10 @@ interface
 
 uses
   View.Principal, Model.Interfaces, Model.Types, System.Generics.Collections,
-  Vcl.ComCtrls;
+  Vcl.ComCtrls, Controller.Interfaces;
 
 type
-  TControllerPrincipal = class
+  TControllerPrincipal = class(TInterfacedObject, IControllerPrincipal)
   private
     FView: TViewPrincipal;
     FModelServer: IModelTable;

@@ -64,7 +64,6 @@ begin
   end;
   FModelParam.DataSet.FieldByName('VALUE').AsString := AValue;
   FModelParam.DataSet.Post;
-  //FModelParam.ApplyUpdates;
 end;
 
 end.

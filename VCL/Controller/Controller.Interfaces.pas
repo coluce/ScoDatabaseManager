@@ -2,6 +2,9 @@ unit Controller.Interfaces;
 
 interface
 
+uses
+  Vcl.ComCtrls;
+
 type
 
   IController = interface
@@ -12,11 +15,33 @@ type
 
   end;
 
+  IControllerPrincipal = interface
+    ['{48937CC1-ECF8-473C-B155-5F0B9B3D635C}']
+    procedure FindInUse;
+    procedure FillList;
+    procedure RegisterServer;
+    procedure UnregisterServer(const ATreeNode: TTreeNode);
+    procedure RegisterDatabase(const ATreeNode: TTreeNode);
+    procedure UnregisterDataBase(const ATreeNode: TTreeNode);
+    procedure ShowDataBase(const ATreeNode: TTreeNode);
+    procedure ExportToDrive(const ATreeNode: TTreeNode);
+    procedure IrParaCadastroLayout;
+  end;
+
+  IControllerWindow = interface
+    ['{4E0E7316-5456-4977-A5DB-2B5D93100D48}']
+    procedure SavePosition;
+    procedure RestorePosition;
+  end;
+
   IControllerDataBase = interface(IController)
     ['{C870051D-3F20-4A0F-9023-37FEA157BF87}']
 
     procedure FillTableNames;
-    procedure ExecuteQuery(const ASQL: string);
+    procedure UpdateToogleColor;
+    procedure ToogleSwitchClick;
+    procedure FillSQLFromTreeView;
+    procedure ExecuteQuery;
 
     function GetConnected: boolean;
     procedure SetConnected(const Value: boolean);

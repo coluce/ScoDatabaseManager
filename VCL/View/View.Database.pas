@@ -6,10 +6,10 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.ComCtrls, Data.DB, SynEdit, SynMemo, Vcl.Grids, Vcl.DBGrids, Vcl.ToolWin, SynEditHighlighter,
   SynHighlighterSQL, Model.Types, Controller.Interfaces, Vcl.StdCtrls, Vcl.DBCtrls, Vcl.WinXCtrls,
-  System.ImageList, Vcl.ImgList, System.Actions, Vcl.ActnList;
+  System.ImageList, Vcl.ImgList, System.Actions, Vcl.ActnList, View.Default;
 
 type
-  TViewDatabase = class(TForm)
+  TViewDatabase = class(TViewDefault)
     StatusBar1: TStatusBar;
     Splitter1: TSplitter;
     Panel2: TPanel;
@@ -43,14 +43,11 @@ type
   private
     { Private declarations }
     FController: IControllerDataBase;
-    FDatabase: TDataBase;
-    procedure SetDataBase(const Value: TDataBase);
   public
     { Public declarations }
     constructor Create(const AController: IControllerDatabase); reintroduce;
   published
     { Published declarations }
-    property DataBase: TDataBase read FDataBase write SetDataBase;
   end;
 
 implementation
@@ -60,17 +57,8 @@ implementation
 { TViewDatabase }
 
 procedure TViewDatabase.acnQueryExecutarExecute(Sender: TObject);
-var
-  vQuery: string;
 begin
-  vQuery := MemoQuery.SelText.Trim;
-
-  if vQuery.IsEmpty then
-  begin
-    vQuery := MemoQuery.Text;
-  end;
-
-  FController.ExecuteQuery(vQuery);
+  FController.ExecuteQuery;
 end;
 
 constructor TViewDatabase.Create(const AController: IControllerDatabase);
@@ -87,31 +75,14 @@ begin
   FController._Release;
 end;
 
-procedure TViewDatabase.SetDataBase(const Value: TDataBase);
-begin
-  FDataBase := Value;
-  Self.Caption := FDatabase.Name;
-end;
-
 procedure TViewDatabase.ToggleSwitch1Click(Sender: TObject);
 begin
-  FController.Connected := ToggleSwitch1.IsOn;
-  if FController.Connected then
-  begin
-    FController.FillTableNames;
-  end;
+  FController.ToogleSwitchClick;
 end;
 
 procedure TViewDatabase.TreeViewTabelasDblClick(Sender: TObject);
 begin
-  if TreeViewTabelas.Selected.Level = 0 then
-  begin
-    MemoQuery.Clear;
-    MemoQuery.Lines.Add('select');
-    MemoQuery.Lines.Add('  *');
-    MemoQuery.Lines.Add('from');
-    MemoQuery.Lines.Add('  ' + TreeViewTabelas.Selected.Text);
-  end;
+  FController.FillSQLFromTreeView;
 end;
 
 end.

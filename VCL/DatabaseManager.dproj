@@ -129,6 +129,10 @@
         </DCCReference>
         <DCCReference Include="Controller\Controller.Ini.pas"/>
         <DCCReference Include="Controller\Controller.Param.pas"/>
+        <DCCReference Include="View\View.Default.pas">
+            <Form>ViewDefault</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
