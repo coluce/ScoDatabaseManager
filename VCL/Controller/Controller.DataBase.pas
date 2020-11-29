@@ -3,7 +3,11 @@ unit Controller.DataBase;
 interface
 
 uses
-  View.DataBase, Model.Types, Controller.Interfaces, Model.Interfaces;
+  View.DataBase, Model.Types, Controller.Interfaces, Model.Interfaces,
+
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
 
 type
 
@@ -12,11 +16,13 @@ type
     FView: TViewDataBase;
     FDataBase: TDataBase;
     FConnection: IModelConnection;
+    FQuery: TFDQuery;
 
     function GetConnected: boolean;
     procedure SetConnected(const Value: boolean);
 
     procedure UpdateStatusBar;
+    procedure LogAdd(const AMessage: string);
 
   public
     constructor Create(const ADataBase: TDataBase);
@@ -44,11 +50,15 @@ begin
   FDataBase := ADataBase;
   FView := TViewDatabase.Create(Self);
   FConnection := TModelConnectionFactory.Firebird(FDataBase);
-
+  FQuery := TFDQuery.Create(nil);
+  FQuery.Connection := FConnection.GetConnection;
+  FView.DataSource1.DataSet := FQuery;
+  FView.MemoLog.Clear;
 end;
 
 destructor TControllerDataBase.Destroy;
 begin
+  FQuery.Free;
   FView.Free;
   inherited;
 end;
@@ -58,11 +68,11 @@ begin
   if not FConnection.GetConnection.Connected then
     Exit;
 
-  FView.FDQuery1.Close;
+  FQuery.Close;
 
   if not ASQL.Trim.IsEmpty then
   begin
-    FView.FDQuery1.SQL.Text := ASQL;
+    FQuery.SQL.Text := ASQL;
     if
       UpperCase(ASQL).Contains('UPDATE') or
       UpperCase(ASQL).Contains('DELETE') or
@@ -72,11 +82,13 @@ begin
       UpperCase(ASQL).Contains('INSERT')
     then
     begin
-      FView.FDQuery1.ExecSQL;
+      FQuery.ExecSQL;
+      LogAdd('Exec SQL: ' + FQuery.RowsAffected.ToString);
     end
     else
     begin
-      FView.FDQuery1.Open;
+      FQuery.Open;
+      LogAdd('Select SQL: ' + FQuery.RecordCount.ToString);
     end;
 
   end;
@@ -149,6 +161,8 @@ begin
       FView.TreeViewTabelas.Items.EndUpdate;
     end;
 
+    LogAdd('Quantidade tabelas: ' + FView.TreeViewTabelas.Items.Count.ToString);
+
   finally
     vList.Free;
   end;
@@ -160,21 +174,15 @@ begin
   UpdateStatusbar;
 end;
 
+procedure TControllerDataBase.LogAdd(const AMessage: string);
+begin
+  FView.MemoLog.Lines.Add(AMessage);
+end;
+
 procedure TControllerDataBase.SetConnected(const Value: boolean);
 begin
   FConnection.Active := Value;
   UpdateStatusbar;
-
-  if FConnection.Active then
-  begin
-    FView.FDQuery1.Connection := FConnection.GetConnection;
-  end
-  else
-  begin
-    FView.FDQuery1.Close;
-    FView.FDQuery1.Connection := nil;
-  end;
-
 end;
 
 procedure TControllerDataBase.Show;

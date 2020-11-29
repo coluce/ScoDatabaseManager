@@ -43,10 +43,6 @@ object ViewDatabase: TViewDatabase
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 1
-    ExplicitLeft = 146
-    ExplicitTop = 41
-    ExplicitWidth = 486
-    ExplicitHeight = 341
     object Splitter2: TSplitter
       Left = 0
       Top = 207
@@ -65,8 +61,6 @@ object ViewDatabase: TViewDatabase
       Height = 166
       Align = alClient
       TabOrder = 0
-      ExplicitWidth = 480
-      ExplicitHeight = 125
       object PageControl1: TPageControl
         Left = 1
         Top = 1
@@ -75,12 +69,8 @@ object ViewDatabase: TViewDatabase
         ActivePage = TabSheet1
         Align = alClient
         TabOrder = 0
-        ExplicitWidth = 478
-        ExplicitHeight = 123
         object TabSheet1: TTabSheet
           Caption = 'Dataset'
-          ExplicitWidth = 470
-          ExplicitHeight = 95
           object GridResultado: TDBGrid
             Left = 0
             Top = 32
@@ -104,7 +94,6 @@ object ViewDatabase: TViewDatabase
             Align = alTop
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitWidth = 470
             object DBNavigator1: TDBNavigator
               AlignWithMargins = True
               Left = 3
@@ -121,8 +110,6 @@ object ViewDatabase: TViewDatabase
         object TabSheet2: TTabSheet
           Caption = 'Log'
           ImageIndex = 1
-          ExplicitWidth = 470
-          ExplicitHeight = 95
           object MemoLog: TMemo
             Left = 0
             Top = 0
@@ -130,8 +117,6 @@ object ViewDatabase: TViewDatabase
             Height = 136
             Align = alClient
             TabOrder = 0
-            ExplicitWidth = 470
-            ExplicitHeight = 95
           end
         end
       end
@@ -145,7 +130,6 @@ object ViewDatabase: TViewDatabase
       Align = alTop
       BevelOuter = bvNone
       TabOrder = 1
-      ExplicitWidth = 480
       object ToolBar2: TToolBar
         Left = 0
         Top = 0
@@ -156,7 +140,6 @@ object ViewDatabase: TViewDatabase
         Caption = 'ToolBar2'
         Images = ImageListQuery
         TabOrder = 0
-        ExplicitWidth = 480
         object ToolButton1: TToolButton
           Left = 0
           Top = 0
@@ -197,7 +180,6 @@ object ViewDatabase: TViewDatabase
           'from'
           '  TABELA')
         FontSmoothing = fsmNone
-        ExplicitWidth = 480
       end
     end
   end
@@ -209,9 +191,6 @@ object ViewDatabase: TViewDatabase
     Align = alLeft
     BevelOuter = bvNone
     TabOrder = 2
-    ExplicitLeft = 48
-    ExplicitTop = 79
-    ExplicitHeight = 41
     object Panel1: TPanel
       Left = 0
       Top = 0
@@ -220,7 +199,6 @@ object ViewDatabase: TViewDatabase
       Align = alTop
       BevelOuter = bvNone
       TabOrder = 0
-      ExplicitTop = 8
       object ToggleSwitch1: TToggleSwitch
         AlignWithMargins = True
         Left = 5
@@ -251,7 +229,6 @@ object ViewDatabase: TViewDatabase
       Indent = 27
       TabOrder = 1
       OnDblClick = TreeViewTabelasDblClick
-      ExplicitWidth = 137
     end
   end
   object SynSQLSyn1: TSynSQLSyn
@@ -268,13 +245,7 @@ object ViewDatabase: TViewDatabase
     Left = 549
     Top = 92
   end
-  object FDQuery1: TFDQuery
-    CachedUpdates = True
-    Left = 482
-    Top = 303
-  end
   object DataSource1: TDataSource
-    DataSet = FDQuery1
     Left = 554
     Top = 303
   end
