@@ -21,8 +21,10 @@ type
     procedure FillList;
     procedure RegisterServer;
     procedure UnregisterServer(const ATreeNode: TTreeNode);
+    procedure EditServer(const ATreeNode: TTreeNode);
     procedure RegisterDatabase(const ATreeNode: TTreeNode);
     procedure UnregisterDataBase(const ATreeNode: TTreeNode);
+    procedure EditDataBase(const ATreeNode: TTreeNode);
     procedure ShowDataBase(const ATreeNode: TTreeNode);
     procedure ExportToDrive(const ATreeNode: TTreeNode);
     procedure IrParaCadastroLayout;

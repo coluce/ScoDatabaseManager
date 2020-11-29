@@ -39,9 +39,9 @@ inherited ViewServer: TViewServer
   object Label2: TLabel
     Left = 68
     Top = 57
-    Width = 24
+    Width = 10
     Height = 13
-    Caption = 'Local'
+    Caption = 'IP'
   end
   object Panel1: TPanel
     Left = 0
@@ -51,9 +51,6 @@ inherited ViewServer: TViewServer
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitLeft = -47
-    ExplicitTop = 152
-    ExplicitWidth = 494
     object Bevel1: TBevel
       AlignWithMargins = True
       Left = 3
@@ -72,6 +69,7 @@ inherited ViewServer: TViewServer
       Height = 35
       Align = alRight
       Caption = 'OK'
+      OnClick = SpeedButton1Click
       ExplicitLeft = 352
     end
     object SpeedButton2: TSpeedButton
@@ -82,6 +80,7 @@ inherited ViewServer: TViewServer
       Height = 35
       Align = alRight
       Caption = 'Cancelar'
+      OnClick = SpeedButton2Click
       ExplicitLeft = 352
     end
   end
@@ -93,7 +92,6 @@ inherited ViewServer: TViewServer
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 1
     TextHint = 'apelido do servidor'
-    ExplicitWidth = 371
   end
   object EditLocal: TEdit
     Left = 68
@@ -103,6 +101,5 @@ inherited ViewServer: TViewServer
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 2
     TextHint = 'endere'#231'o do servidor'
-    ExplicitWidth = 371
   end
 end

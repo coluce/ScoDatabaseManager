@@ -450,6 +450,7 @@ object ViewPrincipal: TViewPrincipal
       Category = 'PopupMenu'
       Caption = 'Editar'
       ImageIndex = 2
+      OnExecute = acnPopupMenuEditarExecute
     end
     object acnPopupMenuExcluir: TAction
       Category = 'PopupMenu'

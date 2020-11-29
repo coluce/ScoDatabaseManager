@@ -43,6 +43,7 @@ type
     procedure FormActivate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure acnPopupMenuEditarExecute(Sender: TObject);
   private
     { Private declarations }
     FControllerPrincipal: IControllerPrincipal;
@@ -72,6 +73,19 @@ begin
   begin
     FControllerPrincipal.ShowDataBase(TreeView1.Selected);
   end;
+end;
+
+procedure TViewPrincipal.acnPopupMenuEditarExecute(Sender: TObject);
+begin
+  if TreeView1.Selected.Level = 0 then
+  begin
+    FControllerPrincipal.EditServer(TreeView1.Selected);
+  end
+  else
+  begin
+    FControllerPrincipal.EditDataBase(TreeView1.Selected);
+  end;
+  FControllerPrincipal.FillList;
 end;
 
 procedure TViewPrincipal.acnPopupMenuExcluirExecute(Sender: TObject);
@@ -134,7 +148,6 @@ end;
 procedure TViewPrincipal.PopupMenuTreeViewPopup(Sender: TObject);
 begin
   acnPopupMenuRegistrarBanco.Visible := TreeView1.Selected.Level = 0;
-  acnPopupMenuEditar.Visible := TreeView1.Selected.Level = 0;
   acnPopupMenuExport.Visible := TreeView1.Selected.Level = 1;
   acnPopupMenuConectar.Visible := TreeView1.Selected.Level = 1;
 end;

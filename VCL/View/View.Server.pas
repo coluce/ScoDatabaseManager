@@ -18,14 +18,38 @@ type
     EditNome: TEdit;
     Label2: TLabel;
     EditLocal: TEdit;
+    procedure FormCreate(Sender: TObject);
+    procedure SpeedButton2Click(Sender: TObject);
+    procedure SpeedButton1Click(Sender: TObject);
   private
     { Private declarations }
+    FResultado: TModalResult;
   public
     { Public declarations }
+    property Resultado: TModalResult read FResultado write FResultado;
   end;
 
 implementation
 
 {$R *.dfm}
+
+procedure TViewServer.FormCreate(Sender: TObject);
+begin
+  inherited;
+  FResultado := mrCancel;
+end;
+
+procedure TViewServer.SpeedButton1Click(Sender: TObject);
+begin
+  inherited;
+  FResultado := mrOK;
+  Close;
+end;
+
+procedure TViewServer.SpeedButton2Click(Sender: TObject);
+begin
+  inherited;
+  Close;
+end;
 
 end.

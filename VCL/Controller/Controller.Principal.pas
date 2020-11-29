@@ -25,8 +25,10 @@ type
     procedure FillList;
     procedure RegisterServer;
     procedure UnregisterServer(const ATreeNode: TTreeNode);
+    procedure EditServer(const ATreeNode: TTreeNode);
     procedure RegisterDatabase(const ATreeNode: TTreeNode);
     procedure UnregisterDataBase(const ATreeNode: TTreeNode);
+    procedure EditDataBase(const ATreeNode: TTreeNode);
     procedure ShowDataBase(const ATreeNode: TTreeNode);
     procedure ExportToDrive(const ATreeNode: TTreeNode);
     procedure IrParaCadastroLayout;
@@ -74,22 +76,30 @@ begin
         FModelDataBase.DataSet.Post;
       end;
     finally
-
+      vView.Free;
     end;
   end;
 end;
 
 procedure TControllerPrincipal.RegisterServer;
 var
-  vName: string;
-  vIP: string;
+  vView: TViewServer;
 begin
-  vName := InputBox('Novo Server', 'Nome', 'Localhost');
-  vIP := InputBox('Novo Server', 'IP', '127.0.0.1');
-  FModelServer.DataSet.Append;
-  FModelServer.DataSet.FieldByName('NAME').AsString := vName;
-  FModelServer.DataSet.FieldByName('IP').AsString := vIP;
-  FModelServer.DataSet.Post;
+  vView := TViewServer.Create(nil);
+  try
+    vView.EditNome.Text := 'Localhost';
+    vView.EditLocal.Text := '127.0.0.1';
+    vView.ShowModal;
+    if vView.Resultado = mrOK then
+    begin
+      FModelServer.DataSet.Append;
+      FModelServer.DataSet.FieldByName('NAME').AsString := vView.EditNome.Text;
+      FModelServer.DataSet.FieldByName('IP').AsString := vView.EditLocal.Text;
+      FModelServer.DataSet.Post;
+    end;
+  finally
+    vView.Free;
+  end;
 end;
 
 procedure TControllerPrincipal.SetStatusBar(const AServer, APath: string);
@@ -144,6 +154,64 @@ begin
   FDatabases.Free;
 
   inherited;
+end;
+
+procedure TControllerPrincipal.EditDataBase(const ATreeNode: TTreeNode);
+var
+  vDataBase: TDataBase;
+  vView: TViewRegisterDatabase;
+begin
+  if FDatabases.TryGetValue(ATreeNode, vDataBase) then
+  begin
+    FModelDataBase.Find(vDataBase.ID);
+    if not FModelDataBase.DataSet.IsEmpty then
+    begin
+      vView := TViewRegisterDatabase.Create(nil);
+      try
+        vView.EditNome.Text := FModelDataBase.DataSet.FieldByName('NAME').AsString;
+        vView.EditLocal.Text := FModelDataBase.DataSet.FieldByName('PATH').AsString;
+        vView.ShowModal;
+        if vView.Resultado = mrOK then
+        begin
+          FModelDataBase.DataSet.Edit;
+          FModelDataBase.DataSet.FieldByName('NAME').AsString := vView.EditNome.Text;
+          FModelDataBase.DataSet.FieldByName('PATH').AsString := vView.EditLocal.Text;
+          FModelDataBase.DataSet.Post;
+        end;
+      finally
+        vView.Free;
+      end;
+    end;
+  end;
+end;
+
+procedure TControllerPrincipal.EditServer(const ATreeNode: TTreeNode);
+var
+  vServer: TServer;
+  vView: TViewServer;
+begin
+  if FServers.TryGetValue(ATreeNode, vServer) then
+  begin
+    FModelServer.Find(vServer.ID);
+    if not FModelServer.DataSet.IsEmpty then
+    begin
+      vView := TViewServer.Create(nil);
+      try
+        vView.EditNome.Text := FModelServer.DataSet.FieldByName('NAME').AsString;
+        vView.EditLocal.Text := FModelServer.DataSet.FieldByName('IP').AsString;
+        vView.ShowModal;
+        if vView.Resultado = mrOK then
+        begin
+          FModelServer.DataSet.Edit;
+          FModelServer.DataSet.FieldByName('NAME').AsString := vView.EditNome.Text;
+          FModelServer.DataSet.FieldByName('IP').AsString := vView.EditLocal.Text;
+          FModelServer.DataSet.Post;
+        end;
+      finally
+        vView.Free;
+      end;
+    end;
+  end;
 end;
 
 procedure TControllerPrincipal.ExportToDrive(const ATreeNode: TTreeNode);
