@@ -4,10 +4,10 @@ interface
 
 uses
   View.Principal, Model.Interfaces, Model.Types, System.Generics.Collections,
-  Vcl.ComCtrls;
+  Vcl.ComCtrls, Controller.Interfaces;
 
 type
-  TControllerPrincipal = class
+  TControllerPrincipal = class(TInterfacedObject, IControllerPrincipal)
   private
     FView: TViewPrincipal;
     FModelServer: IModelTable;
@@ -16,14 +16,19 @@ type
     FServers: TDictionary<TTreeNode, TServer>;
     FDatabases: TDictionary<TTreeNode, TDataBase>;
 
+    procedure SetStatusBar(const AServer, APath: string);
+
   public
     constructor Create(const AView: TViewPrincipal);
     destructor Destroy; override;
+    procedure FindInUse;
     procedure FillList;
     procedure RegisterServer;
     procedure UnregisterServer(const ATreeNode: TTreeNode);
+    procedure EditServer(const ATreeNode: TTreeNode);
     procedure RegisterDatabase(const ATreeNode: TTreeNode);
     procedure UnregisterDataBase(const ATreeNode: TTreeNode);
+    procedure EditDataBase(const ATreeNode: TTreeNode);
     procedure ShowDataBase(const ATreeNode: TTreeNode);
     procedure ExportToDrive(const ATreeNode: TTreeNode);
     procedure IrParaCadastroLayout;
@@ -35,8 +40,8 @@ var
 implementation
 
 uses
-  Model.Factory, Vcl.Dialogs, System.SysUtils, Controller.Interfaces,
-  Controller.Factory;
+  Model.Factory, Vcl.Dialogs, System.SysUtils,
+  Controller.Factory, View.Server, View.Database.Register, System.UITypes;
 
 { TControllerPrincipal }
 
@@ -53,36 +58,54 @@ procedure TControllerPrincipal.RegisterDatabase(const ATreeNode: TTreeNode);
 var
   vServer: TServer;
   vNode: TTreeNode;
-  vName: string;
-  vPath: string;
+  vView: TViewRegisterDatabase;
 begin
   if FServers.TryGetValue(ATreeNode, vServer) then
   begin
-    vName := InputBox('Database', 'Nome', 'Meu banco');
-    vPath := InputBox('Database', 'Local', 'E:\DataBases\[pasta]\');
-    FModelDataBase.DataSet.Append;
-    FModelDataBase.DataSet.FieldByName('ID').AsString := TGUID.NewGuid.ToString;
-    FModelDataBase.DataSet.FieldByName('ID_SERVER').AsString := vServer.ID;
-    FModelDataBase.DataSet.FieldByName('NAME').AsString := vName;
-    FModelDataBase.DataSet.FieldByName('PATH').AsString := vPath;
-    FModelDataBase.DataSet.Post;
-    FModelDataBase.ApplyUpdates;
+    vView := TViewRegisterDatabase.Create(nil);
+    try
+      vView.EditNome.Text := 'Meu banco';
+      vView.EditLocal.Text := 'E:\DataBases\[pasta]\';
+      vView.ShowModal;
+      if vView.Resultado = mrOK then
+      begin
+        FModelDataBase.DataSet.Append;
+        FModelDataBase.DataSet.FieldByName('ID_SERVER').AsString := vServer.ID;
+        FModelDataBase.DataSet.FieldByName('NAME').AsString := vView.EditNome.Text;
+        FModelDataBase.DataSet.FieldByName('PATH').AsString := vView.EditLocal.Text;
+        FModelDataBase.DataSet.Post;
+      end;
+    finally
+      vView.Free;
+    end;
   end;
 end;
 
 procedure TControllerPrincipal.RegisterServer;
 var
-  vName: string;
-  vIP: string;
+  vView: TViewServer;
 begin
-  vName := InputBox('Novo Server', 'Nome', 'Localhost');
-  vIP := InputBox('Novo Server', 'IP', '127.0.0.1');
-  FModelServer.DataSet.Append;
-  FModelServer.DataSet.FieldByName('ID').AsString := TGUID.NewGuid.ToString;
-  FModelServer.DataSet.FieldByName('NAME').AsString := vName;
-  FModelServer.DataSet.FieldByName('IP').AsString := vIP;
-  FModelServer.DataSet.Post;
-  FModelServer.ApplyUpdates;
+  vView := TViewServer.Create(nil);
+  try
+    vView.EditNome.Text := 'Localhost';
+    vView.EditLocal.Text := '127.0.0.1';
+    vView.ShowModal;
+    if vView.Resultado = mrOK then
+    begin
+      FModelServer.DataSet.Append;
+      FModelServer.DataSet.FieldByName('NAME').AsString := vView.EditNome.Text;
+      FModelServer.DataSet.FieldByName('IP').AsString := vView.EditLocal.Text;
+      FModelServer.DataSet.Post;
+    end;
+  finally
+    vView.Free;
+  end;
+end;
+
+procedure TControllerPrincipal.SetStatusBar(const AServer, APath: string);
+begin
+  FView.StatusBar1.Panels[0].Text := AServer;
+  FView.StatusBar1.Panels[1].Text := APath;
 end;
 
 procedure TControllerPrincipal.ShowDataBase(const ATreeNode: TTreeNode);
@@ -133,6 +156,64 @@ begin
   inherited;
 end;
 
+procedure TControllerPrincipal.EditDataBase(const ATreeNode: TTreeNode);
+var
+  vDataBase: TDataBase;
+  vView: TViewRegisterDatabase;
+begin
+  if FDatabases.TryGetValue(ATreeNode, vDataBase) then
+  begin
+    FModelDataBase.Find(vDataBase.ID);
+    if not FModelDataBase.DataSet.IsEmpty then
+    begin
+      vView := TViewRegisterDatabase.Create(nil);
+      try
+        vView.EditNome.Text := FModelDataBase.DataSet.FieldByName('NAME').AsString;
+        vView.EditLocal.Text := FModelDataBase.DataSet.FieldByName('PATH').AsString;
+        vView.ShowModal;
+        if vView.Resultado = mrOK then
+        begin
+          FModelDataBase.DataSet.Edit;
+          FModelDataBase.DataSet.FieldByName('NAME').AsString := vView.EditNome.Text;
+          FModelDataBase.DataSet.FieldByName('PATH').AsString := vView.EditLocal.Text;
+          FModelDataBase.DataSet.Post;
+        end;
+      finally
+        vView.Free;
+      end;
+    end;
+  end;
+end;
+
+procedure TControllerPrincipal.EditServer(const ATreeNode: TTreeNode);
+var
+  vServer: TServer;
+  vView: TViewServer;
+begin
+  if FServers.TryGetValue(ATreeNode, vServer) then
+  begin
+    FModelServer.Find(vServer.ID);
+    if not FModelServer.DataSet.IsEmpty then
+    begin
+      vView := TViewServer.Create(nil);
+      try
+        vView.EditNome.Text := FModelServer.DataSet.FieldByName('NAME').AsString;
+        vView.EditLocal.Text := FModelServer.DataSet.FieldByName('IP').AsString;
+        vView.ShowModal;
+        if vView.Resultado = mrOK then
+        begin
+          FModelServer.DataSet.Edit;
+          FModelServer.DataSet.FieldByName('NAME').AsString := vView.EditNome.Text;
+          FModelServer.DataSet.FieldByName('IP').AsString := vView.EditLocal.Text;
+          FModelServer.DataSet.Post;
+        end;
+      finally
+        vView.Free;
+      end;
+    end;
+  end;
+end;
+
 procedure TControllerPrincipal.ExportToDrive(const ATreeNode: TTreeNode);
 var
   vDataBase: TDataBase;
@@ -146,12 +227,14 @@ begin
 end;
 
 procedure TControllerPrincipal.FillList;
+
   procedure AddDataBasesToTree(const ATreeNode: TTreeNode);
   var
     vServer: TServer;
     vNode: TTreeNode;
     vItem: TTreeNode;
   begin
+
     if FServers.TryGetValue(ATreeNode, vServer) then
     begin
       FModelDataBase.Open('ID_SERVER = ' + QuotedStr(vServer.ID));
@@ -160,7 +243,7 @@ procedure TControllerPrincipal.FillList;
         vItem := FView.TreeView1.Items.AddChild(ATreeNode, FModelDataBase.DataSet.FieldByName('NAME').AsString);
         vItem.ImageIndex := 1;
 
-        FDatabases.Add(
+        FDatabases.AddOrSetValue(
           vItem,
           TDataBase.Create(
             FModelDataBase.DataSet.FieldByName('ID').AsString,
@@ -176,6 +259,7 @@ procedure TControllerPrincipal.FillList;
       end;
     end;
   end;
+
 var
   vItem: TTreeNode;
 begin
@@ -183,9 +267,9 @@ begin
   FServers.Clear;
   FServers.TrimExcess;
 
-  FView.TreeView1.Items.Clear;
   FModelServer.Open;
 
+  FView.TreeView1.Items.Clear;
   FView.TreeView1.Items.BeginUpdate;
   try
     while not FModelServer.DataSet.Eof do
@@ -193,7 +277,7 @@ begin
       vItem := FView.TreeView1.Items.Add(nil, FModelServer.DataSet.FieldByName('IP').AsString + ' | ' + FModelServer.DataSet.FieldByName('NAME').AsString);
       vItem.ImageIndex := 0;
 
-      FServers.Add(
+      FServers.AddOrSetValue(
         vItem,
         TServer.Create(
           FModelServer.DataSet.FieldByName('ID').AsString,
@@ -208,6 +292,28 @@ begin
     end;
   finally
     FView.TreeView1.Items.EndUpdate;
+  end;
+end;
+
+procedure TControllerPrincipal.FindInUse;
+
+  function GetLastID: string;
+  var
+    vControllerParam: IControllerParam;
+  begin
+    vControllerParam := TControllerFactory.Param;
+    Result := vControllerParam.GetParam('INI', 'LAST_ID', EmptyStr);
+  end;
+
+var
+  vLastID: string;
+begin
+  SetStatusBar(EmptyStr, EmptyStr);
+  vLastID := GetLastID;
+  FModelDataBase.Find(vLastID);
+  if not FModelDataBase.DataSet.IsEmpty then
+  begin
+    SetStatusBar(FModelDataBase.DataSet.FieldByName('NAME').AsString, FModelDataBase.DataSet.FieldByName('PATH').AsString);
   end;
 end;
 

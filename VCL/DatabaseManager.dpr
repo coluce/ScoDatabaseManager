@@ -19,7 +19,12 @@ uses
   View.Layout in 'View\View.Layout.pas' {ViewLayout},
   Controller.Layout in 'Controller\Controller.Layout.pas',
   View.Ini in 'View\View.Ini.pas' {ViewIni},
-  Controller.Ini in 'Controller\Controller.Ini.pas';
+  Controller.Ini in 'Controller\Controller.Ini.pas',
+  Controller.Param in 'Controller\Controller.Param.pas',
+  View.Default in 'View\View.Default.pas' {ViewDefault},
+  Controller.Window in 'Controller\Controller.Window.pas',
+  View.Server in 'View\View.Server.pas' {ViewServer},
+  View.Database.Register in 'View\View.Database.Register.pas' {ViewRegisterDatabase};
 
 {$R *.res}
 
@@ -37,6 +42,5 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TViewPrincipal, ViewPrincipal);
-  Application.CreateForm(TViewIni, ViewIni);
   Application.Run;
 end.

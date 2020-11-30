@@ -5,15 +5,13 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.ComCtrls, Data.DB, SynEdit, SynMemo, Vcl.Grids, Vcl.DBGrids, Vcl.ToolWin, SynEditHighlighter,
-  SynHighlighterSQL, Model.Types, Controller.Interfaces, Vcl.StdCtrls, Vcl.DBCtrls, Vcl.WinXCtrls, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
-  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
-  System.ImageList, Vcl.ImgList, System.Actions, Vcl.ActnList;
+  SynHighlighterSQL, Model.Types, Controller.Interfaces, Vcl.StdCtrls, Vcl.DBCtrls, Vcl.WinXCtrls,
+  System.ImageList, Vcl.ImgList, System.Actions, Vcl.ActnList, View.Default,
+  Vcl.Buttons;
 
 type
-  TViewDatabase = class(TForm)
+  TViewDatabase = class(TViewDefault)
     StatusBar1: TStatusBar;
-    Panel1: TPanel;
-    TreeViewTabelas: TTreeView;
     Splitter1: TSplitter;
     Panel2: TPanel;
     Panel3: TPanel;
@@ -29,14 +27,20 @@ type
     MemoLog: TMemo;
     DBNavigator1: TDBNavigator;
     Panel5: TPanel;
-    ToggleSwitch1: TToggleSwitch;
-    FDQuery1: TFDQuery;
     DataSource1: TDataSource;
     ImageListTabelas: TImageList;
     ImageListQuery: TImageList;
     ActionListQuery: TActionList;
     acnQueryExecutar: TAction;
     ToolButton1: TToolButton;
+    Panel6: TPanel;
+    Panel1: TPanel;
+    ToggleSwitch1: TToggleSwitch;
+    TreeViewTabelas: TTreeView;
+    SpeedButton1: TSpeedButton;
+    SpeedButton2: TSpeedButton;
+    acnDataSetImportar: TAction;
+    acnDataSetExportar: TAction;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ToggleSwitch1Click(Sender: TObject);
     procedure TreeViewTabelasDblClick(Sender: TObject);
@@ -44,14 +48,11 @@ type
   private
     { Private declarations }
     FController: IControllerDataBase;
-    FDatabase: TDataBase;
-    procedure SetDataBase(const Value: TDataBase);
   public
     { Public declarations }
     constructor Create(const AController: IControllerDatabase); reintroduce;
   published
     { Published declarations }
-    property DataBase: TDataBase read FDataBase write SetDataBase;
   end;
 
 implementation
@@ -61,17 +62,8 @@ implementation
 { TViewDatabase }
 
 procedure TViewDatabase.acnQueryExecutarExecute(Sender: TObject);
-var
-  vQuery: string;
 begin
-  vQuery := MemoQuery.SelText.Trim;
-
-  if vQuery.IsEmpty then
-  begin
-    vQuery := MemoQuery.Text;
-  end;
-
-  FController.ExecuteQuery(vQuery);
+  FController.ExecuteQuery;
 end;
 
 constructor TViewDatabase.Create(const AController: IControllerDatabase);
@@ -82,37 +74,21 @@ end;
 
 procedure TViewDatabase.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+  inherited;
   {FController é o dono desta tela, e é uma interface, este é o unico ponto onde a interface está sendo usada
    se não decrementar o uso da interface ao fechar a tela, não destroi o objeto e não destroi esta tela
   }
   FController._Release;
 end;
 
-procedure TViewDatabase.SetDataBase(const Value: TDataBase);
-begin
-  FDataBase := Value;
-  Self.Caption := FDatabase.Name;
-end;
-
 procedure TViewDatabase.ToggleSwitch1Click(Sender: TObject);
 begin
-  FController.Connected := ToggleSwitch1.IsOn;
-  if FController.Connected then
-  begin
-    FController.FillTableNames;
-  end;
+  FController.ToogleSwitchClick;
 end;
 
 procedure TViewDatabase.TreeViewTabelasDblClick(Sender: TObject);
 begin
-  if TreeViewTabelas.Selected.Level = 0 then
-  begin
-    MemoQuery.Clear;
-    MemoQuery.Lines.Add('select');
-    MemoQuery.Lines.Add('  *');
-    MemoQuery.Lines.Add('from');
-    MemoQuery.Lines.Add('  ' + TreeViewTabelas.Selected.Text);
-  end;
+  FController.FillSQLFromTreeView;
 end;
 
 end.

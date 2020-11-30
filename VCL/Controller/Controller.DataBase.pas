@@ -3,7 +3,12 @@ unit Controller.DataBase;
 interface
 
 uses
-  View.DataBase, Model.Types, Controller.Interfaces, Model.Interfaces;
+  View.DataBase, Model.Types, Controller.Interfaces, Model.Interfaces,
+
+
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
 
 type
 
@@ -12,11 +17,13 @@ type
     FView: TViewDataBase;
     FDataBase: TDataBase;
     FConnection: IModelConnection;
+    FQuery: TFDQuery;
 
     function GetConnected: boolean;
     procedure SetConnected(const Value: boolean);
 
     procedure UpdateStatusBar;
+    procedure LogAdd(const AMessage: string);
 
   public
     constructor Create(const ADataBase: TDataBase);
@@ -25,8 +32,11 @@ type
     procedure Show;
     procedure ShowModal;
 
+    procedure FillSQLFromTreeView;
     procedure FillTableNames;
-    procedure ExecuteQuery(const ASQL: string);
+    procedure UpdateToogleColor;
+    procedure ToogleSwitchClick;
+    procedure ExecuteQuery;
 
   published
     property Connected: boolean read GetConnected write SetConnected;
@@ -35,7 +45,7 @@ type
 implementation
 
 uses
-  System.Classes, Model.Factory, Vcl.ComCtrls, System.SysUtils;
+  System.Classes, Model.Factory, Vcl.ComCtrls, System.SysUtils, Vcl.Graphics;
 
 { TControllerDataBase }
 
@@ -43,44 +53,76 @@ constructor TControllerDataBase.Create(const ADataBase: TDataBase);
 begin
   FDataBase := ADataBase;
   FView := TViewDatabase.Create(Self);
+  FView.Caption := FDatabase.Name;
   FConnection := TModelConnectionFactory.Firebird(FDataBase);
-
+  FQuery := TFDQuery.Create(nil);
+  FQuery.Connection := FConnection.GetConnection;
+  FView.DataSource1.DataSet := FQuery;
+  FView.MemoLog.Clear;
 end;
 
 destructor TControllerDataBase.Destroy;
 begin
+  FQuery.Free;
   FView.Free;
   inherited;
 end;
 
-procedure TControllerDataBase.ExecuteQuery(const ASQL: string);
+procedure TControllerDataBase.ExecuteQuery;
+var
+  vQuery: string;
 begin
   if not FConnection.GetConnection.Connected then
     Exit;
 
-  FView.FDQuery1.Close;
+  vQuery := FView.MemoQuery.SelText.Trim;
 
-  if not ASQL.Trim.IsEmpty then
+  if vQuery.IsEmpty then
   begin
-    FView.FDQuery1.SQL.Text := ASQL;
-    if
-      UpperCase(ASQL).Contains('UPDATE') or
-      UpperCase(ASQL).Contains('DELETE') or
-      UpperCase(ASQL).Contains('CREATE') or
-      UpperCase(ASQL).Contains('ALTER') or
-      UpperCase(ASQL).Contains('DROP') or
-      UpperCase(ASQL).Contains('INSERT')
-    then
-    begin
-      FView.FDQuery1.ExecSQL;
-    end
-    else
-    begin
-      FView.FDQuery1.Open;
+    vQuery := FView.MemoQuery.Text;
+  end;
+
+  FQuery.Close;
+
+  if not vQuery.Trim.IsEmpty then
+  begin
+    FQuery.SQL.Text := vQuery;
+    try
+      if
+        UpperCase(vQuery).Contains('UPDATE') or
+        UpperCase(vQuery).Contains('DELETE') or
+        UpperCase(vQuery).Contains('CREATE') or
+        UpperCase(vQuery).Contains('ALTER') or
+        UpperCase(vQuery).Contains('DROP') or
+        UpperCase(vQuery).Contains('INSERT')
+      then
+      begin
+        FQuery.ExecSQL;
+        LogAdd('Exec SQL: ' + FQuery.RowsAffected.ToString);
+      end
+      else
+      begin
+        FQuery.Open;
+        LogAdd('Select SQL: ' + FQuery.RecordCount.ToString);
+      end;
+    except on E: Exception do
+      LogAdd('Erro: ' + E.Message);
     end;
 
   end;
 
+end;
+
+procedure TControllerDataBase.FillSQLFromTreeView;
+begin
+  if FView.TreeViewTabelas.Selected.Level = 0 then
+  begin
+    FView.MemoQuery.Clear;
+    FView.MemoQuery.Lines.Add('select');
+    FView.MemoQuery.Lines.Add('  *');
+    FView.MemoQuery.Lines.Add('from');
+    FView.MemoQuery.Lines.Add('  ' + FView.TreeViewTabelas.Selected.Text);
+  end;
 end;
 
 procedure TControllerDataBase.FillTableNames;
@@ -134,6 +176,7 @@ begin
 
     FView.SynSQLSyn1.TableNames := vList;
 
+    FView.TreeViewTabelas.Items.Clear;
     FView.TreeViewTabelas.Items.BeginUpdate;
     try
       for vTable in vList do
@@ -149,6 +192,8 @@ begin
       FView.TreeViewTabelas.Items.EndUpdate;
     end;
 
+    LogAdd('Quantidade tabelas: ' + FView.TreeViewTabelas.Items.Count.ToString);
+
   finally
     vList.Free;
   end;
@@ -157,36 +202,45 @@ end;
 function TControllerDataBase.GetConnected: boolean;
 begin
   Result := FConnection.Active;
-  UpdateStatusbar;
+  Self.UpdateStatusbar;
+end;
+
+procedure TControllerDataBase.LogAdd(const AMessage: string);
+begin
+  FView.MemoLog.Lines.Add(AMessage);
 end;
 
 procedure TControllerDataBase.SetConnected(const Value: boolean);
 begin
   FConnection.Active := Value;
-  UpdateStatusbar;
-
-  if FConnection.Active then
-  begin
-    FView.FDQuery1.Connection := FConnection.GetConnection;
-  end
-  else
-  begin
-    FView.FDQuery1.Close;
-    FView.FDQuery1.Connection := nil;
-  end;
-
+  Self.UpdateStatusbar;
 end;
 
 procedure TControllerDataBase.Show;
 begin
   FView.Show;
-  UpdateStatusBar;
+  Self.UpdateStatusBar;
+  Self.UpdateToogleColor;
 end;
 
 procedure TControllerDataBase.ShowModal;
 begin
   FView.ShowModal;
-  UpdateStatusBar;
+  Self.UpdateStatusBar;
+  Self.UpdateToogleColor;
+end;
+
+procedure TControllerDataBase.ToogleSwitchClick;
+begin
+  try
+    Self.Connected := FView.ToggleSwitch1.IsOn;
+    if Self.Connected then
+    begin
+      Self.FillTableNames;
+    end;
+  finally
+    Self.UpdateToogleColor;
+  end;
 end;
 
 procedure TControllerDataBase.UpdateStatusBar;
@@ -199,6 +253,20 @@ begin
   else
   begin
     FView.StatusBar1.Panels[0].Text := 'Desconectado';
+  end;
+end;
+
+procedure TControllerDataBase.UpdateToogleColor;
+begin
+  if FConnection.GetConnection.Connected then
+  begin
+    FView.ToggleSwitch1.FrameColor := clGreen;
+    FView.ToggleSwitch1.ThumbColor := clGreen;
+  end
+  else
+  begin
+    FView.ToggleSwitch1.FrameColor := clRed;
+    FView.ToggleSwitch1.ThumbColor := clRed;
   end;
 end;
 
