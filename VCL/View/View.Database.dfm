@@ -128,6 +128,10 @@ object ViewDatabase: TViewDatabase
         object TabSheet2: TTabSheet
           Caption = 'Log'
           ImageIndex = 1
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object MemoLog: TMemo
             Left = 0
             Top = 0
@@ -179,13 +183,11 @@ object ViewDatabase: TViewDatabase
         Font.Name = 'Courier New'
         Font.Style = []
         TabOrder = 1
-        CodeFolding.GutterShapeSize = 11
         CodeFolding.CollapsedLineColor = clGrayText
         CodeFolding.FolderBarLinesColor = clGrayText
+        CodeFolding.ShowCollapsedLine = True
         CodeFolding.IndentGuidesColor = clGray
         CodeFolding.IndentGuides = True
-        CodeFolding.ShowCollapsedLine = True
-        CodeFolding.ShowHintMark = True
         UseCodeFolding = False
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
