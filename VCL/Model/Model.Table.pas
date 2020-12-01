@@ -41,7 +41,7 @@ end;
 constructor TModelTable.Create(const ATableName: string);
 begin
   FTableName := ATableName;
-  FConnection := TModelConnectionFactory.New;
+  FConnection := TModelFactory.MainConnection;
   FConnection.Open;
   FQuery := TFDQuery.Create(nil);
   FQuery.Connection := FConnection.GetConnection;

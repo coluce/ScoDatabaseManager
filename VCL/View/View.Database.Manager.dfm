@@ -1,7 +1,7 @@
-object ViewDatabase: TViewDatabase
+object ViewDatabaseManager: TViewDatabaseManager
   Left = 0
   Top = 0
-  Caption = 'ViewDatabase'
+  Caption = 'ViewDatabaseManager'
   ClientHeight = 401
   ClientWidth = 632
   Color = clWhite
@@ -14,14 +14,6 @@ object ViewDatabase: TViewDatabase
   OnClose = FormClose
   PixelsPerInch = 96
   TextHeight = 13
-  object Splitter1: TSplitter
-    Left = 185
-    Top = 0
-    Height = 382
-    ExplicitLeft = 232
-    ExplicitTop = 192
-    ExplicitHeight = 100
-  end
   object StatusBar1: TStatusBar
     Left = 0
     Top = 382
@@ -35,225 +27,340 @@ object ViewDatabase: TViewDatabase
         Width = 50
       end>
   end
-  object Panel2: TPanel
-    Left = 188
-    Top = 0
-    Width = 444
-    Height = 382
+  object PageControl2: TPageControl
+    AlignWithMargins = True
+    Left = 3
+    Top = 3
+    Width = 626
+    Height = 376
+    ActivePage = tabQuery
     Align = alClient
-    BevelOuter = bvNone
     TabOrder = 1
-    object Splitter2: TSplitter
-      Left = 0
-      Top = 207
-      Width = 444
-      Height = 3
-      Cursor = crVSplit
-      Align = alTop
-      ExplicitTop = 0
-      ExplicitWidth = 216
-    end
-    object Panel3: TPanel
-      AlignWithMargins = True
-      Left = 3
-      Top = 213
-      Width = 438
-      Height = 166
-      Align = alClient
-      TabOrder = 0
-      object PageControl1: TPageControl
-        Left = 1
-        Top = 1
-        Width = 436
-        Height = 164
-        ActivePage = TabSheet1
-        Align = alClient
-        TabOrder = 0
-        object TabSheet1: TTabSheet
-          Caption = 'Dataset'
-          object GridResultado: TDBGrid
-            Left = 0
-            Top = 32
-            Width = 428
-            Height = 104
-            Align = alClient
-            BorderStyle = bsNone
-            DataSource = DataSource1
-            TabOrder = 0
-            TitleFont.Charset = DEFAULT_CHARSET
-            TitleFont.Color = clWindowText
-            TitleFont.Height = -11
-            TitleFont.Name = 'Tahoma'
-            TitleFont.Style = []
-          end
-          object Panel5: TPanel
-            Left = 0
-            Top = 0
-            Width = 428
-            Height = 32
-            Align = alTop
-            BevelOuter = bvNone
-            TabOrder = 1
-            object SpeedButton1: TSpeedButton
-              AlignWithMargins = True
-              Left = 249
-              Top = 3
-              Width = 50
-              Height = 26
-              Action = acnDataSetExportar
-              Align = alLeft
-            end
-            object SpeedButton2: TSpeedButton
-              AlignWithMargins = True
-              Left = 305
-              Top = 3
-              Width = 50
-              Height = 26
-              Action = acnDataSetImportar
-              Align = alLeft
-            end
-            object DBNavigator1: TDBNavigator
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 240
-              Height = 26
-              DataSource = DataSource1
-              VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbDelete, nbEdit, nbPost, nbCancel, nbRefresh, nbApplyUpdates, nbCancelUpdates]
-              Align = alLeft
-              TabOrder = 0
-            end
-          end
-        end
-        object TabSheet2: TTabSheet
-          Caption = 'Log'
-          ImageIndex = 1
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
-          object MemoLog: TMemo
-            Left = 0
-            Top = 0
-            Width = 428
-            Height = 136
-            Align = alClient
-            TabOrder = 0
-          end
-        end
+    object tabQuery: TTabSheet
+      Caption = 'Query'
+      ExplicitWidth = 281
+      ExplicitHeight = 165
+      object Splitter1: TSplitter
+        Left = 185
+        Top = 0
+        Height = 348
+        ExplicitLeft = 191
+        ExplicitTop = 3
       end
-    end
-    object Panel4: TPanel
-      AlignWithMargins = True
-      Left = 3
-      Top = 3
-      Width = 438
-      Height = 201
-      Align = alTop
-      BevelOuter = bvNone
-      TabOrder = 1
-      object ToolBar2: TToolBar
+      object pnlTables: TPanel
         Left = 0
         Top = 0
-        Width = 438
-        Height = 29
-        ButtonHeight = 30
-        ButtonWidth = 31
-        Caption = 'ToolBar2'
-        Images = ImageListQuery
+        Width = 185
+        Height = 348
+        Align = alLeft
+        BevelOuter = bvNone
         TabOrder = 0
-        object ToolButton1: TToolButton
-          AlignWithMargins = True
+        ExplicitHeight = 382
+        object Panel1: TPanel
           Left = 0
           Top = 0
-          Action = acnQueryExecutar
-          ParentShowHint = False
-          ShowHint = True
+          Width = 185
+          Height = 41
+          Align = alTop
+          BevelOuter = bvNone
+          TabOrder = 0
+          object ToggleSwitch1: TToggleSwitch
+            AlignWithMargins = True
+            Left = 5
+            Top = 3
+            Width = 124
+            Height = 35
+            Margins.Left = 5
+            Margins.Right = 5
+            Align = alLeft
+            FrameColor = clMenuText
+            StateCaptions.CaptionOn = 'Conectado'
+            StateCaptions.CaptionOff = 'Desconectado'
+            TabOrder = 0
+            ThumbColor = clRed
+            OnClick = ToggleSwitch1Click
+            ExplicitHeight = 20
+          end
+        end
+        object TreeViewTabelas: TTreeView
+          AlignWithMargins = True
+          Left = 3
+          Top = 44
+          Width = 179
+          Height = 301
+          Align = alClient
+          BevelInner = bvNone
+          BevelOuter = bvNone
+          BorderStyle = bsNone
+          Images = ImageListTabelas
+          Indent = 27
+          TabOrder = 1
+          OnDblClick = TreeViewTabelasDblClick
+          ExplicitHeight = 335
         end
       end
-      object MemoQuery: TSynMemo
-        Left = 0
-        Top = 29
-        Width = 438
-        Height = 172
+      object pnlQuery: TPanel
+        Left = 188
+        Top = 0
+        Width = 430
+        Height = 348
         Align = alClient
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'Courier New'
-        Font.Style = []
+        BevelOuter = bvNone
         TabOrder = 1
-        CodeFolding.CollapsedLineColor = clGrayText
-        CodeFolding.FolderBarLinesColor = clGrayText
-        CodeFolding.ShowCollapsedLine = True
-        CodeFolding.IndentGuidesColor = clGray
-        CodeFolding.IndentGuides = True
-        UseCodeFolding = False
-        Gutter.Font.Charset = DEFAULT_CHARSET
-        Gutter.Font.Color = clWindowText
-        Gutter.Font.Height = -11
-        Gutter.Font.Name = 'Courier New'
-        Gutter.Font.Style = []
-        Gutter.ShowLineNumbers = True
-        Highlighter = SynSQLSyn1
-        Lines.Strings = (
-          '/* Exemplo de SQL*/'
-          'select'
-          '  *'
-          'from'
-          '  TABELA')
-        FontSmoothing = fsmNone
+        ExplicitLeft = 0
+        ExplicitWidth = 632
+        ExplicitHeight = 382
+        object Splitter2: TSplitter
+          Left = 0
+          Top = 207
+          Width = 430
+          Height = 3
+          Cursor = crVSplit
+          Align = alTop
+          ExplicitTop = 0
+          ExplicitWidth = 216
+        end
+        object Panel3: TPanel
+          AlignWithMargins = True
+          Left = 3
+          Top = 213
+          Width = 424
+          Height = 132
+          Align = alClient
+          TabOrder = 0
+          ExplicitWidth = 626
+          ExplicitHeight = 166
+          object PageControl1: TPageControl
+            AlignWithMargins = True
+            Left = 4
+            Top = 4
+            Width = 416
+            Height = 124
+            ActivePage = TabSheet1
+            Align = alClient
+            TabOrder = 0
+            ExplicitWidth = 618
+            ExplicitHeight = 158
+            object TabSheet1: TTabSheet
+              Caption = 'Dataset'
+              ExplicitWidth = 610
+              ExplicitHeight = 130
+              object GridResultado: TDBGrid
+                Left = 0
+                Top = 32
+                Width = 408
+                Height = 64
+                Align = alClient
+                BorderStyle = bsNone
+                DataSource = DataSource1
+                TabOrder = 0
+                TitleFont.Charset = DEFAULT_CHARSET
+                TitleFont.Color = clWindowText
+                TitleFont.Height = -11
+                TitleFont.Name = 'Tahoma'
+                TitleFont.Style = []
+              end
+              object Panel5: TPanel
+                Left = 0
+                Top = 0
+                Width = 408
+                Height = 32
+                Align = alTop
+                BevelOuter = bvNone
+                TabOrder = 1
+                ExplicitWidth = 610
+                object SpeedButton1: TSpeedButton
+                  AlignWithMargins = True
+                  Left = 249
+                  Top = 3
+                  Width = 50
+                  Height = 26
+                  Action = acnQueryExportar
+                  Align = alLeft
+                end
+                object SpeedButton2: TSpeedButton
+                  AlignWithMargins = True
+                  Left = 305
+                  Top = 3
+                  Width = 50
+                  Height = 26
+                  Action = acnQueryImportar
+                  Align = alLeft
+                end
+                object DBNavigator1: TDBNavigator
+                  AlignWithMargins = True
+                  Left = 3
+                  Top = 3
+                  Width = 240
+                  Height = 26
+                  DataSource = DataSource1
+                  VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbDelete, nbEdit, nbPost, nbCancel, nbRefresh, nbApplyUpdates, nbCancelUpdates]
+                  Align = alLeft
+                  TabOrder = 0
+                end
+              end
+            end
+            object TabSheet2: TTabSheet
+              Caption = 'Log'
+              ImageIndex = 1
+              object MemoLog: TMemo
+                Left = 0
+                Top = 0
+                Width = 408
+                Height = 96
+                Align = alClient
+                TabOrder = 0
+              end
+            end
+          end
+        end
+        object Panel4: TPanel
+          AlignWithMargins = True
+          Left = 3
+          Top = 3
+          Width = 424
+          Height = 201
+          Align = alTop
+          BevelOuter = bvNone
+          TabOrder = 1
+          ExplicitWidth = 626
+          object ToolBar2: TToolBar
+            Left = 0
+            Top = 0
+            Width = 424
+            Height = 29
+            ButtonHeight = 30
+            ButtonWidth = 31
+            Caption = 'ToolBar2'
+            Images = ImageListQuery
+            TabOrder = 0
+            ExplicitWidth = 626
+            object ToolButton1: TToolButton
+              AlignWithMargins = True
+              Left = 0
+              Top = 0
+              Action = acnQueryExecutar
+              ParentShowHint = False
+              ShowHint = True
+            end
+          end
+          object MemoQuery: TSynMemo
+            AlignWithMargins = True
+            Left = 3
+            Top = 32
+            Width = 418
+            Height = 166
+            Align = alClient
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Courier New'
+            Font.Style = []
+            TabOrder = 1
+            CodeFolding.GutterShapeSize = 11
+            CodeFolding.CollapsedLineColor = clGrayText
+            CodeFolding.FolderBarLinesColor = clGrayText
+            CodeFolding.IndentGuidesColor = clGray
+            CodeFolding.IndentGuides = True
+            CodeFolding.ShowCollapsedLine = True
+            CodeFolding.ShowHintMark = True
+            UseCodeFolding = False
+            Gutter.Font.Charset = DEFAULT_CHARSET
+            Gutter.Font.Color = clWindowText
+            Gutter.Font.Height = -11
+            Gutter.Font.Name = 'Courier New'
+            Gutter.Font.Style = []
+            Gutter.ShowLineNumbers = True
+            Highlighter = SynSQLSyn1
+            Lines.Strings = (
+              '/* Exemplo de SQL*/'
+              'select'
+              '  *'
+              'from'
+              '  TABELA')
+            FontSmoothing = fsmNone
+            ExplicitLeft = 0
+            ExplicitTop = 29
+            ExplicitWidth = 626
+            ExplicitHeight = 172
+          end
+        end
       end
     end
-  end
-  object Panel6: TPanel
-    Left = 0
-    Top = 0
-    Width = 185
-    Height = 382
-    Align = alLeft
-    BevelOuter = bvNone
-    TabOrder = 2
-    object Panel1: TPanel
-      Left = 0
-      Top = 0
-      Width = 185
-      Height = 41
-      Align = alTop
-      BevelOuter = bvNone
-      TabOrder = 0
-      object ToggleSwitch1: TToggleSwitch
-        AlignWithMargins = True
-        Left = 5
-        Top = 3
-        Width = 124
-        Height = 35
-        Margins.Left = 5
-        Margins.Right = 5
-        Align = alLeft
-        FrameColor = clMenuText
-        StateCaptions.CaptionOn = 'Conectado'
-        StateCaptions.CaptionOff = 'Desconectado'
+    object tabManager: TTabSheet
+      Caption = 'Manager'
+      ImageIndex = 1
+      ExplicitWidth = 281
+      ExplicitHeight = 165
+      object Splitter3: TSplitter
+        Left = 172
+        Top = 41
+        Height = 307
+        ExplicitLeft = 168
+        ExplicitTop = 120
+        ExplicitHeight = 100
+      end
+      object Panel2: TPanel
+        Left = 0
+        Top = 0
+        Width = 618
+        Height = 41
+        Align = alTop
+        BevelOuter = bvNone
         TabOrder = 0
-        ThumbColor = clRed
-        OnClick = ToggleSwitch1Click
-        ExplicitHeight = 20
+        ExplicitLeft = 32
+        ExplicitTop = 40
+        ExplicitWidth = 185
+        object SpeedButton3: TSpeedButton
+          AlignWithMargins = True
+          Left = 3
+          Top = 3
+          Width = 50
+          Height = 35
+          Action = acnManagerBackup
+          Align = alLeft
+        end
+        object SpeedButton4: TSpeedButton
+          AlignWithMargins = True
+          Left = 59
+          Top = 3
+          Width = 50
+          Height = 35
+          Action = acnManagerRestore
+          Align = alLeft
+        end
       end
-    end
-    object TreeViewTabelas: TTreeView
-      AlignWithMargins = True
-      Left = 3
-      Top = 44
-      Width = 179
-      Height = 335
-      Align = alClient
-      BevelInner = bvNone
-      BevelOuter = bvNone
-      BorderStyle = bsNone
-      Images = ImageListTabelas
-      Indent = 27
-      TabOrder = 1
-      OnDblClick = TreeViewTabelasDblClick
+      object TreeViewFiles: TTreeView
+        AlignWithMargins = True
+        Left = 3
+        Top = 44
+        Width = 166
+        Height = 301
+        Align = alLeft
+        AutoExpand = True
+        BevelInner = bvNone
+        BevelOuter = bvNone
+        BorderStyle = bsNone
+        Indent = 19
+        TabOrder = 1
+      end
+      object Memo1: TMemo
+        AlignWithMargins = True
+        Left = 178
+        Top = 44
+        Width = 437
+        Height = 301
+        Align = alClient
+        BevelInner = bvNone
+        BevelOuter = bvNone
+        BorderStyle = bsNone
+        Lines.Strings = (
+          'Memo1')
+        ReadOnly = True
+        TabOrder = 2
+        ExplicitLeft = 133
+        ExplicitWidth = 482
+      end
     end
   end
   object SynSQLSyn1: TSynSQLSyn
@@ -1204,17 +1311,28 @@ object ViewDatabase: TViewDatabase
     Left = 469
     Top = 148
     object acnQueryExecutar: TAction
+      Category = 'Query'
       Caption = 'Executar'
       Hint = 'Executar comando SQL'
       ImageIndex = 0
       ShortCut = 16453
       OnExecute = acnQueryExecutarExecute
     end
-    object acnDataSetExportar: TAction
+    object acnQueryExportar: TAction
+      Category = 'Query'
       Caption = 'Exportar'
     end
-    object acnDataSetImportar: TAction
+    object acnQueryImportar: TAction
+      Category = 'Query'
       Caption = 'Importar'
+    end
+    object acnManagerBackup: TAction
+      Caption = 'Backup'
+      OnExecute = acnManagerBackupExecute
+    end
+    object acnManagerRestore: TAction
+      Caption = 'Restore'
+      OnExecute = acnManagerRestoreExecute
     end
   end
 end

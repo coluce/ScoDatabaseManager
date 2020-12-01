@@ -48,8 +48,8 @@ uses
 constructor TControllerPrincipal.Create(const AView: TViewPrincipal);
 begin
   FView := AView;
-  FModelServer := TModelTablefactory.New('TSERVER');
-  FModelDataBase := TModelTablefactory.New('TDATABASE');
+  FModelServer := TModelFactory.Table('TSERVER');
+  FModelDataBase := TModelFactory.Table('TDATABASE');
   FServers := TDictionary<TTreeNode, TServer>.Create;
   FDatabases := TDictionary<TTreeNode, TDataBase>.Create;
 end;

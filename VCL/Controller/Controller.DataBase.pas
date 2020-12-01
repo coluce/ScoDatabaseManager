@@ -3,7 +3,7 @@ unit Controller.DataBase;
 interface
 
 uses
-  View.DataBase, Model.Types, Controller.Interfaces, Model.Interfaces,
+  View.DataBase.Manager, Model.Types, Controller.Interfaces, Model.Interfaces,
 
 
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
@@ -14,7 +14,7 @@ type
 
   TControllerDataBase = class(TInterfacedObject, IControllerDataBase)
   private
-    FView: TViewDataBase;
+    FView: TViewDataBaseManager;
     FDataBase: TDataBase;
     FConnection: IModelConnection;
     FQuery: TFDQuery;
@@ -38,6 +38,9 @@ type
     procedure ToogleSwitchClick;
     procedure ExecuteQuery;
 
+    procedure Backup;
+    procedure Restore;
+
   published
     property Connected: boolean read GetConnected write SetConnected;
   end;
@@ -47,14 +50,26 @@ implementation
 uses
   System.Classes, Model.Factory, Vcl.ComCtrls, System.SysUtils, Vcl.Graphics;
 
+const
+  BACKUP_LEVEL_FULL: integer = 0;
+
 { TControllerDataBase }
+
+procedure TControllerDataBase.Backup;
+var
+  vModelManager: IModelDatabaseManager;
+begin
+  vModelManager := TModelFactory.DataBaseManager(FDataBase);
+  { TODO : definir nome do arquivo de backup }
+  vModelManager.Backup('file name' , BACKUP_LEVEL_FULL);
+end;
 
 constructor TControllerDataBase.Create(const ADataBase: TDataBase);
 begin
   FDataBase := ADataBase;
-  FView := TViewDatabase.Create(Self);
+  FView := TViewDataBaseManager.Create(Self);
   FView.Caption := FDatabase.Name;
-  FConnection := TModelConnectionFactory.Firebird(FDataBase);
+  FConnection := TModelFactory.Firebird(FDataBase);
   FQuery := TFDQuery.Create(nil);
   FQuery.Connection := FConnection.GetConnection;
   FView.DataSource1.DataSet := FQuery;
@@ -208,6 +223,15 @@ end;
 procedure TControllerDataBase.LogAdd(const AMessage: string);
 begin
   FView.MemoLog.Lines.Add(AMessage);
+end;
+
+procedure TControllerDataBase.Restore;
+var
+  vModelManager: IModelDatabaseManager;
+begin
+  vModelManager := TModelFactory.DataBaseManager(FDataBase);
+  { TODO : definir nome do arquivo de restore }
+  vModelManager.Restore('file name');
 end;
 
 procedure TControllerDataBase.SetConnected(const Value: boolean);

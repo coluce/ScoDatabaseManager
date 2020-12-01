@@ -7,42 +7,32 @@ uses
 
 type
 
-  TModelConnectionFactory = class
-  private
+  TModelFactory = class
   public
     class function SQLite: IModelConnection;
     class function Firebird(ADataBase: TDatabase): IModelConnection;
-    class function New: IModelConnection;
-  end;
-
-  TModelStructureUpdaterFactory = class
-  private
-    class function SQLite: IModelStructureUpdater;
-    class function Firebird: IModelStructureUpdater;
-  public
-    class function New: IModelStructureUpdater;
-  end;
-
-  TModelTableFactory = class
-  public
-    class function New(const ATableName: string): IModelTable;
+    class function MainConnection: IModelConnection;
+    class function Updater: IModelStructureUpdater;
+    class function Table(const ATableName: string): IModelTable;
+    class function DataBaseManager(ADataBaseInfo: TDataBase): IModelDatabaseManager;
   end;
 
 implementation
 
 uses
   Model.Connection.SQLite, System.SysUtils, Model.Updater,
-  Model.Script, Model.Table, Model.Connection.Firebird;
+  Model.Script, Model.Table, Model.Connection.Firebird,
+  Model.DataBase.Manager;
 
-{ TModelConnectionFactory }
+{ TModelFactory }
 
-class function TModelConnectionFactory.New: IModelConnection;
+class function TModelFactory.MainConnection: IModelConnection;
 var
   vFirebirdDatabase: TDataBase;
 begin
 
   case Model.Types.ConnectionType of
-    TModelConnectionType.SQLite: Result := TModelConnectionFactory.SQLite;
+    TModelConnectionType.SQLite: Result := TModelFactory.SQLite;
     TModelConnectionType.Firebird:
     begin
       {esses dados abaixo não são utilizados}
@@ -53,52 +43,56 @@ begin
       vFirebirdDatabase.Path := 'E:\Database\config.db';
       vFirebirdDatabase.UserName := 'SYSDBA';
       vFirebirdDatabase.Password := 'MASTERKEY';
-      Result := TModelConnectionFactory.Firebird(vFirebirdDatabase);
+      Result := TModelFactory.Firebird(vFirebirdDatabase);
     end;
   end;
 
 end;
 
-class function TModelConnectionFactory.SQLite: IModelConnection;
+class function TModelFactory.SQLite: IModelConnection;
 begin
   Result := TModelConnectionSQLite.Create;
 end;
 
-class function TModelConnectionFactory.Firebird(ADataBase: TDatabase): IModelConnection;
+class function TModelFactory.Table(
+  const ATableName: string): IModelTable;
 begin
-  Result := TModelConnectionFirebird.Create(ADataBase);
+  Result := TModelTable.Create(ATableName);
 end;
 
-{ TModelStructureUpdaterFactory }
+class function TModelFactory.Updater: IModelStructureUpdater;
 
-class function TModelStructureUpdaterFactory.SQLite: IModelStructureUpdater;
-begin
-  Result := TModelStrcutureUpdater.Create;
-  Result.AddScript(TModelScript.Create('create table if not exists TSERVER (ID text primary key, NAME text, IP text)'));
-  Result.AddScript(TModelScript.Create('create table if not exists TDATABASE (ID text primary key, ID_SERVER text, NAME text, PATH text, USERNAME text, PASSWORD text)'));
-  Result.AddScript(TModelScript.Create('create table if not exists TLAYOUT (ID text primary key, NAME varchar(50), LAYOUT varchar(5000))'));
-  Result.AddScript(TModelScript.Create('create table if not exists TPARAM (SESSION varchar(100), KEY varchar(100), VALUE varchar(5000))'));
-end;
+  { TODO : criar uma classe de implementacao pra isso }
+  function CreateSQLite: IModelStructureUpdater;
+  begin
+    Result := TModelStrcutureUpdater.Create;
+    Result.AddScript(TModelScript.Create('create table if not exists TSERVER (ID text primary key, NAME text, IP text)'));
+    Result.AddScript(TModelScript.Create('create table if not exists TDATABASE (ID text primary key, ID_SERVER text, NAME text, PATH text, USERNAME text, PASSWORD text)'));
+    Result.AddScript(TModelScript.Create('create table if not exists TLAYOUT (ID text primary key, NAME varchar(50), LAYOUT varchar(5000))'));
+    Result.AddScript(TModelScript.Create('create table if not exists TPARAM (SESSION varchar(100), KEY varchar(100), VALUE varchar(5000))'));
+  end;
 
-class function TModelStructureUpdaterFactory.Firebird: IModelStructureUpdater;
-begin
-  Result := nil;
-  raise Exception.Create('Updater Firebird não implementado');
-end;
+  function CreateFirebird: IModelStructureUpdater;
+  begin
+    Result := nil;
+    raise Exception.Create('Updater Firebird não implementado');
+  end;
 
-class function TModelStructureUpdaterFactory.New: IModelStructureUpdater;
 begin
   case Model.Types.ConnectionType of
-    TModelConnectionType.SQLite: Result := TModelStructureUpdaterFactory.SQLite;
-    TModelConnectionType.Firebird: Result := TModelStructureUpdaterFactory.Firebird;
+    TModelConnectionType.SQLite: Result := CreateSQLite;
+    TModelConnectionType.Firebird: Result := CreateFirebird;
   end;
 end;
 
-{ TModelTableFactory }
-
-class function TModelTableFactory.New(const ATableName: string): IModelTable;
+class function TModelFactory.DataBaseManager(ADataBaseInfo: TDataBase): IModelDatabaseManager;
 begin
-  Result := TModelTable.Create(ATableName);
+  Result := TModelDataBaseManager.Create(ADataBaseInfo);
+end;
+
+class function TModelFactory.Firebird(ADataBase: TDatabase): IModelConnection;
+begin
+  Result := TModelConnectionFirebird.Create(ADataBase);
 end;
 
 end.

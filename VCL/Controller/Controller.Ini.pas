@@ -1,4 +1,4 @@
-unit Controller.Ini;
+﻿unit Controller.Ini;
 
 interface
 
@@ -35,7 +35,7 @@ begin
   FDatabase := ADataBase;
   FView := TViewIni.Create(Self);
   FView.Caption := 'Exportar [' + FDatabase.Name + ']';
-  FModelLayout := TModelTableFactory.New('TLAYOUT');
+  FModelLayout := TModelFactory.Table('TLAYOUT');
 end;
 
 destructor TControllerIni.Destroy;

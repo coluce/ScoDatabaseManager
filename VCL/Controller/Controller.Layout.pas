@@ -32,7 +32,7 @@ uses
 constructor TControllerLayout.Create;
 begin
   FView := TViewLayout.Create(Self);
-  FModelLayout := TModelTableFactory.New('TLAYOUT');
+  FModelLayout := TModelFactory.Table('TLAYOUT');
 end;
 
 destructor TControllerLayout.Destroy;

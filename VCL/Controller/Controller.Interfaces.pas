@@ -49,6 +49,9 @@ type
     procedure SetConnected(const Value: boolean);
     property Connected: boolean read GetConnected write SetConnected;
 
+    procedure Backup;
+    procedure Restore;
+
   end;
 
   IControllerLayout = interface(IController)

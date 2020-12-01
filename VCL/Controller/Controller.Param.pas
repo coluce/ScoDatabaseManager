@@ -24,7 +24,7 @@ uses
 
 constructor TControllerParam.Create;
 begin
-  FModelParam := TModelTableFactory.New('TPARAM');
+  FModelParam := TModelFactory.Table('TPARAM');
 end;
 
 function TControllerParam.GetParam(const ASession, AKey, ADefault: string): string;

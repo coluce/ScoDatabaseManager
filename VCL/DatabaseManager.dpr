@@ -11,7 +11,7 @@ uses
   Model.Script in 'Model\Model.Script.pas',
   Model.Types in 'Model\Model.Types.pas',
   Model.Updater in 'Model\Model.Updater.pas',
-  View.Database in 'View\View.Database.pas' {ViewDatabase},
+  View.Database.Manager in 'View\View.Database.Manager.pas' {ViewDatabaseManager},
   Controller.DataBase in 'Controller\Controller.DataBase.pas',
   Controller.Interfaces in 'Controller\Controller.Interfaces.pas',
   Controller.Factory in 'Controller\Controller.Factory.pas',
@@ -24,7 +24,8 @@ uses
   View.Default in 'View\View.Default.pas' {ViewDefault},
   Controller.Window in 'Controller\Controller.Window.pas',
   View.Server in 'View\View.Server.pas' {ViewServer},
-  View.Database.Register in 'View\View.Database.Register.pas' {ViewRegisterDatabase};
+  View.Database.Register in 'View\View.Database.Register.pas' {ViewRegisterDatabase},
+  Model.Database.Manager in 'Model\Model.Database.Manager.pas';
 
 {$R *.res}
 
@@ -36,7 +37,7 @@ begin
 
   Model.Types.ConnectionType := TModelConnectionType.SQLite;
 
-  vUpdater := TModelStructureUpdaterFactory.New;
+  vUpdater := TModelFactory.Updater;
   vUpdater.Execute;
 
   Application.Initialize;

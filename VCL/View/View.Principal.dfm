@@ -28,7 +28,7 @@ object ViewPrincipal: TViewPrincipal
         Width = 80
       end
       item
-        Text = 'defaul path'
+        Text = 'default path'
         Width = 50
       end>
   end
@@ -113,7 +113,7 @@ object ViewPrincipal: TViewPrincipal
       Action = acnPopupMenuExport
     end
     object Conectar1: TMenuItem
-      Action = acnPopupMenuConectar
+      Action = acnPopupMenuGerenciar
     end
   end
   object ImageListTreeView: TImageList
@@ -470,11 +470,11 @@ object ViewPrincipal: TViewPrincipal
       ImageIndex = 2
       OnExecute = acnPopupMenuExportExecute
     end
-    object acnPopupMenuConectar: TAction
+    object acnPopupMenuGerenciar: TAction
       Category = 'PopupMenu'
-      Caption = 'Conectar'
+      Caption = 'Ger'#234'nciar'
       ImageIndex = 2
-      OnExecute = acnPopupMenuConectarExecute
+      OnExecute = acnPopupMenuGerenciarExecute
     end
   end
   object ImageListActionList: TImageList
