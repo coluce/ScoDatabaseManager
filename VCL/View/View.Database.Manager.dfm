@@ -38,8 +38,6 @@ object ViewDatabaseManager: TViewDatabaseManager
     TabOrder = 1
     object tabQuery: TTabSheet
       Caption = 'Query'
-      ExplicitWidth = 281
-      ExplicitHeight = 165
       object Splitter1: TSplitter
         Left = 185
         Top = 0
@@ -55,7 +53,6 @@ object ViewDatabaseManager: TViewDatabaseManager
         Align = alLeft
         BevelOuter = bvNone
         TabOrder = 0
-        ExplicitHeight = 382
         object Panel1: TPanel
           Left = 0
           Top = 0
@@ -96,7 +93,6 @@ object ViewDatabaseManager: TViewDatabaseManager
           Indent = 27
           TabOrder = 1
           OnDblClick = TreeViewTabelasDblClick
-          ExplicitHeight = 335
         end
       end
       object pnlQuery: TPanel
@@ -107,9 +103,6 @@ object ViewDatabaseManager: TViewDatabaseManager
         Align = alClient
         BevelOuter = bvNone
         TabOrder = 1
-        ExplicitLeft = 0
-        ExplicitWidth = 632
-        ExplicitHeight = 382
         object Splitter2: TSplitter
           Left = 0
           Top = 207
@@ -128,8 +121,6 @@ object ViewDatabaseManager: TViewDatabaseManager
           Height = 132
           Align = alClient
           TabOrder = 0
-          ExplicitWidth = 626
-          ExplicitHeight = 166
           object PageControl1: TPageControl
             AlignWithMargins = True
             Left = 4
@@ -139,12 +130,8 @@ object ViewDatabaseManager: TViewDatabaseManager
             ActivePage = TabSheet1
             Align = alClient
             TabOrder = 0
-            ExplicitWidth = 618
-            ExplicitHeight = 158
             object TabSheet1: TTabSheet
               Caption = 'Dataset'
-              ExplicitWidth = 610
-              ExplicitHeight = 130
               object GridResultado: TDBGrid
                 Left = 0
                 Top = 32
@@ -168,7 +155,6 @@ object ViewDatabaseManager: TViewDatabaseManager
                 Align = alTop
                 BevelOuter = bvNone
                 TabOrder = 1
-                ExplicitWidth = 610
                 object SpeedButton1: TSpeedButton
                   AlignWithMargins = True
                   Left = 249
@@ -203,6 +189,10 @@ object ViewDatabaseManager: TViewDatabaseManager
             object TabSheet2: TTabSheet
               Caption = 'Log'
               ImageIndex = 1
+              ExplicitLeft = 0
+              ExplicitTop = 0
+              ExplicitWidth = 0
+              ExplicitHeight = 0
               object MemoLog: TMemo
                 Left = 0
                 Top = 0
@@ -223,7 +213,6 @@ object ViewDatabaseManager: TViewDatabaseManager
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 1
-          ExplicitWidth = 626
           object ToolBar2: TToolBar
             Left = 0
             Top = 0
@@ -234,7 +223,6 @@ object ViewDatabaseManager: TViewDatabaseManager
             Caption = 'ToolBar2'
             Images = ImageListQuery
             TabOrder = 0
-            ExplicitWidth = 626
             object ToolButton1: TToolButton
               AlignWithMargins = True
               Left = 0
@@ -257,13 +245,11 @@ object ViewDatabaseManager: TViewDatabaseManager
             Font.Name = 'Courier New'
             Font.Style = []
             TabOrder = 1
-            CodeFolding.GutterShapeSize = 11
             CodeFolding.CollapsedLineColor = clGrayText
             CodeFolding.FolderBarLinesColor = clGrayText
+            CodeFolding.ShowCollapsedLine = True
             CodeFolding.IndentGuidesColor = clGray
             CodeFolding.IndentGuides = True
-            CodeFolding.ShowCollapsedLine = True
-            CodeFolding.ShowHintMark = True
             UseCodeFolding = False
             Gutter.Font.Charset = DEFAULT_CHARSET
             Gutter.Font.Color = clWindowText
@@ -279,10 +265,6 @@ object ViewDatabaseManager: TViewDatabaseManager
               'from'
               '  TABELA')
             FontSmoothing = fsmNone
-            ExplicitLeft = 0
-            ExplicitTop = 29
-            ExplicitWidth = 626
-            ExplicitHeight = 172
           end
         end
       end
@@ -290,6 +272,8 @@ object ViewDatabaseManager: TViewDatabaseManager
     object tabManager: TTabSheet
       Caption = 'Manager'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
       ExplicitWidth = 281
       ExplicitHeight = 165
       object Splitter3: TSplitter
@@ -358,8 +342,6 @@ object ViewDatabaseManager: TViewDatabaseManager
           'Memo1')
         ReadOnly = True
         TabOrder = 2
-        ExplicitLeft = 133
-        ExplicitWidth = 482
       end
     end
   end
