@@ -24,7 +24,9 @@ type
 
     procedure UpdateStatusBar;
     procedure LogAdd(const AMessage: string);
-
+    procedure CreateBackupDirectory;
+    function GetBackupDirectory: string;
+    function GetBackupFileName: string;
   public
     constructor Create(const ADataBase: TDataBase);
     destructor Destroy; override;
@@ -48,7 +50,8 @@ type
 implementation
 
 uses
-  System.Classes, Model.Factory, Vcl.ComCtrls, System.SysUtils, Vcl.Graphics;
+  System.Classes, Model.Factory, Vcl.ComCtrls, System.SysUtils, Vcl.Graphics,
+  System.IOUtils;
 
 const
   BACKUP_LEVEL_FULL: integer = 0;
@@ -59,9 +62,9 @@ procedure TControllerDataBase.Backup;
 var
   vModelManager: IModelDatabaseManager;
 begin
+  CreateBackupDirectory;
   vModelManager := TModelFactory.DataBaseManager(FDataBase);
-  { TODO : definir nome do arquivo de backup }
-  vModelManager.Backup('file name' , BACKUP_LEVEL_FULL);
+  vModelManager.Backup(TPath.Combine(GetBackupDirectory, GetBackupFileName), BACKUP_LEVEL_FULL);
 end;
 
 constructor TControllerDataBase.Create(const ADataBase: TDataBase);
@@ -74,6 +77,21 @@ begin
   FQuery.Connection := FConnection.GetConnection;
   FView.DataSource1.DataSet := FQuery;
   FView.MemoLog.Clear;
+end;
+
+procedure TControllerDataBase.CreateBackupDirectory;
+var
+  vDirectoryName: string;
+begin
+  vDirectoryName := GetBackupDirectory;
+  if not DirectoryExists(vDirectoryName) then
+  begin
+    ForceDirectories(vDirectoryName);
+  end;
+  if not DirectoryExists(vDirectoryName) then
+  begin
+    raise Exception.Create('Não foi poss[ivel criar o diretório: ' + vDirectoryName);
+  end;
 end;
 
 destructor TControllerDataBase.Destroy;
@@ -212,6 +230,16 @@ begin
   finally
     vList.Free;
   end;
+end;
+
+function TControllerDataBase.GetBackupDirectory: string;
+begin
+  Result := TPath.Combine(FDataBase.Path, 'backup');
+end;
+
+function TControllerDataBase.GetBackupFileName: string;
+begin
+  Result := 'backup_' + FormatDateTime('yyyy_mm_dd_hh_nn_ss_zzz', Now) + '.backup';
 end;
 
 function TControllerDataBase.GetConnected: boolean;
