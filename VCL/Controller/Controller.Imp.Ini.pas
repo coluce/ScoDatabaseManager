@@ -51,7 +51,7 @@ begin
   if not DirectoryExists(ExtractFilePath(FView.edtLocalDestino.Text)) then
     raise Exception.Create('Local de exporta��o inv�lido!');
 
-  vControllerParam := TControllerFactory.Param;
+  vControllerParam := TControllerFactory.ParamManager;
   vControllerParam.SetParam('INI', 'DEFAULT_PATH', ExtractFilePath(FView.edtLocalDestino.Text));
   vControllerParam.SetParam('INI', 'DEFAULT_FILE_NAME', ExtractFileName(FView.edtLocalDestino.Text));
   vControllerParam.SetParam('INI', 'LAST_ID', FDatabase.ID);
@@ -103,7 +103,7 @@ procedure TControllerIni.PrepareData;
     vDirectory: string;
     vFileName: string;
   begin
-    vControllerParam := TControllerFactory.Param;
+    vControllerParam := TControllerFactory.ParamManager;
     vDirectory := vControllerParam.GetParam('INI','DEFAULT_PATH', ExtractFilePath(ParamStr(0)));
     vFileName := vControllerParam.GetParam('INI','DEFAULT_FILE_NAME', 'ALTERDB.INI');
     FView.edtLocalDestino.Text := TPath.Combine(vDirectory, vFileName);

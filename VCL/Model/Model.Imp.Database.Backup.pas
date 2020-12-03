@@ -11,7 +11,7 @@ type
     FDataBaseInfo: TDataBase;
     FDPhysFBDriverLink: TFDPhysFBDriverLink;
   public
-    constructor Create(ADataBaseInfo: TDataBase);
+    constructor Create(ADataBaseInfo: TDataBase; const ADatabaseDLLPath: string);
     destructor Destroy; override;
 
     procedure Backup(const ADestinyFile: string; const ALevel: integer);
@@ -48,12 +48,11 @@ begin
   end;
 end;
 
-constructor TModelDataBaseBackup.Create(ADataBaseInfo: TDataBase);
+constructor TModelDataBaseBackup.Create(ADataBaseInfo: TDataBase; const ADatabaseDLLPath: string);
 begin
   FDataBaseInfo := ADataBaseInfo;
   FDPhysFBDriverLink := TFDPhysFBDriverLink.Create(nil);
-  { TODO : definir parametro para a dll do firebird / sql }
-  FDPhysFBDriverLink.VendorLib := 'C:\Program Files (x86)\Firebird\Firebird_3_0\fbclient.dll';
+  FDPhysFBDriverLink.VendorLib := ADatabaseDLLPath;
 end;
 
 destructor TModelDataBaseBackup.Destroy;

@@ -9,25 +9,28 @@ type
 
   IControllerView = interface
     ['{DCBFFF6E-68AB-4935-8F06-FF0248B526DB}']
-
     procedure Show;
     procedure ShowModal;
-
   end;
 
-  IControllerPrincipal = interface
+  IControllerMain = interface
     ['{48937CC1-ECF8-473C-B155-5F0B9B3D635C}']
     procedure FindInUse;
     procedure FillList;
     procedure RegisterServer;
-    procedure UnregisterServer(const ATreeNode: TTreeNode);
-    procedure EditServer(const ATreeNode: TTreeNode);
-    procedure RegisterDatabase(const ATreeNode: TTreeNode);
-    procedure UnregisterDataBase(const ATreeNode: TTreeNode);
-    procedure EditDataBase(const ATreeNode: TTreeNode);
-    procedure ShowDataBase(const ATreeNode: TTreeNode);
-    procedure ExportToDrive(const ATreeNode: TTreeNode);
-    procedure IrParaCadastroLayout;
+    procedure UnregisterServer;
+    procedure EditServer;
+    procedure RegisterDatabase;
+    procedure UnregisterDataBase;
+    procedure EditDataBase;
+    procedure ShowDataBase;
+    procedure ExportToDrive;
+    procedure PreparePopUp;
+    procedure CallLayoutManager;
+    procedure CallBackupManager;
+    procedure CallEdit;
+    procedure CallUnregister;
+    procedure CallRegister;
   end;
 
   IControllerWindow = interface
@@ -53,6 +56,8 @@ type
   IControllerDataBaseBackup = interface(IControllerView)
     ['{47F05023-3653-435E-A35A-95C1E8DB289E}']
     procedure FillBackupFiles;
+    procedure SetDLL;
+    procedure DeleteBackup;
     procedure Backup;
     procedure Restore;
   end;

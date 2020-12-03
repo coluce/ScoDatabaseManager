@@ -100,14 +100,19 @@ begin
       begin
         FQuery.ExecSQL;
         LogAdd('Exec SQL: ' + FQuery.RowsAffected.ToString);
+        FView.PageControlMain.ActivePage := FView.TabSheetLog;
       end
       else
       begin
         FQuery.Open;
         LogAdd('Select SQL: ' + FQuery.RecordCount.ToString);
+        FView.PageControlMain.ActivePage := FView.TabSheetResult;
       end;
     except on E: Exception do
-      LogAdd('Erro: ' + E.Message);
+      begin
+        LogAdd('Erro: ' + E.Message);
+        FView.PageControlMain.ActivePage := FView.TabSheetLog;
+      end;
     end;
 
   end;
@@ -215,6 +220,7 @@ procedure TControllerDataBase.PrepareScreen;
 begin
   Self.UpdateStatusBar;
   Self.UpdateToogleColor;
+  FView.PageControlMain.ActivePageIndex := 0;
 end;
 
 procedure TControllerDataBase.SetConnected(const Value: boolean);

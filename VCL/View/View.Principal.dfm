@@ -1,4 +1,4 @@
-object ViewPrincipal: TViewPrincipal
+object ViewMain: TViewMain
   Left = 0
   Top = 0
   Caption = 'DataBase Manager'
@@ -481,8 +481,9 @@ object ViewPrincipal: TViewPrincipal
     end
     object acnPopupMenuBackup: TAction
       Category = 'PopupMenu'
-      Caption = 'Backup'
+      Caption = 'Ger'#234'nciador de Backups'
       ImageIndex = 2
+      OnExecute = acnPopupMenuBackupExecute
     end
   end
   object ImageListActionList: TImageList

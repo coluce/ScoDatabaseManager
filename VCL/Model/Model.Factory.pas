@@ -14,7 +14,7 @@ type
     class function MainConnection: IModelConnection;
     class function Updater: IModelStructureUpdater;
     class function Table(const ATableName: string): IModelTable;
-    class function DataBaseBackup(ADataBaseInfo: TDataBase): IModelDatabaseBackup;
+    class function DataBaseBackup(ADataBaseInfo: TDataBase; const ADllDatabasePath: string): IModelDatabaseBackup;
   end;
 
 implementation
@@ -85,9 +85,9 @@ begin
   end;
 end;
 
-class function TModelFactory.DataBaseBackup(ADataBaseInfo: TDataBase): IModelDatabaseBackup;
+class function TModelFactory.DataBaseBackup(ADataBaseInfo: TDataBase; const ADllDatabasePath: string): IModelDatabaseBackup;
 begin
-  Result := TModelDataBaseBackup.Create(ADataBaseInfo);
+  Result := TModelDataBaseBackup.Create(ADataBaseInfo, ADllDatabasePath);
 end;
 
 class function TModelFactory.Firebird(ADataBase: TDatabase): IModelConnection;

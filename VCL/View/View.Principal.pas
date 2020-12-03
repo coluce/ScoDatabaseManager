@@ -9,7 +9,7 @@ uses
   Controller.Interfaces;
 
 type
-  TViewPrincipal = class(TForm)
+  TViewMain = class(TForm)
     StatusBar1: TStatusBar;
     Panel1: TPanel;
     TreeView1: TTreeView;
@@ -46,16 +46,17 @@ type
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure acnPopupMenuEditarExecute(Sender: TObject);
+    procedure acnPopupMenuBackupExecute(Sender: TObject);
   private
     { Private declarations }
-    FControllerPrincipal: IControllerPrincipal;
+    FControllerMain: IControllerMain;
     FControllerWindow: IControllerWindow;
   public
     { Public declarations }
   end;
 
 var
-  ViewPrincipal: TViewPrincipal;
+  ViewMain: TViewMain;
 
 implementation
 
@@ -64,99 +65,76 @@ uses
 
 {$R *.dfm}
 
-procedure TViewPrincipal.acnCadastroLayoutsExecute(Sender: TObject);
+procedure TViewMain.acnCadastroLayoutsExecute(Sender: TObject);
 begin
-  FControllerPrincipal.IrParaCadastroLayout;
+  FControllerMain.CallLayoutManager;
 end;
 
-procedure TViewPrincipal.acnPopupMenuShowDataExecute(Sender: TObject);
+procedure TViewMain.acnPopupMenuShowDataExecute(Sender: TObject);
 begin
-  if TreeView1.Selected.Level = 1 then
-  begin
-    FControllerPrincipal.ShowDataBase(TreeView1.Selected);
-  end;
+  FControllerMain.ShowDataBase;
 end;
 
-procedure TViewPrincipal.acnPopupMenuEditarExecute(Sender: TObject);
+procedure TViewMain.acnPopupMenuBackupExecute(Sender: TObject);
 begin
-  if TreeView1.Selected.Level = 0 then
-  begin
-    FControllerPrincipal.EditServer(TreeView1.Selected);
-  end
-  else
-  begin
-    FControllerPrincipal.EditDataBase(TreeView1.Selected);
-  end;
-  FControllerPrincipal.FillList;
+  FControllerMain.CallBackupManager;
 end;
 
-procedure TViewPrincipal.acnPopupMenuExcluirExecute(Sender: TObject);
+procedure TViewMain.acnPopupMenuEditarExecute(Sender: TObject);
 begin
-  if TreeView1.Selected.Level = 0 then
-  begin
-    FControllerPrincipal.UnregisterServer(TreeView1.Selected);
-  end
-  else
-  begin
-    FControllerPrincipal.UnregisterDataBase(TreeView1.Selected);
-  end;
-  FControllerPrincipal.FillList;
+  FControllerMain.CallEdit;
 end;
 
-procedure TViewPrincipal.acnPopupMenuExportExecute(Sender: TObject);
+procedure TViewMain.acnPopupMenuExcluirExecute(Sender: TObject);
 begin
-  FControllerPrincipal.ExportToDrive(Self.TreeView1.Selected);
+  FControllerMain.CallUnregister;
 end;
 
-procedure TViewPrincipal.acnPopupMenuRegistrarBancoExecute(Sender: TObject);
+procedure TViewMain.acnPopupMenuExportExecute(Sender: TObject);
 begin
-  if TreeView1.Selected.Level = 0 then
-  begin
-    FControllerPrincipal.RegisterDataBase(TreeView1.Selected);
-    FControllerPrincipal.FillList;
-  end;
+  FControllerMain.ExportToDrive;
 end;
 
-procedure TViewPrincipal.acnServerNovoExecute(Sender: TObject);
+procedure TViewMain.acnPopupMenuRegistrarBancoExecute(Sender: TObject);
 begin
-  FControllerPrincipal.RegisterServer;
-  FControllerPrincipal.FillList;
+  FControllerMain.CallRegister;
 end;
 
-procedure TViewPrincipal.FormActivate(Sender: TObject);
+procedure TViewMain.acnServerNovoExecute(Sender: TObject);
 begin
-  FControllerPrincipal.FindInUse;
+  FControllerMain.CallRegister;
 end;
 
-procedure TViewPrincipal.FormClose(Sender: TObject; var Action: TCloseAction);
+procedure TViewMain.FormActivate(Sender: TObject);
+begin
+  FControllerMain.FindInUse;
+end;
+
+procedure TViewMain.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   FControllerWindow.SavePosition;
 end;
 
-procedure TViewPrincipal.FormCreate(Sender: TObject);
+procedure TViewMain.FormCreate(Sender: TObject);
 begin
-  FControllerPrincipal := TControllerFactory.Principal(Self);
-  FControllerPrincipal.FillList;
-
+  FControllerMain := TControllerFactory.Main(Self);
+  FControllerMain.FillList;
   FControllerWindow :=  TControllerFactory.Window(Self);
-
 end;
 
-procedure TViewPrincipal.FormShow(Sender: TObject);
+procedure TViewMain.FormShow(Sender: TObject);
 begin
   FControllerWindow.RestorePosition;
 end;
 
-procedure TViewPrincipal.PopupMenuTreeViewPopup(Sender: TObject);
+procedure TViewMain.PopupMenuTreeViewPopup(Sender: TObject);
 begin
-  acnPopupMenuRegistrarBanco.Visible := TreeView1.Selected.Level = 0;
-  acnPopupMenuExport.Visible := TreeView1.Selected.Level = 1;
-  acnPopupMenuShowData.Visible := TreeView1.Selected.Level = 1;
+  FControllerMain.PreparePopUp;
 end;
 
-procedure TViewPrincipal.TreeView1DblClick(Sender: TObject);
+procedure TViewMain.TreeView1DblClick(Sender: TObject);
 begin
-  acnPopupMenuShowData.Execute;
+  FControllerMain.ShowDataBase;
 end;
 
 end.

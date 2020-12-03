@@ -26,7 +26,7 @@ uses
 constructor TControllerWindow.Create(const AView: TForm);
 begin
   FView := AView;
-  FControllerParam := TControllerFactory.Param;
+  FControllerParam := TControllerFactory.ParamManager;
 end;
 
 procedure TControllerWindow.RestorePosition;

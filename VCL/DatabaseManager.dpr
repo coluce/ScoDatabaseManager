@@ -2,8 +2,8 @@ program DatabaseManager;
 
 uses
   Vcl.Forms,
-  View.Principal in 'View\View.Principal.pas' {ViewPrincipal},
-  Controller.Imp.Principal in 'Controller\Controller.Imp.Principal.pas',
+  View.Principal in 'View\View.Principal.pas' {ViewMain},
+  Controller.Imp.Main in 'Controller\Controller.Imp.Main.pas',
   Model.Imp.Connection.SQLite in 'Model\Model.Imp.Connection.SQLite.pas',
   Model.Interfaces in 'Model\Model.Interfaces.pas',
   Model.Factory in 'Model\Model.Factory.pas',
@@ -44,6 +44,6 @@ begin
 
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  Application.CreateForm(TViewPrincipal, ViewPrincipal);
+  Application.CreateForm(TViewMain, ViewMain);
   Application.Run;
 end.
