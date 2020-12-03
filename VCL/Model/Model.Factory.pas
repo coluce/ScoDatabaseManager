@@ -14,15 +14,15 @@ type
     class function MainConnection: IModelConnection;
     class function Updater: IModelStructureUpdater;
     class function Table(const ATableName: string): IModelTable;
-    class function DataBaseManager(ADataBaseInfo: TDataBase): IModelDatabaseManager;
+    class function DataBaseBackup(ADataBaseInfo: TDataBase): IModelDatabaseBackup;
   end;
 
 implementation
 
 uses
-  Model.Connection.SQLite, System.SysUtils, Model.Updater,
-  Model.Script, Model.Table, Model.Connection.Firebird,
-  Model.DataBase.Manager;
+  Model.Imp.Connection.SQLite, System.SysUtils, Model.Imp.Updater,
+  Model.Imp.Script, Model.Imp.Table, Model.Imp.Connection.Firebird,
+  Model.Imp.DataBase.Backup;
 
 { TModelFactory }
 
@@ -85,9 +85,9 @@ begin
   end;
 end;
 
-class function TModelFactory.DataBaseManager(ADataBaseInfo: TDataBase): IModelDatabaseManager;
+class function TModelFactory.DataBaseBackup(ADataBaseInfo: TDataBase): IModelDatabaseBackup;
 begin
-  Result := TModelDataBaseManager.Create(ADataBaseInfo);
+  Result := TModelDataBaseBackup.Create(ADataBaseInfo);
 end;
 
 class function TModelFactory.Firebird(ADataBase: TDatabase): IModelConnection;

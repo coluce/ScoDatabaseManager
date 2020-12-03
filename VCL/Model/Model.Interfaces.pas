@@ -57,7 +57,7 @@ type
     procedure AddScript(const AScript: IModelScript);
   end;
 
-  IModelDatabaseManager = interface
+  IModelDatabaseBackup = interface
     ['{B27E6601-BC2C-4510-A2A3-80A55430587F}']
     procedure Backup(const ADestinyFile: string; const ALevel: integer);
     procedure Restore(const ABackupFile: string);

@@ -109,11 +109,14 @@ object ViewPrincipal: TViewPrincipal
     object NovoBanco1: TMenuItem
       Action = acnPopupMenuRegistrarBanco
     end
+    object Backup1: TMenuItem
+      Action = acnPopupMenuBackup
+    end
     object acnPopupMenuDefinirAtual1: TMenuItem
       Action = acnPopupMenuExport
     end
     object Conectar1: TMenuItem
-      Action = acnPopupMenuGerenciar
+      Action = acnPopupMenuShowData
     end
   end
   object ImageListTreeView: TImageList
@@ -470,11 +473,16 @@ object ViewPrincipal: TViewPrincipal
       ImageIndex = 2
       OnExecute = acnPopupMenuExportExecute
     end
-    object acnPopupMenuGerenciar: TAction
+    object acnPopupMenuShowData: TAction
       Category = 'PopupMenu'
-      Caption = 'Ger'#234'nciar'
+      Caption = 'Dados'
       ImageIndex = 2
-      OnExecute = acnPopupMenuGerenciarExecute
+      OnExecute = acnPopupMenuShowDataExecute
+    end
+    object acnPopupMenuBackup: TAction
+      Category = 'PopupMenu'
+      Caption = 'Backup'
+      ImageIndex = 2
     end
   end
   object ImageListActionList: TImageList

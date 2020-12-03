@@ -7,7 +7,7 @@ uses
 
 type
 
-  IController = interface
+  IControllerView = interface
     ['{DCBFFF6E-68AB-4935-8F06-FF0248B526DB}']
 
     procedure Show;
@@ -36,11 +36,10 @@ type
     procedure RestorePosition;
   end;
 
-  IControllerDataBase = interface(IController)
+  IControllerDataBaseData = interface(IControllerView)
     ['{C870051D-3F20-4A0F-9023-37FEA157BF87}']
 
     procedure FillTableNames;
-    procedure FillBackupFiles;
     procedure UpdateToogleColor;
     procedure ToogleSwitchClick;
     procedure FillSQLFromTreeView;
@@ -49,17 +48,20 @@ type
     function GetConnected: boolean;
     procedure SetConnected(const Value: boolean);
     property Connected: boolean read GetConnected write SetConnected;
-
-    procedure Backup;
-    procedure Restore;
-
   end;
 
-  IControllerLayout = interface(IController)
+  IControllerDataBaseBackup = interface(IControllerView)
+    ['{47F05023-3653-435E-A35A-95C1E8DB289E}']
+    procedure FillBackupFiles;
+    procedure Backup;
+    procedure Restore;
+  end;
+
+  IControllerLayout = interface(IControllerView)
     ['{15A44337-42BC-408E-9B2D-383DEE1276B7}']
   end;
 
-  IControllerIni = interface(IController)
+  IControllerIni = interface(IControllerView)
     ['{15A44337-42BC-408E-9B2D-383DEE1276B7}']
     procedure FillPreview;
     procedure ExportToDrive;

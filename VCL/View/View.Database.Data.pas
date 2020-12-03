@@ -1,4 +1,4 @@
-unit View.Database.Manager;
+unit View.Database.Data;
 
 interface
 
@@ -10,7 +10,7 @@ uses
   Vcl.Buttons;
 
 type
-  TViewDatabaseManager = class(TViewDefault)
+  TViewDatabaseData = class(TViewDefault)
     StatusBar1: TStatusBar;
     Splitter1: TSplitter;
     pnlQuery: TPanel;
@@ -43,27 +43,16 @@ type
     acnQueryExportar: TAction;
     PageControlMain: TPageControl;
     tabQuery: TTabSheet;
-    tabManager: TTabSheet;
-    Panel2: TPanel;
-    SpeedButton3: TSpeedButton;
-    SpeedButton4: TSpeedButton;
-    acnManagerBackup: TAction;
-    acnManagerRestore: TAction;
-    TreeViewBackupFiles: TTreeView;
-    Splitter3: TSplitter;
-    Memo1: TMemo;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ToggleSwitch1Click(Sender: TObject);
     procedure TreeViewTabelasDblClick(Sender: TObject);
     procedure acnQueryExecutarExecute(Sender: TObject);
-    procedure acnManagerBackupExecute(Sender: TObject);
-    procedure acnManagerRestoreExecute(Sender: TObject);
   private
     { Private declarations }
-    FController: IControllerDataBase;
+    FController: IControllerDataBaseData;
   public
     { Public declarations }
-    constructor Create(const AController: IControllerDatabase); reintroduce;
+    constructor Create(const AController: IControllerDatabaseData); reintroduce;
   published
     { Published declarations }
   end;
@@ -74,30 +63,18 @@ implementation
 
 { TViewDatabase }
 
-procedure TViewDatabaseManager.acnManagerBackupExecute(Sender: TObject);
-begin
-  inherited;
-  FController.Backup;
-end;
-
-procedure TViewDatabaseManager.acnManagerRestoreExecute(Sender: TObject);
-begin
-  inherited;
-  FController.Restore;
-end;
-
-procedure TViewDatabaseManager.acnQueryExecutarExecute(Sender: TObject);
+procedure TViewDatabaseData.acnQueryExecutarExecute(Sender: TObject);
 begin
   FController.ExecuteQuery;
 end;
 
-constructor TViewDatabaseManager.Create(const AController: IControllerDatabase);
+constructor TViewDatabaseData.Create(const AController: IControllerDatabaseData);
 begin
   inherited Create(nil);
   FController := AController;
 end;
 
-procedure TViewDatabaseManager.FormClose(Sender: TObject; var Action: TCloseAction);
+procedure TViewDatabaseData.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   inherited;
   {FController é o dono desta tela, e é uma interface, este é o unico ponto onde a interface está sendo usada
@@ -106,12 +83,12 @@ begin
   FController._Release;
 end;
 
-procedure TViewDatabaseManager.ToggleSwitch1Click(Sender: TObject);
+procedure TViewDatabaseData.ToggleSwitch1Click(Sender: TObject);
 begin
   FController.ToogleSwitchClick;
 end;
 
-procedure TViewDatabaseManager.TreeViewTabelasDblClick(Sender: TObject);
+procedure TViewDatabaseData.TreeViewTabelasDblClick(Sender: TObject);
 begin
   FController.FillSQLFromTreeView;
 end;

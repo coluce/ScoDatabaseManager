@@ -1,4 +1,4 @@
-unit Model.Database.Manager;
+unit Model.Imp.Database.Backup;
 
 interface
 
@@ -6,7 +6,7 @@ uses
   Model.Interfaces, Model.Types, FireDAC.Phys.IBWrapper, FireDAC.Phys.FB;
 
 type
-  TModelDataBaseManager = class(TInterfacedObject, IModelDatabaseManager)
+  TModelDataBaseBackup = class(TInterfacedObject, IModelDatabaseBackup)
   private
     FDataBaseInfo: TDataBase;
     FDPhysFBDriverLink: TFDPhysFBDriverLink;
@@ -23,9 +23,9 @@ implementation
 uses
   System.IOUtils;
 
-{ TModelDataBaseManager }
+{ TModelDataBaseBackup }
 
-procedure TModelDataBaseManager.Backup(const ADestinyFile: string; const ALevel: integer);
+procedure TModelDataBaseBackup.Backup(const ADestinyFile: string; const ALevel: integer);
 var
   FDFBNBackup1: TFDFBNBackup;
 begin
@@ -48,7 +48,7 @@ begin
   end;
 end;
 
-constructor TModelDataBaseManager.Create(ADataBaseInfo: TDataBase);
+constructor TModelDataBaseBackup.Create(ADataBaseInfo: TDataBase);
 begin
   FDataBaseInfo := ADataBaseInfo;
   FDPhysFBDriverLink := TFDPhysFBDriverLink.Create(nil);
@@ -56,13 +56,13 @@ begin
   FDPhysFBDriverLink.VendorLib := 'C:\Program Files (x86)\Firebird\Firebird_3_0\fbclient.dll';
 end;
 
-destructor TModelDataBaseManager.Destroy;
+destructor TModelDataBaseBackup.Destroy;
 begin
   FDPhysFBDriverLink.Free;
   inherited;
 end;
 
-procedure TModelDataBaseManager.Restore(const ABackupFile: string);
+procedure TModelDataBaseBackup.Restore(const ABackupFile: string);
 var
   FDFBNRestore1: TFDFBNRestore;
 begin

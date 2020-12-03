@@ -1,4 +1,4 @@
-unit Controller.Principal;
+unit Controller.Imp.Principal;
 
 interface
 
@@ -115,11 +115,11 @@ end;
 procedure TControllerPrincipal.ShowDataBase(const ATreeNode: TTreeNode);
 var
   vDataBase: TDataBase;
-  vController: IController;
+  vController: IControllerView;
 begin
   if FDatabases.TryGetValue(ATreeNode, vDataBase) then
   begin
-    vController := TControllerFactory.DataBase(vDataBase);
+    vController := TControllerFactory.DataBaseData(vDataBase);
     vController.Show;
   end;
 end;
@@ -225,7 +225,7 @@ end;
 procedure TControllerPrincipal.ExportToDrive(const ATreeNode: TTreeNode);
 var
   vDataBase: TDataBase;
-  vController: IController;
+  vController: IControllerView;
 begin
   if FDatabases.TryGetValue(ATreeNode, vDataBase) then
   begin
@@ -327,7 +327,7 @@ end;
 
 procedure TControllerPrincipal.IrParaCadastroLayout;
 var
-  vController: IController;
+  vController: IControllerView;
 begin
   vController := TControllerFactory.Layout;
   vController.Show;

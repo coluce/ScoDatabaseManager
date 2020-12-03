@@ -1,7 +1,7 @@
-object ViewDatabaseManager: TViewDatabaseManager
+object ViewDatabaseData: TViewDatabaseData
   Left = 0
   Top = 0
-  Caption = 'ViewDatabaseManager'
+  Caption = 'ViewDatabaseData'
   ClientHeight = 401
   ClientWidth = 632
   Color = clWhite
@@ -33,15 +33,11 @@ object ViewDatabaseManager: TViewDatabaseManager
     Top = 3
     Width = 626
     Height = 376
-    ActivePage = tabManager
+    ActivePage = tabQuery
     Align = alClient
     TabOrder = 1
     object tabQuery: TTabSheet
       Caption = 'Query'
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object Splitter1: TSplitter
         Left = 185
         Top = 0
@@ -136,10 +132,6 @@ object ViewDatabaseManager: TViewDatabaseManager
             TabOrder = 0
             object TabSheet1: TTabSheet
               Caption = 'Dataset'
-              ExplicitLeft = 0
-              ExplicitTop = 0
-              ExplicitWidth = 0
-              ExplicitHeight = 0
               object GridResultado: TDBGrid
                 Left = 0
                 Top = 32
@@ -197,10 +189,6 @@ object ViewDatabaseManager: TViewDatabaseManager
             object TabSheet2: TTabSheet
               Caption = 'Log'
               ImageIndex = 1
-              ExplicitLeft = 0
-              ExplicitTop = 0
-              ExplicitWidth = 0
-              ExplicitHeight = 0
               object MemoLog: TMemo
                 Left = 0
                 Top = 0
@@ -275,74 +263,6 @@ object ViewDatabaseManager: TViewDatabaseManager
             FontSmoothing = fsmNone
           end
         end
-      end
-    end
-    object tabManager: TTabSheet
-      Caption = 'Manager'
-      ImageIndex = 1
-      object Splitter3: TSplitter
-        Left = 252
-        Top = 41
-        Height = 307
-        ExplicitLeft = 168
-        ExplicitTop = 120
-        ExplicitHeight = 100
-      end
-      object Panel2: TPanel
-        Left = 0
-        Top = 0
-        Width = 618
-        Height = 41
-        Align = alTop
-        BevelOuter = bvNone
-        TabOrder = 0
-        object SpeedButton3: TSpeedButton
-          AlignWithMargins = True
-          Left = 3
-          Top = 3
-          Width = 50
-          Height = 35
-          Action = acnManagerBackup
-          Align = alLeft
-        end
-        object SpeedButton4: TSpeedButton
-          AlignWithMargins = True
-          Left = 59
-          Top = 3
-          Width = 50
-          Height = 35
-          Action = acnManagerRestore
-          Align = alLeft
-        end
-      end
-      object TreeViewBackupFiles: TTreeView
-        AlignWithMargins = True
-        Left = 3
-        Top = 44
-        Width = 246
-        Height = 301
-        Align = alLeft
-        AutoExpand = True
-        BevelInner = bvNone
-        BevelOuter = bvNone
-        BorderStyle = bsNone
-        Indent = 19
-        TabOrder = 1
-      end
-      object Memo1: TMemo
-        AlignWithMargins = True
-        Left = 258
-        Top = 44
-        Width = 357
-        Height = 301
-        Align = alClient
-        BevelInner = bvNone
-        BevelOuter = bvNone
-        BorderStyle = bsNone
-        Lines.Strings = (
-          'Memo1')
-        ReadOnly = True
-        TabOrder = 2
       end
     end
   end
@@ -1308,14 +1228,6 @@ object ViewDatabaseManager: TViewDatabaseManager
     object acnQueryImportar: TAction
       Category = 'Query'
       Caption = 'Importar'
-    end
-    object acnManagerBackup: TAction
-      Caption = 'Backup'
-      OnExecute = acnManagerBackupExecute
-    end
-    object acnManagerRestore: TAction
-      Caption = 'Restore'
-      OnExecute = acnManagerRestoreExecute
     end
   end
 end

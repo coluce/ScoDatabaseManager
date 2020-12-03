@@ -1,9 +1,9 @@
-unit Controller.DataBase;
+unit Controller.Imp.DataBase.Data;
 
 interface
 
 uses
-  View.DataBase.Manager, Model.Types, Controller.Interfaces, Model.Interfaces,
+  View.DataBase.Data, Model.Types, Controller.Interfaces, Model.Interfaces,
 
 
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
@@ -12,9 +12,9 @@ uses
 
 type
 
-  TControllerDataBase = class(TInterfacedObject, IControllerDataBase)
+  TControllerDataBase = class(TInterfacedObject, IControllerDataBaseData)
   private
-    FView: TViewDataBaseManager;
+    FView: TViewDatabaseData;
     FDataBase: TDataBase;
     FConnection: IModelConnection;
     FQuery: TFDQuery;
@@ -24,9 +24,6 @@ type
 
     procedure UpdateStatusBar;
     procedure LogAdd(const AMessage: string);
-    procedure CreateBackupDirectory;
-    function GetBackupDirectory: string;
-    function GetBackupFileName: string;
     procedure PrepareScreen;
   public
     constructor Create(const ADataBase: TDataBase);
@@ -37,13 +34,9 @@ type
 
     procedure FillSQLFromTreeView;
     procedure FillTableNames;
-    procedure FillBackupFiles;
     procedure UpdateToogleColor;
     procedure ToogleSwitchClick;
     procedure ExecuteQuery;
-
-    procedure Backup;
-    procedure Restore;
 
   published
     property Connected: boolean read GetConnected write SetConnected;
@@ -55,53 +48,18 @@ uses
   System.Classes, Model.Factory, Vcl.ComCtrls, System.SysUtils, Vcl.Graphics,
   System.IOUtils, System.Types;
 
-const
-  BACKUP_LEVEL_FULL: integer = 0;
-
 { TControllerDataBase }
-
-procedure TControllerDataBase.Backup;
-var
-  vModelManager: IModelDatabaseManager;
-begin
-  if not FDataBase.Server.IP.Equals('127.0.0.1') then
-    Exit;
-
-  Self.Connected := False;
-
-  CreateBackupDirectory;
-  vModelManager := TModelFactory.DataBaseManager(FDataBase);
-  vModelManager.Backup(TPath.Combine(GetBackupDirectory, GetBackupFileName), BACKUP_LEVEL_FULL);
-
-  Self.FillBackupFiles;
-
-end;
 
 constructor TControllerDataBase.Create(const ADataBase: TDataBase);
 begin
   FDataBase := ADataBase;
-  FView := TViewDataBaseManager.Create(Self);
+  FView := TViewDatabaseData.Create(Self);
   FView.Caption := FDatabase.Name;
   FConnection := TModelFactory.Firebird(FDataBase);
   FQuery := TFDQuery.Create(nil);
   FQuery.Connection := FConnection.GetConnection;
   FView.DataSource1.DataSet := FQuery;
   FView.MemoLog.Clear;
-end;
-
-procedure TControllerDataBase.CreateBackupDirectory;
-var
-  vDirectoryName: string;
-begin
-  vDirectoryName := GetBackupDirectory;
-  if not DirectoryExists(vDirectoryName) then
-  begin
-    ForceDirectories(vDirectoryName);
-  end;
-  if not DirectoryExists(vDirectoryName) then
-  begin
-    raise Exception.Create('Não foi poss[ivel criar o diretório: ' + vDirectoryName);
-  end;
 end;
 
 destructor TControllerDataBase.Destroy;
@@ -152,29 +110,6 @@ begin
       LogAdd('Erro: ' + E.Message);
     end;
 
-  end;
-
-end;
-
-procedure TControllerDataBase.FillBackupFiles;
-var
-  vList: TStringDynArray;
-  vDirectory: string;
-  i: integer;
-begin
-  FView.TreeViewBackupFiles.Items.Clear;
-
-  if not FDataBase.Server.IP.Equals('127.0.0.1') then
-    Exit;
-
-  vDirectory := TPath.Combine(FDataBase.Path, 'backup');
-  if DirectoryExists(vDirectory) then
-  begin
-    vList := TDirectory.GetFiles(vDirectory, '*.backup');
-    for I := Low(vList) to High(vList) do
-    begin
-      FView.TreeViewBackupFiles.Items.Add(nil, ExtractFileName(vList[i]));
-    end;
   end;
 
 end;
@@ -265,16 +200,6 @@ begin
   end;
 end;
 
-function TControllerDataBase.GetBackupDirectory: string;
-begin
-  Result := TPath.Combine(FDataBase.Path, 'backup');
-end;
-
-function TControllerDataBase.GetBackupFileName: string;
-begin
-  Result := 'backup_' + FormatDateTime('yyyy_mm_dd_hh_nn_ss_zzz', Now) + '.backup';
-end;
-
 function TControllerDataBase.GetConnected: boolean;
 begin
   Result := FConnection.Active;
@@ -286,33 +211,10 @@ begin
   FView.MemoLog.Lines.Add(AMessage);
 end;
 
-procedure TControllerDataBase.Restore;
-var
-  vModelManager: IModelDatabaseManager;
-begin
-  if not FDataBase.Server.IP.Equals('127.0.0.1') then
-    Exit;
-
-  Self.Connected := False;
-
-  { TODO : apagar banco anterior }
-
-  vModelManager := TModelFactory.DataBaseManager(FDataBase);
-  vModelManager.Restore(FView.TreeViewBackupFiles.Selected.Text);
-end;
-
 procedure TControllerDataBase.PrepareScreen;
 begin
   Self.UpdateStatusBar;
   Self.UpdateToogleColor;
-
-  FView.PageControlMain.ActivePageIndex := 0;
-  FView.tabManager.Visible := False;
-  if FDataBase.Server.IP.Equals('127.0.0.1') then
-  begin
-    FView.tabManager.Visible := True;
-    Self.FillBackupFiles;
-  end;
 end;
 
 procedure TControllerDataBase.SetConnected(const Value: boolean);

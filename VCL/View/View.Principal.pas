@@ -29,8 +29,10 @@ type
     acnPopupMenuRegistrarBanco: TAction;
     acnPopupMenuExport: TAction;
     acnPopupMenuDefinirAtual1: TMenuItem;
-    acnPopupMenuGerenciar: TAction;
+    acnPopupMenuShowData: TAction;
     Conectar1: TMenuItem;
+    acnPopupMenuBackup: TAction;
+    Backup1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure TreeView1DblClick(Sender: TObject);
     procedure PopupMenuTreeViewPopup(Sender: TObject);
@@ -38,7 +40,7 @@ type
     procedure acnCadastroLayoutsExecute(Sender: TObject);
     procedure acnPopupMenuExcluirExecute(Sender: TObject);
     procedure acnPopupMenuRegistrarBancoExecute(Sender: TObject);
-    procedure acnPopupMenuGerenciarExecute(Sender: TObject);
+    procedure acnPopupMenuShowDataExecute(Sender: TObject);
     procedure acnPopupMenuExportExecute(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -67,7 +69,7 @@ begin
   FControllerPrincipal.IrParaCadastroLayout;
 end;
 
-procedure TViewPrincipal.acnPopupMenuGerenciarExecute(Sender: TObject);
+procedure TViewPrincipal.acnPopupMenuShowDataExecute(Sender: TObject);
 begin
   if TreeView1.Selected.Level = 1 then
   begin
@@ -149,12 +151,12 @@ procedure TViewPrincipal.PopupMenuTreeViewPopup(Sender: TObject);
 begin
   acnPopupMenuRegistrarBanco.Visible := TreeView1.Selected.Level = 0;
   acnPopupMenuExport.Visible := TreeView1.Selected.Level = 1;
-  acnPopupMenuGerenciar.Visible := TreeView1.Selected.Level = 1;
+  acnPopupMenuShowData.Visible := TreeView1.Selected.Level = 1;
 end;
 
 procedure TViewPrincipal.TreeView1DblClick(Sender: TObject);
 begin
-  acnPopupMenuGerenciar.Execute;
+  acnPopupMenuShowData.Execute;
 end;
 
 end.

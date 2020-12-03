@@ -9,7 +9,7 @@ type
   TControllerFactory = class
   public
     class function Principal(const AView: TViewPrincipal): IControllerPrincipal;
-    class function DataBase(const ADataBase: TDataBase): IControllerDataBase;
+    class function DataBaseData(const ADataBase: TDataBase): IControllerDataBaseData;
     class function Layout: IControllerLayout;
     class function Exportini(const ADataBase: TDataBase): IControllerIni;
     class function Param: IControllerParam;
@@ -19,16 +19,16 @@ type
 implementation
 
 uses
-  Controller.Principal,
-  Controller.DataBase,
-  Controller.Layout,
-  Controller.Ini,
-  Controller.Param,
-  Controller.Window;
+  Controller.Imp.Principal,
+  Controller.Imp.DataBase.Data,
+  Controller.Imp.Layout,
+  Controller.Imp.Ini,
+  Controller.Imp.Param,
+  Controller.Imp.Window;
 
 { TControllerFactory }
 
-class function TControllerFactory.DataBase(const ADataBase: TDataBase): IControllerDataBase;
+class function TControllerFactory.DataBaseData(const ADataBase: TDataBase): IControllerDataBaseData;
 begin
   Result := TControllerDataBase.Create(ADataBase);
 end;
