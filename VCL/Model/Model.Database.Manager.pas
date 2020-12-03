@@ -29,18 +29,23 @@ procedure TModelDataBaseManager.Backup(const ADestinyFile: string; const ALevel:
 var
   FDFBNBackup1: TFDFBNBackup;
 begin
-  FDFBNBackup1.DriverLink := FDPhysFBDriverLink;
+  FDFBNBackup1 := TFDFBNBackup.Create(nil);
+  try
+    FDFBNBackup1.DriverLink := FDPhysFBDriverLink;
 
-  FDFBNBackup1.UserName := FDataBaseInfo.UserName;
-  FDFBNBackup1.Password := FDataBaseInfo.Password;
-  FDFBNBackup1.Host := FDataBaseInfo.Server.IP;
-  FDFBNBackup1.Protocol := ipTCPIP;
+    FDFBNBackup1.UserName := FDataBaseInfo.UserName;
+    FDFBNBackup1.Password := FDataBaseInfo.Password;
+    FDFBNBackup1.Host := FDataBaseInfo.Server.IP;
+    FDFBNBackup1.Protocol := ipTCPIP;
 
-  FDFBNBackup1.Database := TPath.Combine(FDataBaseInfo.Path, 'ALTERDB.IB');
-  FDFBNBackup1.BackupFile := ADestinyFile;
-  FDFBNBackup1.Level := 0; // full backup
+    FDFBNBackup1.Database := TPath.Combine(FDataBaseInfo.Path, 'ALTERDB.IB');
+    FDFBNBackup1.BackupFile := ADestinyFile;
+    FDFBNBackup1.Level := ALevel; // 0 - full backup
 
-  FDFBNBackup1.Backup;
+    FDFBNBackup1.Backup;
+  finally
+    FDFBNBackup1.Free;
+  end;
 end;
 
 constructor TModelDataBaseManager.Create(ADataBaseInfo: TDataBase);
@@ -64,15 +69,12 @@ begin
   FDFBNRestore1 := TFDFBNRestore.Create(nil);
   try
     FDFBNRestore1.DriverLink := FDPhysFBDriverLink;
-
     FDFBNRestore1.UserName := FDataBaseInfo.UserName;
     FDFBNRestore1.Password := FDataBaseInfo.Password;
     FDFBNRestore1.Host     := FDataBaseInfo.Server.IP;
     FDFBNRestore1.Protocol := ipTCPIP;
-
     FDFBNRestore1.Database := TPath.Combine(FDataBaseInfo.Path, 'ALTERDB.IB');
-    FDFBNRestore1.BackupFiles.Text := ABackupFile;
-
+    FDFBNRestore1.BackupFiles.Text := TPath.Combine(TPath.Combine(FDataBaseInfo.Path, 'backup'), ABackupFile);
     FDFBNRestore1.Restore;
   finally
     FDFBNRestore1.Free;

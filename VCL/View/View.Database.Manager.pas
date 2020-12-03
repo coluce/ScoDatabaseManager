@@ -41,7 +41,7 @@ type
     SpeedButton2: TSpeedButton;
     acnQueryImportar: TAction;
     acnQueryExportar: TAction;
-    PageControl2: TPageControl;
+    PageControlMain: TPageControl;
     tabQuery: TTabSheet;
     tabManager: TTabSheet;
     Panel2: TPanel;
@@ -49,7 +49,7 @@ type
     SpeedButton4: TSpeedButton;
     acnManagerBackup: TAction;
     acnManagerRestore: TAction;
-    TreeViewFiles: TTreeView;
+    TreeViewBackupFiles: TTreeView;
     Splitter3: TSplitter;
     Memo1: TMemo;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);

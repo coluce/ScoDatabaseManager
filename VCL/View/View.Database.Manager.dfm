@@ -27,13 +27,13 @@ object ViewDatabaseManager: TViewDatabaseManager
         Width = 50
       end>
   end
-  object PageControl2: TPageControl
+  object PageControlMain: TPageControl
     AlignWithMargins = True
     Left = 3
     Top = 3
     Width = 626
     Height = 376
-    ActivePage = tabQuery
+    ActivePage = tabManager
     Align = alClient
     TabOrder = 1
     object tabQuery: TTabSheet
@@ -189,10 +189,6 @@ object ViewDatabaseManager: TViewDatabaseManager
             object TabSheet2: TTabSheet
               Caption = 'Log'
               ImageIndex = 1
-              ExplicitLeft = 0
-              ExplicitTop = 0
-              ExplicitWidth = 0
-              ExplicitHeight = 0
               object MemoLog: TMemo
                 Left = 0
                 Top = 0
@@ -245,11 +241,13 @@ object ViewDatabaseManager: TViewDatabaseManager
             Font.Name = 'Courier New'
             Font.Style = []
             TabOrder = 1
+            CodeFolding.GutterShapeSize = 11
             CodeFolding.CollapsedLineColor = clGrayText
             CodeFolding.FolderBarLinesColor = clGrayText
-            CodeFolding.ShowCollapsedLine = True
             CodeFolding.IndentGuidesColor = clGray
             CodeFolding.IndentGuides = True
+            CodeFolding.ShowCollapsedLine = True
+            CodeFolding.ShowHintMark = True
             UseCodeFolding = False
             Gutter.Font.Charset = DEFAULT_CHARSET
             Gutter.Font.Color = clWindowText
@@ -272,12 +270,8 @@ object ViewDatabaseManager: TViewDatabaseManager
     object tabManager: TTabSheet
       Caption = 'Manager'
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 281
-      ExplicitHeight = 165
       object Splitter3: TSplitter
-        Left = 172
+        Left = 252
         Top = 41
         Height = 307
         ExplicitLeft = 168
@@ -292,9 +286,6 @@ object ViewDatabaseManager: TViewDatabaseManager
         Align = alTop
         BevelOuter = bvNone
         TabOrder = 0
-        ExplicitLeft = 32
-        ExplicitTop = 40
-        ExplicitWidth = 185
         object SpeedButton3: TSpeedButton
           AlignWithMargins = True
           Left = 3
@@ -314,11 +305,11 @@ object ViewDatabaseManager: TViewDatabaseManager
           Align = alLeft
         end
       end
-      object TreeViewFiles: TTreeView
+      object TreeViewBackupFiles: TTreeView
         AlignWithMargins = True
         Left = 3
         Top = 44
-        Width = 166
+        Width = 246
         Height = 301
         Align = alLeft
         AutoExpand = True
@@ -330,9 +321,9 @@ object ViewDatabaseManager: TViewDatabaseManager
       end
       object Memo1: TMemo
         AlignWithMargins = True
-        Left = 178
+        Left = 258
         Top = 44
-        Width = 437
+        Width = 357
         Height = 301
         Align = alClient
         BevelInner = bvNone
@@ -342,6 +333,8 @@ object ViewDatabaseManager: TViewDatabaseManager
           'Memo1')
         ReadOnly = True
         TabOrder = 2
+        ExplicitLeft = 178
+        ExplicitWidth = 437
       end
     end
   end

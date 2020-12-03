@@ -18,9 +18,15 @@ type
     EditNome: TEdit;
     Label2: TLabel;
     EditLocal: TEdit;
+    EditUserName: TEdit;
+    lblUsername: TLabel;
+    Label3: TLabel;
+    EditPassword: TEdit;
     procedure SpeedButton1Click(Sender: TObject);
     procedure SpeedButton2Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
     FResultado: TModalResult;
@@ -33,10 +39,22 @@ implementation
 
 {$R *.dfm}
 
+procedure TViewRegisterDatabase.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  //inherited;
+
+end;
+
 procedure TViewRegisterDatabase.FormCreate(Sender: TObject);
 begin
   inherited;
   FResultado := mrCancel;
+end;
+
+procedure TViewRegisterDatabase.FormShow(Sender: TObject);
+begin
+  //inherited;
 end;
 
 procedure TViewRegisterDatabase.SpeedButton1Click(Sender: TObject);

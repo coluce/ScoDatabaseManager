@@ -40,6 +40,7 @@ type
     ['{C870051D-3F20-4A0F-9023-37FEA157BF87}']
 
     procedure FillTableNames;
+    procedure FillBackupFiles;
     procedure UpdateToogleColor;
     procedure ToogleSwitchClick;
     procedure FillSQLFromTreeView;

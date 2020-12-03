@@ -66,6 +66,8 @@ begin
     try
       vView.EditNome.Text := 'Meu banco';
       vView.EditLocal.Text := 'E:\DataBases\[pasta]\';
+      vView.EditUserName.Text := 'sysdba';
+      vView.EditPassword.Text := 'masterkey';
       vView.ShowModal;
       if vView.Resultado = mrOK then
       begin
@@ -73,6 +75,8 @@ begin
         FModelDataBase.DataSet.FieldByName('ID_SERVER').AsString := vServer.ID;
         FModelDataBase.DataSet.FieldByName('NAME').AsString := vView.EditNome.Text;
         FModelDataBase.DataSet.FieldByName('PATH').AsString := vView.EditLocal.Text;
+        FModelDataBase.DataSet.FieldByName('USERNAME').AsString := vView.EditUserName.Text;
+        FModelDataBase.DataSet.FieldByName('PASSWORD').AsString := vView.EditPassword.Text;
         FModelDataBase.DataSet.Post;
       end;
     finally
@@ -168,14 +172,18 @@ begin
     begin
       vView := TViewRegisterDatabase.Create(nil);
       try
-        vView.EditNome.Text := FModelDataBase.DataSet.FieldByName('NAME').AsString;
-        vView.EditLocal.Text := FModelDataBase.DataSet.FieldByName('PATH').AsString;
+        vView.EditNome.Text     := FModelDataBase.DataSet.FieldByName('NAME').AsString;
+        vView.EditLocal.Text    := FModelDataBase.DataSet.FieldByName('PATH').AsString;
+        vView.EditUserName.Text := FModelDataBase.DataSet.FieldByName('USERNAME').AsString;
+        vView.EditPassword.Text := FModelDataBase.DataSet.FieldByName('PASSWORD').AsString;
         vView.ShowModal;
         if vView.Resultado = mrOK then
         begin
           FModelDataBase.DataSet.Edit;
-          FModelDataBase.DataSet.FieldByName('NAME').AsString := vView.EditNome.Text;
-          FModelDataBase.DataSet.FieldByName('PATH').AsString := vView.EditLocal.Text;
+          FModelDataBase.DataSet.FieldByName('NAME').AsString     := vView.EditNome.Text;
+          FModelDataBase.DataSet.FieldByName('PATH').AsString     := vView.EditLocal.Text;
+          FModelDataBase.DataSet.FieldByName('USERNAME').AsString := vView.EditUserName.Text;
+          FModelDataBase.DataSet.FieldByName('PASSWORD').AsString := vView.EditPassword.Text;
           FModelDataBase.DataSet.Post;
         end;
       finally
