@@ -38,6 +38,10 @@ object ViewDatabaseManager: TViewDatabaseManager
     TabOrder = 1
     object tabQuery: TTabSheet
       Caption = 'Query'
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Splitter1: TSplitter
         Left = 185
         Top = 0
@@ -132,6 +136,10 @@ object ViewDatabaseManager: TViewDatabaseManager
             TabOrder = 0
             object TabSheet1: TTabSheet
               Caption = 'Dataset'
+              ExplicitLeft = 0
+              ExplicitTop = 0
+              ExplicitWidth = 0
+              ExplicitHeight = 0
               object GridResultado: TDBGrid
                 Left = 0
                 Top = 32
@@ -189,6 +197,10 @@ object ViewDatabaseManager: TViewDatabaseManager
             object TabSheet2: TTabSheet
               Caption = 'Log'
               ImageIndex = 1
+              ExplicitLeft = 0
+              ExplicitTop = 0
+              ExplicitWidth = 0
+              ExplicitHeight = 0
               object MemoLog: TMemo
                 Left = 0
                 Top = 0
@@ -241,13 +253,11 @@ object ViewDatabaseManager: TViewDatabaseManager
             Font.Name = 'Courier New'
             Font.Style = []
             TabOrder = 1
-            CodeFolding.GutterShapeSize = 11
             CodeFolding.CollapsedLineColor = clGrayText
             CodeFolding.FolderBarLinesColor = clGrayText
+            CodeFolding.ShowCollapsedLine = True
             CodeFolding.IndentGuidesColor = clGray
             CodeFolding.IndentGuides = True
-            CodeFolding.ShowCollapsedLine = True
-            CodeFolding.ShowHintMark = True
             UseCodeFolding = False
             Gutter.Font.Charset = DEFAULT_CHARSET
             Gutter.Font.Color = clWindowText
@@ -333,8 +343,6 @@ object ViewDatabaseManager: TViewDatabaseManager
           'Memo1')
         ReadOnly = True
         TabOrder = 2
-        ExplicitLeft = 178
-        ExplicitWidth = 437
       end
     end
   end
