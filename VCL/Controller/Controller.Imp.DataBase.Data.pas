@@ -5,7 +5,7 @@ interface
 uses
   View.DataBase.Data, Model.Types, Controller.Interfaces, Model.Interfaces,
 
-
+  { TODO : criar classe model }
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
@@ -37,6 +37,8 @@ type
     procedure UpdateToogleColor;
     procedure ToogleSwitchClick;
     procedure ExecuteQuery;
+    procedure ExportData;
+    procedure ImportData;
 
   published
     property Connected: boolean read GetConnected write SetConnected;
@@ -46,7 +48,7 @@ implementation
 
 uses
   System.Classes, Model.Factory, Vcl.ComCtrls, System.SysUtils, Vcl.Graphics,
-  System.IOUtils, System.Types;
+  System.IOUtils, System.Types, Data.DB;
 
 { TControllerDataBase }
 
@@ -117,6 +119,20 @@ begin
 
   end;
 
+end;
+
+procedure TControllerDataBase.ExportData;
+begin
+  if FQuery.Active then
+  begin
+    if FQuery.RecordCount > 0 then
+    begin
+      if FView.SaveDataDialog.Execute then
+      begin
+        FQuery.SaveToFile(FView.SaveDataDialog.FileName, TFDStorageFormat.sfXML);
+      end;
+    end;
+  end;
 end;
 
 procedure TControllerDataBase.FillSQLFromTreeView;
@@ -209,6 +225,52 @@ function TControllerDataBase.GetConnected: boolean;
 begin
   Result := FConnection.Active;
   Self.UpdateStatusbar;
+end;
+
+procedure TControllerDataBase.ImportData;
+var
+  vQueryOrigem: TFDMemTable;
+  vField: TField;
+begin
+  if FQuery.Active then
+  begin
+    if FView.OpenDataDialog.Execute then
+    begin
+      vQueryOrigem := TFDMemTable.Create(nil);
+      try
+        vQueryOrigem.LoadFromFile(FView.SaveDataDialog.FileName, TFDStorageFormat.sfXML);
+
+        vQueryOrigem.First;
+        while not vQueryOrigem.Eof do
+        begin
+          FQuery.Append;
+          for vField in FQuery.Fields do
+          begin
+            if Assigned(vQueryOrigem.FindField(vField.FieldName)) then
+            begin
+              try
+                vField.Value := vQueryOrigem.FieldByName(vField.FieldName).Value;
+              except on E: exception do
+                begin
+                  vField.Clear;
+                  LogAdd('Não foi possivel importar o campo: ' + vField.FieldName);
+                  LogAdd(E.Message);
+                end;
+              end;
+            end
+            else
+            begin
+              LogAdd('Campo ' + vField.FieldName + ' não encontrado!');
+            end;
+          end;
+          FQuery.Post;
+        end;
+
+      finally
+        vQueryOrigem.Free;
+      end;
+    end;
+  end;
 end;
 
 procedure TControllerDataBase.LogAdd(const AMessage: string);

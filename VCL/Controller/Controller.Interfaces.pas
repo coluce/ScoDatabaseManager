@@ -47,6 +47,8 @@ type
     procedure ToogleSwitchClick;
     procedure FillSQLFromTreeView;
     procedure ExecuteQuery;
+    procedure ExportData;
+    procedure ImportData;
 
     function GetConnected: boolean;
     procedure SetConnected(const Value: boolean);

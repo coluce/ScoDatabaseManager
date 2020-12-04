@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.ComCtrls, Data.DB, SynEdit, SynMemo, Vcl.Grids, Vcl.DBGrids, Vcl.ToolWin, SynEditHighlighter,
   SynHighlighterSQL, Model.Types, Controller.Interfaces, Vcl.StdCtrls, Vcl.DBCtrls, Vcl.WinXCtrls,
   System.ImageList, Vcl.ImgList, System.Actions, Vcl.ActnList, View.Default,
-  Vcl.Buttons;
+  Vcl.Buttons, FireDAC.Stan.StorageXML;
 
 type
   TViewDatabaseData = class(TViewDefault)
@@ -46,10 +46,15 @@ type
     TabSheetResultExecutionPlan: TTabSheet;
     TabSheetResultFields: TTabSheet;
     Memo1: TMemo;
+    SaveDataDialog: TSaveDialog;
+    OpenDataDialog: TOpenDialog;
+    FDStanStorageXMLLink1: TFDStanStorageXMLLink;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ToggleSwitch1Click(Sender: TObject);
     procedure TreeViewTabelasDblClick(Sender: TObject);
     procedure acnQueryExecutarExecute(Sender: TObject);
+    procedure acnQueryExportarExecute(Sender: TObject);
+    procedure acnQueryImportarExecute(Sender: TObject);
   private
     { Private declarations }
     FController: IControllerDataBaseData;
@@ -69,6 +74,18 @@ implementation
 procedure TViewDatabaseData.acnQueryExecutarExecute(Sender: TObject);
 begin
   FController.ExecuteQuery;
+end;
+
+procedure TViewDatabaseData.acnQueryExportarExecute(Sender: TObject);
+begin
+  inherited;
+  FController.ExportData;
+end;
+
+procedure TViewDatabaseData.acnQueryImportarExecute(Sender: TObject);
+begin
+  inherited;
+  FController.ImportData;
 end;
 
 constructor TViewDatabaseData.Create(const AController: IControllerDatabaseData);

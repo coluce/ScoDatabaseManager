@@ -163,6 +163,7 @@ object ViewDatabaseData: TViewDatabaseData
               '  *'
               'from'
               '  TABELA')
+            WantTabs = True
             FontSmoothing = fsmNone
           end
         end
@@ -171,10 +172,6 @@ object ViewDatabaseData: TViewDatabaseData
     object TabSheetResult: TTabSheet
       Caption = 'Resultado'
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object Splitter2: TSplitter
         Left = 0
         Top = 231
@@ -208,7 +205,6 @@ object ViewDatabaseData: TViewDatabaseData
         Align = alTop
         BevelOuter = bvNone
         TabOrder = 1
-        ExplicitTop = 8
         object SpeedButton1: TSpeedButton
           AlignWithMargins = True
           Left = 249
@@ -249,10 +245,6 @@ object ViewDatabaseData: TViewDatabaseData
         TabOrder = 2
         object TabSheetResultExecutionPlan: TTabSheet
           Caption = 'Execution Plan'
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 610
-          ExplicitHeight = 0
           object Memo1: TMemo
             Left = 0
             Top = 0
@@ -267,20 +259,12 @@ object ViewDatabaseData: TViewDatabaseData
         object TabSheetResultFields: TTabSheet
           Caption = 'Fields'
           ImageIndex = 1
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
         end
       end
     end
     object TabSheetLog: TTabSheet
       Caption = 'Log'
       ImageIndex = 2
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object MemoLog: TMemo
         Left = 0
         Top = 0
@@ -288,17 +272,11 @@ object ViewDatabaseData: TViewDatabaseData
         Height = 348
         Align = alClient
         TabOrder = 0
-        ExplicitWidth = 408
-        ExplicitHeight = 96
       end
     end
     object TabSheetHistory: TTabSheet
       Caption = 'Hist'#243'rico'
       ImageIndex = 3
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
     end
   end
   object SynSQLSyn1: TSynSQLSyn
@@ -1259,10 +1237,30 @@ object ViewDatabaseData: TViewDatabaseData
     object acnQueryExportar: TAction
       Category = 'Query'
       Caption = 'Exportar'
+      OnExecute = acnQueryExportarExecute
     end
     object acnQueryImportar: TAction
       Category = 'Query'
       Caption = 'Importar'
+      OnExecute = acnQueryImportarExecute
     end
+  end
+  object SaveDataDialog: TSaveDialog
+    DefaultExt = '.xml'
+    Filter = 'XML (*.xml)|*.xml'
+    Title = 'Export Data'
+    Left = 342
+    Top = 246
+  end
+  object OpenDataDialog: TOpenDialog
+    DefaultExt = '.xml'
+    Filter = 'XML (*.xml)|*.xml'
+    Title = 'Import Data'
+    Left = 422
+    Top = 254
+  end
+  object FDStanStorageXMLLink1: TFDStanStorageXMLLink
+    Left = 510
+    Top = 254
   end
 end
