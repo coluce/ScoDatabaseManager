@@ -156,6 +156,7 @@ begin
   if FileExists(vInput) then
   begin
     FControllerParam.SetParam('FIREBIRD', 'DLL_PATH', vInput);
+    FDllDatabase := vInput;
   end;
 end;
 
