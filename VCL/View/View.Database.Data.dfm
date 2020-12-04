@@ -112,7 +112,6 @@ object ViewDatabaseData: TViewDatabaseData
           Align = alClient
           BevelOuter = bvNone
           TabOrder = 0
-          ExplicitHeight = 201
           object ToolBar2: TToolBar
             Left = 0
             Top = 0
@@ -145,13 +144,11 @@ object ViewDatabaseData: TViewDatabaseData
             Font.Name = 'Courier New'
             Font.Style = []
             TabOrder = 1
-            CodeFolding.GutterShapeSize = 11
             CodeFolding.CollapsedLineColor = clGrayText
             CodeFolding.FolderBarLinesColor = clGrayText
+            CodeFolding.ShowCollapsedLine = True
             CodeFolding.IndentGuidesColor = clGray
             CodeFolding.IndentGuides = True
-            CodeFolding.ShowCollapsedLine = True
-            CodeFolding.ShowHintMark = True
             UseCodeFolding = False
             Gutter.Font.Charset = DEFAULT_CHARSET
             Gutter.Font.Color = clWindowText
@@ -167,7 +164,6 @@ object ViewDatabaseData: TViewDatabaseData
               'from'
               '  TABELA')
             FontSmoothing = fsmNone
-            ExplicitHeight = 166
           end
         end
       end
@@ -175,6 +171,10 @@ object ViewDatabaseData: TViewDatabaseData
     object TabSheetResult: TTabSheet
       Caption = 'Resultado'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Splitter2: TSplitter
         Left = 0
         Top = 231
@@ -249,7 +249,10 @@ object ViewDatabaseData: TViewDatabaseData
         TabOrder = 2
         object TabSheetResultExecutionPlan: TTabSheet
           Caption = 'Execution Plan'
+          ExplicitLeft = 0
+          ExplicitTop = 0
           ExplicitWidth = 610
+          ExplicitHeight = 0
           object Memo1: TMemo
             Left = 0
             Top = 0
@@ -259,21 +262,25 @@ object ViewDatabaseData: TViewDatabaseData
             Lines.Strings = (
               'n'#227'o implementado')
             TabOrder = 0
-            ExplicitLeft = 40
-            ExplicitTop = 32
-            ExplicitWidth = 185
-            ExplicitHeight = 89
           end
         end
         object TabSheetResultFields: TTabSheet
           Caption = 'Fields'
           ImageIndex = 1
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
         end
       end
     end
     object TabSheetLog: TTabSheet
       Caption = 'Log'
       ImageIndex = 2
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object MemoLog: TMemo
         Left = 0
         Top = 0
@@ -288,6 +295,10 @@ object ViewDatabaseData: TViewDatabaseData
     object TabSheetHistory: TTabSheet
       Caption = 'Hist'#243'rico'
       ImageIndex = 3
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
     end
   end
   object SynSQLSyn1: TSynSQLSyn
