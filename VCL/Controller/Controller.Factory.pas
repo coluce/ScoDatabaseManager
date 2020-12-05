@@ -3,12 +3,12 @@ unit Controller.Factory;
 interface
 
 uses
-  Controller.Interfaces, Model.Types, Vcl.Forms, View.Principal;
+  Controller.Interfaces, Model.Types, Vcl.Forms;
 
 type
   TControllerFactory = class
   public
-    class function Main(const AView: TViewMain): IControllerMain;
+    class function Main(const AView: TForm): IControllerMain;
     class function DataBaseData(const ADataBase: TDataBase): IControllerDataBaseData;
     class function BackupManager(const ADataBase: TDataBase): IControllerBackupManager;
     class function LayoutManager: IControllerLayout;
@@ -59,7 +59,7 @@ begin
 end;
 
 class function TControllerFactory.Main(
-  const AView: TViewMain): IControllerMain;
+  const AView: TForm): IControllerMain;
 begin
   Result := TControllerMain.Create(AView);
 end;

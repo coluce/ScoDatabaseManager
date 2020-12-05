@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, View.Default, Vcl.ComCtrls,
-  Vcl.Buttons, Vcl.ExtCtrls, Controller.Interfaces;
+  Vcl.Buttons, Vcl.ExtCtrls, Controller.Interfaces, System.Actions,
+  Vcl.ActnList, System.ImageList, Vcl.ImgList;
 
 type
   TViewBackupManager = class(TViewDefault)
@@ -15,10 +16,21 @@ type
     TreeViewBackupFiles: TTreeView;
     btnDelete: TSpeedButton;
     StatusBar1: TStatusBar;
+    ImageListActionList: TImageList;
+    ActionList1: TActionList;
+    acnBackup: TAction;
+    acnRestore: TAction;
+    acnDelete: TAction;
+    acnRefresh: TAction;
+    acnFolder: TAction;
+    SpeedButton1: TSpeedButton;
+    SpeedButton2: TSpeedButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure btnBackupClick(Sender: TObject);
-    procedure btnRestoreClick(Sender: TObject);
-    procedure btnDeleteClick(Sender: TObject);
+    procedure acnBackupExecute(Sender: TObject);
+    procedure acnRestoreExecute(Sender: TObject);
+    procedure acnDeleteExecute(Sender: TObject);
+    procedure acnRefreshExecute(Sender: TObject);
+    procedure acnFolderExecute(Sender: TObject);
   private
     { Private declarations }
     FController: IControllerBackupManager;
@@ -47,19 +59,31 @@ begin
   FController._Release;
 end;
 
-procedure TViewBackupManager.btnBackupClick(Sender: TObject);
+procedure TViewBackupManager.acnBackupExecute(Sender: TObject);
 begin
   inherited;
   FController.Backup;
 end;
 
-procedure TViewBackupManager.btnDeleteClick(Sender: TObject);
+procedure TViewBackupManager.acnDeleteExecute(Sender: TObject);
 begin
   inherited;
   FController.DeleteBackup;
 end;
 
-procedure TViewBackupManager.btnRestoreClick(Sender: TObject);
+procedure TViewBackupManager.acnFolderExecute(Sender: TObject);
+begin
+  inherited;
+  FController.OpenFolder;
+end;
+
+procedure TViewBackupManager.acnRefreshExecute(Sender: TObject);
+begin
+  inherited;
+  FController.FillBackupFiles;
+end;
+
+procedure TViewBackupManager.acnRestoreExecute(Sender: TObject);
 begin
   inherited;
   FController.Restore;

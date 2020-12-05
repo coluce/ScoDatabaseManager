@@ -62,6 +62,7 @@ type
 
   IControllerBackupManager = interface(IControllerView)
     ['{47F05023-3653-435E-A35A-95C1E8DB289E}']
+    procedure OpenFolder;
     procedure FillBackupFiles;
     procedure SetDLL;
     procedure DeleteBackup;

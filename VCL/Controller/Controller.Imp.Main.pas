@@ -3,8 +3,8 @@ unit Controller.Imp.Main;
 interface
 
 uses
-  View.Principal, Model.Interfaces, Model.Types, System.Generics.Collections,
-  Vcl.ComCtrls, Controller.Interfaces;
+  View.Main, Model.Interfaces, Model.Types, System.Generics.Collections,
+  Vcl.ComCtrls, Controller.Interfaces, Vcl.Forms;
 
 type
   TControllerMain = class(TInterfacedObject, IControllerMain)
@@ -24,7 +24,7 @@ type
     procedure RegisterDatabase;
     procedure RegisterServer;
   public
-    constructor Create(const AView: TViewMain);
+    constructor Create(const AView: TForm);
     destructor Destroy; override;
     procedure FindInUse;
     procedure FillList;
@@ -47,9 +47,9 @@ uses
 
 { TControllerPrincipal }
 
-constructor TControllerMain.Create(const AView: TViewMain);
+constructor TControllerMain.Create(const AView: TForm);
 begin
-  FView := AView;
+  FView := AView as TViewMain;
   FModelServer := TModelFactory.Table('TSERVER');
   FModelDataBase := TModelFactory.Table('TDATABASE');
   FServers := TDictionary<TTreeNode, TServer>.Create;

@@ -34,6 +34,8 @@ type
     procedure Show;
     procedure ShowModal;
 
+    procedure OpenFolder;
+
     procedure Backup;
     procedure Restore;
 
@@ -49,7 +51,8 @@ implementation
 
 uses
   System.SysUtils, Model.Factory, System.IOUtils, System.Types, Vcl.Dialogs,
-  System.UITypes, Controller.Factory, System.Classes;
+  System.UITypes, Controller.Factory, System.Classes, ShellAPI, Vcl.Forms,
+  Winapi.Windows;
 
 { TControllerDataBaseBackup }
 
@@ -121,7 +124,7 @@ begin
   vFileName := TPath.Combine(GetBackupDirectory, FView.TreeViewBackupFiles.Selected.Text);
   if FileExists(vFileName) then
   begin
-    if not DeleteFile(vFileName) then
+    if not System.SysUtils.DeleteFile(vFileName) then
     begin
       raise Exception.Create('Não foi possível excluir o backup!');
     end;
@@ -163,7 +166,7 @@ begin
 
     if FileExists(vOldFileName) then
     begin
-      if not DeleteFile(vOldFileName) then
+      if not System.SysUtils.DeleteFile(vOldFileName) then
       begin
         raise Exception.Create('Não foi possível excluir o banco de dados antigo!');
       end;
@@ -278,6 +281,21 @@ end;
 function TControllerBackupManager.GetDatabaseFullFileName: string;
 begin
   Result := TPath.Combine(FDataBase.Path, 'ALTERDB.IB');
+end;
+
+procedure TControllerBackupManager.OpenFolder;
+begin
+  if DirectoryExists(GetBackupDirectory) then
+  begin
+    ShellExecute(
+      Application.Handle,
+      PChar('explore'),
+      PChar(GetBackupDirectory),
+      nil,
+      nil,
+      SW_SHOWNORMAL
+    );
+  end;
 end;
 
 procedure TControllerBackupManager.PrepareScreen;

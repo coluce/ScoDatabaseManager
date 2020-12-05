@@ -2,7 +2,7 @@ program DatabaseManager;
 
 uses
   Vcl.Forms,
-  View.Principal in 'View\View.Principal.pas' {ViewMain},
+  View.Main in 'View\View.Main.pas' {ViewMain},
   Controller.Imp.Main in 'Controller\Controller.Imp.Main.pas',
   Model.Imp.Connection.SQLite in 'Model\Model.Imp.Connection.SQLite.pas',
   Model.Interfaces in 'Model\Model.Interfaces.pas',
