@@ -85,7 +85,7 @@ begin
 
         vModelManager := TModelFactory.DataBasebackup(FDataBase, FDllDatabase);
         vModelManager.Backup(TPath.Combine(GetBackupDirectory, GetBackupFileName), BACKUP_LEVEL_FULL);
-        TThread.Sleep(2000);
+        //TThread.Sleep(2000);
 
         TThread.Synchronize(
           TThread.CurrentThread,
@@ -142,6 +142,7 @@ procedure TControllerBackupManager.Restore;
 var
   vModelManager: IModelDatabaseBackup;
   vOldFileName: string;
+  vViewWait: TViewWait;
 begin
   if not FDataBase.Server.IP.Equals('127.0.0.1') then
     Exit;
@@ -151,28 +152,56 @@ begin
   if MessageDlg('Restaurar a partir do backup?', mtConfirmation, [mbOK, mbCancel], 0) = mrCancel then
     Exit;
 
+  if FileExists(GetDatabaseFullFileName) then
+  begin
+    vOldFileName := GetDatabaseFullFileName + '.old';
+    if not RenameFile(GetDatabaseFullFileName, vOldFileName) then
+    begin
+      raise Exception.Create('Não foi possível renomear o banco de dados!');
+    end;
+  end;
+
+  vViewWait := TViewWait.Create(nil);
   try
-    if FileExists(GetDatabaseFullFileName) then
-    begin
-      vOldFileName := GetDatabaseFullFileName + '.old';
-      if not RenameFile(GetDatabaseFullFileName, vOldFileName) then
+    TThread.CreateAnonymousThread(
+      procedure
+      var
+        vModelManager: IModelDatabaseBackup;
       begin
-        raise Exception.Create('Não foi possível renomear o banco de dados!');
-      end;
-    end;
+        TThread.Synchronize(
+          nil,
+          procedure
+          begin
+            vViewWait.Show;
+          end
+        );
 
-    vModelManager := TModelFactory.DataBaseBackup(FDataBase, FDllDatabase);
-    vModelManager.Restore(FView.TreeViewBackupFiles.Selected.Text);
+        vModelManager := TModelFactory.DataBaseBackup(FDataBase, FDllDatabase);
+        vModelManager.Restore(FView.TreeViewBackupFiles.Selected.Text);
+        //TThread.Sleep(2000);
 
-    if FileExists(vOldFileName) then
-    begin
-      if not System.SysUtils.DeleteFile(vOldFileName) then
-      begin
-        raise Exception.Create('Não foi possível excluir o banco de dados antigo!');
-      end;
-    end;
+        TThread.Synchronize(
+          TThread.CurrentThread,
+          procedure
+          begin
+            vViewWait.Close;
+            vViewWait.Free;
 
-    ShowMessage('Restore concluído!');
+            if FileExists(vOldFileName) then
+            begin
+              if not System.SysUtils.DeleteFile(vOldFileName) then
+              begin
+                raise Exception.Create('Não foi possível excluir o banco de dados antigo!');
+              end;
+            end;
+
+            Self.FillBackupFiles;
+            ShowMessage('Restore concluído!');
+          end
+        );
+
+      end
+    ).Start;
 
   except
     raise;
