@@ -26,8 +26,11 @@ uses
   View.Server in 'View\View.Server.pas' {ViewServer},
   View.Database.Register in 'View\View.Database.Register.pas' {ViewRegisterDatabase},
   Model.Imp.Database.Backup in 'Model\Model.Imp.Database.Backup.pas',
-  View.Database.Backup in 'View\View.Database.Backup.pas' {ViewDataBaseBackup},
-  Controller.Imp.DataBase.Backup in 'Controller\Controller.Imp.DataBase.Backup.pas';
+  View.Backup.Manager in 'View\View.Backup.Manager.pas' {ViewBackupManager},
+  Controller.Imp.Backup.Manager in 'Controller\Controller.Imp.Backup.Manager.pas',
+  Controller.Imp.Param.Manager in 'Controller\Controller.Imp.Param.Manager.pas',
+  View.Param.Manager in 'View\View.Param.Manager.pas' {ViewParamManager},
+  View.Wait in 'View\View.Wait.pas' {ViewWait};
 
 {$R *.res}
 

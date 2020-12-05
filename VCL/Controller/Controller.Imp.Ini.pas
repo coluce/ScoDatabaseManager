@@ -6,7 +6,7 @@ uses
   Controller.Interfaces, Model.Interfaces, Model.Factory, Model.Types, View.Ini;
 
 type
-  TControllerIni = class(TInterfacedObject, IControllerIni)
+  TControllerIniFile = class(TInterfacedObject, IControllerIniFile)
   private
     FView: TViewIni;
     FModelLayout: IModelTable;
@@ -30,7 +30,7 @@ uses
 
 { TControllerIni }
 
-constructor TControllerIni.Create(const ADataBase: TDataBase);
+constructor TControllerIniFile.Create(const ADataBase: TDataBase);
 begin
   FDatabase := ADataBase;
   FView := TViewIni.Create(Self);
@@ -38,27 +38,27 @@ begin
   FModelLayout := TModelFactory.Table('TLAYOUT');
 end;
 
-destructor TControllerIni.Destroy;
+destructor TControllerIniFile.Destroy;
 begin
   FView.Free;
   inherited;
 end;
 
-procedure TControllerIni.ExportToDrive;
+procedure TControllerIniFile.ExportToDrive;
 var
   vControllerParam: IControllerParam;
 begin
   if not DirectoryExists(ExtractFilePath(FView.edtLocalDestino.Text)) then
     raise Exception.Create('Local de exporta��o inv�lido!');
 
-  vControllerParam := TControllerFactory.ParamManager;
+  vControllerParam := TControllerFactory.IniManager;
   vControllerParam.SetParam('INI', 'DEFAULT_PATH', ExtractFilePath(FView.edtLocalDestino.Text));
   vControllerParam.SetParam('INI', 'DEFAULT_FILE_NAME', ExtractFileName(FView.edtLocalDestino.Text));
   vControllerParam.SetParam('INI', 'LAST_ID', FDatabase.ID);
   FView.SynMemo1.Lines.SaveToFile(FView.edtLocalDestino.Text);
 end;
 
-procedure TControllerIni.FillPreview;
+procedure TControllerIniFile.FillPreview;
 var
   vControllerParam: IControllerParam;
 begin
@@ -80,7 +80,7 @@ begin
   end;
 end;
 
-procedure TControllerIni.PrepareData;
+procedure TControllerIniFile.PrepareData;
 
   procedure FillComboBox;
   begin
@@ -103,7 +103,7 @@ procedure TControllerIni.PrepareData;
     vDirectory: string;
     vFileName: string;
   begin
-    vControllerParam := TControllerFactory.ParamManager;
+    vControllerParam := TControllerFactory.IniManager;
     vDirectory := vControllerParam.GetParam('INI','DEFAULT_PATH', ExtractFilePath(ParamStr(0)));
     vFileName := vControllerParam.GetParam('INI','DEFAULT_FILE_NAME', 'ALTERDB.INI');
     FView.edtLocalDestino.Text := TPath.Combine(vDirectory, vFileName);
@@ -116,13 +116,13 @@ begin
   FillDefaultPath;
 end;
 
-procedure TControllerIni.Show;
+procedure TControllerIniFile.Show;
 begin
   PrepareData;
   FView.Show;
 end;
 
-procedure TControllerIni.ShowModal;
+procedure TControllerIniFile.ShowModal;
 begin
   PrepareData;
   FView.ShowModal;

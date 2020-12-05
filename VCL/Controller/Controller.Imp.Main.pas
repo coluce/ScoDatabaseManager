@@ -36,6 +36,7 @@ type
     procedure CallEdit;
     procedure CallUnregister;
     procedure CallRegister;
+    procedure CallParamManager;
   end;
 
 implementation
@@ -75,11 +76,16 @@ begin
         if vView.Resultado = mrOK then
         begin
           FModelDataBase.DataSet.Append;
-          FModelDataBase.DataSet.FieldByName('ID_SERVER').AsString := vServer.ID;
-          FModelDataBase.DataSet.FieldByName('NAME').AsString := vView.EditNome.Text;
-          FModelDataBase.DataSet.FieldByName('PATH').AsString := vView.EditLocal.Text;
-          FModelDataBase.DataSet.FieldByName('USERNAME').AsString := vView.EditUserName.Text;
-          FModelDataBase.DataSet.FieldByName('PASSWORD').AsString := vView.EditPassword.Text;
+          FModelDataBase.DataSet.FieldByName('ID_SERVER').AsString :=
+            vServer.ID;
+          FModelDataBase.DataSet.FieldByName('NAME').AsString :=
+            vView.EditNome.Text;
+          FModelDataBase.DataSet.FieldByName('PATH').AsString :=
+            vView.EditLocal.Text;
+          FModelDataBase.DataSet.FieldByName('USERNAME').AsString :=
+            vView.EditUserName.Text;
+          FModelDataBase.DataSet.FieldByName('PASSWORD').AsString :=
+            vView.EditPassword.Text;
           FModelDataBase.DataSet.Post;
         end;
       finally
@@ -187,18 +193,26 @@ begin
       begin
         vView := TViewRegisterDatabase.Create(nil);
         try
-          vView.EditNome.Text     := FModelDataBase.DataSet.FieldByName('NAME').AsString;
-          vView.EditLocal.Text    := FModelDataBase.DataSet.FieldByName('PATH').AsString;
-          vView.EditUserName.Text := FModelDataBase.DataSet.FieldByName('USERNAME').AsString;
-          vView.EditPassword.Text := FModelDataBase.DataSet.FieldByName('PASSWORD').AsString;
+          vView.EditNome.Text := FModelDataBase.DataSet.FieldByName
+            ('NAME').AsString;
+          vView.EditLocal.Text := FModelDataBase.DataSet.FieldByName
+            ('PATH').AsString;
+          vView.EditUserName.Text := FModelDataBase.DataSet.FieldByName
+            ('USERNAME').AsString;
+          vView.EditPassword.Text := FModelDataBase.DataSet.FieldByName
+            ('PASSWORD').AsString;
           vView.ShowModal;
           if vView.Resultado = mrOK then
           begin
             FModelDataBase.DataSet.Edit;
-            FModelDataBase.DataSet.FieldByName('NAME').AsString     := vView.EditNome.Text;
-            FModelDataBase.DataSet.FieldByName('PATH').AsString     := vView.EditLocal.Text;
-            FModelDataBase.DataSet.FieldByName('USERNAME').AsString := vView.EditUserName.Text;
-            FModelDataBase.DataSet.FieldByName('PASSWORD').AsString := vView.EditPassword.Text;
+            FModelDataBase.DataSet.FieldByName('NAME').AsString :=
+              vView.EditNome.Text;
+            FModelDataBase.DataSet.FieldByName('PATH').AsString :=
+              vView.EditLocal.Text;
+            FModelDataBase.DataSet.FieldByName('USERNAME').AsString :=
+              vView.EditUserName.Text;
+            FModelDataBase.DataSet.FieldByName('PASSWORD').AsString :=
+              vView.EditPassword.Text;
             FModelDataBase.DataSet.Post;
           end;
         finally
@@ -223,14 +237,18 @@ begin
       begin
         vView := TViewServer.Create(nil);
         try
-          vView.EditNome.Text := FModelServer.DataSet.FieldByName('NAME').AsString;
-          vView.EditLocal.Text := FModelServer.DataSet.FieldByName('IP').AsString;
+          vView.EditNome.Text := FModelServer.DataSet.FieldByName
+            ('NAME').AsString;
+          vView.EditLocal.Text := FModelServer.DataSet.FieldByName
+            ('IP').AsString;
           vView.ShowModal;
           if vView.Resultado = mrOK then
           begin
             FModelServer.DataSet.Edit;
-            FModelServer.DataSet.FieldByName('NAME').AsString := vView.EditNome.Text;
-            FModelServer.DataSet.FieldByName('IP').AsString := vView.EditLocal.Text;
+            FModelServer.DataSet.FieldByName('NAME').AsString :=
+              vView.EditNome.Text;
+            FModelServer.DataSet.FieldByName('IP').AsString :=
+              vView.EditLocal.Text;
             FModelServer.DataSet.Post;
           end;
         finally
@@ -250,7 +268,7 @@ begin
   begin
     if FDatabases.TryGetValue(FView.TreeView1.Selected, vDataBase) then
     begin
-      vController := TControllerFactory.Exportini(vDataBase);
+      vController := TControllerFactory.ExportIniFile(vDataBase);
       vController.Show;
     end;
   end;
@@ -270,20 +288,16 @@ procedure TControllerMain.FillList;
       FModelDataBase.Open('ID_SERVER = ' + QuotedStr(vServer.ID));
       while not FModelDataBase.DataSet.Eof do
       begin
-        vItem := FView.TreeView1.Items.AddChild(ATreeNode, FModelDataBase.DataSet.FieldByName('NAME').AsString);
+        vItem := FView.TreeView1.Items.AddChild(ATreeNode,
+          FModelDataBase.DataSet.FieldByName('NAME').AsString);
         vItem.ImageIndex := 1;
 
-        FDatabases.AddOrSetValue(
-          vItem,
-          TDataBase.Create(
-            FModelDataBase.DataSet.FieldByName('ID').AsString,
-            FModelDataBase.DataSet.FieldByName('NAME').AsString,
-            FModelDataBase.DataSet.FieldByName('PATH').AsString,
-            FModelDataBase.DataSet.FieldByName('USERNAME').AsString,
-            FModelDataBase.DataSet.FieldByName('PASSWORD').AsString,
-            vServer
-          )
-        );
+        FDatabases.AddOrSetValue(vItem,
+          TDataBase.Create(FModelDataBase.DataSet.FieldByName('ID').AsString,
+          FModelDataBase.DataSet.FieldByName('NAME').AsString,
+          FModelDataBase.DataSet.FieldByName('PATH').AsString,
+          FModelDataBase.DataSet.FieldByName('USERNAME').AsString,
+          FModelDataBase.DataSet.FieldByName('PASSWORD').AsString, vServer));
 
         FModelDataBase.DataSet.Next;
       end;
@@ -304,17 +318,15 @@ begin
   try
     while not FModelServer.DataSet.Eof do
     begin
-      vItem := FView.TreeView1.Items.Add(nil, FModelServer.DataSet.FieldByName('IP').AsString + ' | ' + FModelServer.DataSet.FieldByName('NAME').AsString);
+      vItem := FView.TreeView1.Items.Add(nil,
+        FModelServer.DataSet.FieldByName('IP').AsString + ' | ' +
+        FModelServer.DataSet.FieldByName('NAME').AsString);
       vItem.ImageIndex := 0;
 
-      FServers.AddOrSetValue(
-        vItem,
-        TServer.Create(
-          FModelServer.DataSet.FieldByName('ID').AsString,
-          FModelServer.DataSet.FieldByName('Name').AsString,
-          FModelServer.DataSet.FieldByName('IP').AsString
-        )
-      );
+      FServers.AddOrSetValue(vItem,
+        TServer.Create(FModelServer.DataSet.FieldByName('ID').AsString,
+        FModelServer.DataSet.FieldByName('Name').AsString,
+        FModelServer.DataSet.FieldByName('IP').AsString));
 
       AddDataBasesToTree(vItem);
 
@@ -331,7 +343,7 @@ procedure TControllerMain.FindInUse;
   var
     vControllerParam: IControllerParam;
   begin
-    vControllerParam := TControllerFactory.ParamManager;
+    vControllerParam := TControllerFactory.IniManager;
     Result := vControllerParam.GetParam('INI', 'LAST_ID', EmptyStr);
   end;
 
@@ -343,16 +355,18 @@ begin
   FModelDataBase.Find(vLastID);
   if not FModelDataBase.DataSet.IsEmpty then
   begin
-    SetStatusBar(FModelDataBase.DataSet.FieldByName('NAME').AsString, FModelDataBase.DataSet.FieldByName('PATH').AsString);
+    SetStatusBar(FModelDataBase.DataSet.FieldByName('NAME').AsString,
+      FModelDataBase.DataSet.FieldByName('PATH').AsString);
   end;
 end;
 
 procedure TControllerMain.PreparePopUp;
 begin
-  FView.acnPopupMenuRegistrarBanco.Visible := FView.TreeView1.Selected.Level = 0;
-  FView.acnPopupMenuExport.Visible         := FView.TreeView1.Selected.Level = 1;
-  FView.acnPopupMenuShowData.Visible       := FView.TreeView1.Selected.Level = 1;
-  FView.acnPopupMenuBackup.Visible         := FView.TreeView1.Selected.Level = 1;
+  FView.acnPopupMenuRegistrarBanco.Visible :=
+    FView.TreeView1.Selected.Level = 0;
+  FView.acnPopupMenuExport.Visible := FView.TreeView1.Selected.Level = 1;
+  FView.acnPopupMenuShowData.Visible := FView.TreeView1.Selected.Level = 1;
+  FView.acnPopupMenuBackup.Visible := FView.TreeView1.Selected.Level = 1;
 end;
 
 procedure TControllerMain.CallBackupManager;
@@ -369,7 +383,7 @@ begin
         raise Exception.Create('Backup apenas para IP "127.0.0.1"');
       end;
 
-      vController := TControllerFactory.DataBaseBackup(vDataBase);
+      vController := TControllerFactory.BackupManager(vDataBase);
       vController.Show;
     end;
   end;
@@ -378,8 +392,10 @@ end;
 procedure TControllerMain.CallEdit;
 begin
   case FView.TreeView1.Selected.Level of
-    0: Self.EditServer;
-    1: Self.EditDataBase;
+    0:
+      Self.EditServer;
+    1:
+      Self.EditDataBase;
   end;
   Self.FillList;
 end;
@@ -392,11 +408,21 @@ begin
   vController.Show;
 end;
 
+procedure TControllerMain.CallParamManager;
+var
+  vController: IControllerView;
+begin
+  vController := TControllerFactory.ParamManager;
+  vController.Show;
+end;
+
 procedure TControllerMain.CallRegister;
 begin
   case FView.TreeView1.Selected.Level of
-    0: Self.RegisterServer;
-    1: Self.RegisterDatabase;
+    0:
+      Self.RegisterServer;
+    1:
+      Self.RegisterDatabase;
   end;
   Self.FillList;
 end;
@@ -404,8 +430,10 @@ end;
 procedure TControllerMain.CallUnregister;
 begin
   case FView.TreeView1.Selected.Level of
-    0: Self.UnregisterServer;
-    1: Self.UnregisterDataBase;
+    0:
+      Self.UnregisterServer;
+    1:
+      Self.UnregisterDataBase;
   end;
   Self.FillList;
 end;

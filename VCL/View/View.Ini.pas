@@ -34,10 +34,10 @@ type
     procedure SpeedButton3Click(Sender: TObject);
   private
     { Private declarations }
-    FController: IControllerIni;
+    FController: IControllerIniFile;
   public
     { Public declarations }
-    constructor Create(const AController: IControllerIni); reintroduce;
+    constructor Create(const AController: IControllerIniFile); reintroduce;
   end;
 
 var
@@ -63,7 +63,7 @@ begin
   FController.FillPreview;
 end;
 
-constructor TViewIni.Create(const AController: IControllerIni);
+constructor TViewIni.Create(const AController: IControllerIniFile);
 begin
   inherited Create(nil);
   FController := AController;

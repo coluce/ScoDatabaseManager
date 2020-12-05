@@ -33,6 +33,8 @@ type
     Conectar1: TMenuItem;
     acnPopupMenuBackup: TAction;
     Backup1: TMenuItem;
+    SpeedButton3: TSpeedButton;
+    acnCadastroParametros: TAction;
     procedure FormCreate(Sender: TObject);
     procedure TreeView1DblClick(Sender: TObject);
     procedure PopupMenuTreeViewPopup(Sender: TObject);
@@ -47,6 +49,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure acnPopupMenuEditarExecute(Sender: TObject);
     procedure acnPopupMenuBackupExecute(Sender: TObject);
+    procedure acnCadastroParametrosExecute(Sender: TObject);
   private
     { Private declarations }
     FControllerMain: IControllerMain;
@@ -73,6 +76,11 @@ end;
 procedure TViewMain.acnPopupMenuShowDataExecute(Sender: TObject);
 begin
   FControllerMain.ShowDataBase;
+end;
+
+procedure TViewMain.acnCadastroParametrosExecute(Sender: TObject);
+begin
+  FControllerMain.CallParamManager;
 end;
 
 procedure TViewMain.acnPopupMenuBackupExecute(Sender: TObject);

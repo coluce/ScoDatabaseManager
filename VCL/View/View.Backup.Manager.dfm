@@ -1,4 +1,4 @@
-inherited ViewDataBaseBackup: TViewDataBaseBackup
+inherited ViewBackupManager: TViewBackupManager
   Caption = 'Backup'
   ClientHeight = 316
   ClientWidth = 296

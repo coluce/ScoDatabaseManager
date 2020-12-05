@@ -31,12 +31,17 @@ type
     procedure CallEdit;
     procedure CallUnregister;
     procedure CallRegister;
+    procedure CallParamManager;
   end;
 
   IControllerWindow = interface
     ['{4E0E7316-5456-4977-A5DB-2B5D93100D48}']
     procedure SavePosition;
     procedure RestorePosition;
+  end;
+
+  IControllerParamManager = interface(IControllerView)
+    ['{FDD3FB23-4559-49C6-BB59-283F682B59C3}']
   end;
 
   IControllerDataBaseData = interface(IControllerView)
@@ -55,7 +60,7 @@ type
     property Connected: boolean read GetConnected write SetConnected;
   end;
 
-  IControllerDataBaseBackup = interface(IControllerView)
+  IControllerBackupManager = interface(IControllerView)
     ['{47F05023-3653-435E-A35A-95C1E8DB289E}']
     procedure FillBackupFiles;
     procedure SetDLL;
@@ -68,7 +73,7 @@ type
     ['{15A44337-42BC-408E-9B2D-383DEE1276B7}']
   end;
 
-  IControllerIni = interface(IControllerView)
+  IControllerIniFile = interface(IControllerView)
     ['{15A44337-42BC-408E-9B2D-383DEE1276B7}']
     procedure FillPreview;
     procedure ExportToDrive;

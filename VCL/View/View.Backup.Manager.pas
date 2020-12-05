@@ -1,4 +1,4 @@
-unit View.Database.Backup;
+unit View.Backup.Manager;
 
 interface
 
@@ -8,7 +8,7 @@ uses
   Vcl.Buttons, Vcl.ExtCtrls, Controller.Interfaces;
 
 type
-  TViewDataBaseBackup = class(TViewDefault)
+  TViewBackupManager = class(TViewDefault)
     Panel2: TPanel;
     btnBackup: TSpeedButton;
     btnRestore: TSpeedButton;
@@ -21,10 +21,10 @@ type
     procedure btnDeleteClick(Sender: TObject);
   private
     { Private declarations }
-    FController: IControllerDataBaseBackup;
+    FController: IControllerBackupManager;
   public
     { Public declarations }
-    constructor Create(const AController: IControllerDataBaseBackup);
+    constructor Create(const AController: IControllerBackupManager);
   end;
 
 implementation
@@ -33,33 +33,33 @@ implementation
 
 { TViewDataBaseBackup }
 
-constructor TViewDataBaseBackup.Create(
-  const AController: IControllerDataBaseBackup);
+constructor TViewBackupManager.Create(
+  const AController: IControllerBackupManager);
 begin
   inherited Create(nil);
   FController := AController;
 end;
 
-procedure TViewDataBaseBackup.FormClose(Sender: TObject;
+procedure TViewBackupManager.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
   inherited;
   FController._Release;
 end;
 
-procedure TViewDataBaseBackup.btnBackupClick(Sender: TObject);
+procedure TViewBackupManager.btnBackupClick(Sender: TObject);
 begin
   inherited;
   FController.Backup;
 end;
 
-procedure TViewDataBaseBackup.btnDeleteClick(Sender: TObject);
+procedure TViewBackupManager.btnDeleteClick(Sender: TObject);
 begin
   inherited;
   FController.DeleteBackup;
 end;
 
-procedure TViewDataBaseBackup.btnRestoreClick(Sender: TObject);
+procedure TViewBackupManager.btnRestoreClick(Sender: TObject);
 begin
   inherited;
   FController.Restore;

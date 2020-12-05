@@ -146,11 +146,20 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Model\Model.Imp.Database.Backup.pas"/>
-        <DCCReference Include="View\View.Database.Backup.pas">
-            <Form>ViewDataBaseBackup</Form>
+        <DCCReference Include="View\View.Backup.Manager.pas">
+            <Form>ViewBackupManager</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="Controller\Controller.Imp.DataBase.Backup.pas"/>
+        <DCCReference Include="Controller\Controller.Imp.Backup.Manager.pas"/>
+        <DCCReference Include="Controller\Controller.Imp.Param.Manager.pas"/>
+        <DCCReference Include="View\View.Param.Manager.pas">
+            <Form>ViewParamManager</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="View\View.Wait.pas">
+            <Form>ViewWait</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

@@ -1,16 +1,18 @@
-unit Controller.Imp.DataBase.Backup;
+unit Controller.Imp.Backup.Manager;
 
 interface
 
 uses
-  Controller.Interfaces, Model.Types, View.DataBase.Backup, Model.Interfaces;
+  Controller.Interfaces, Model.Types, View.Backup.Manager, Model.Interfaces,
+  View.Wait;
 
 
 type
-  TControllerDataBaseBackup = class(TInterfacedObject, IControllerDataBaseBackup)
+  TControllerBackupManager = class(TInterfacedObject, IControllerBackupManager)
   private
     FDataBase: TDataBase;
-    FView: TViewDataBaseBackup;
+    FView: TViewBackupManager;
+    FViewWait: TViewWait;
     FDllDatabase: string;
     FControllerParam: IControllerParam;
 
@@ -47,13 +49,13 @@ implementation
 
 uses
   System.SysUtils, Model.Factory, System.IOUtils, System.Types, Vcl.Dialogs,
-  System.UITypes, Controller.Factory;
+  System.UITypes, Controller.Factory, System.Classes;
 
 { TControllerDataBaseBackup }
 
-procedure TControllerDataBaseBackup.Backup;
+procedure TControllerBackupManager.Backup;
 var
-  vModelManager: IModelDatabaseBackup;
+  vViewWait: TViewWait;
 begin
   if not FDataBase.Server.IP.Equals('127.0.0.1') then
     Exit;
@@ -62,27 +64,54 @@ begin
 
   try
     CreateBackupDirectory;
-    vModelManager := TModelFactory.DataBasebackup(FDataBase, FDllDatabase);
-    vModelManager.Backup(TPath.Combine(GetBackupDirectory, GetBackupFileName), BACKUP_LEVEL_FULL);
 
-    ShowMessage('Backup concluído!');
+    vViewWait := TViewWait.Create(nil);
+
+    TThread.CreateAnonymousThread(
+      procedure
+      var
+        vModelManager: IModelDatabaseBackup;
+      begin
+        TThread.Synchronize(
+          nil,
+          procedure
+          begin
+            vViewWait.Show;
+          end
+        );
+
+        vModelManager := TModelFactory.DataBasebackup(FDataBase, FDllDatabase);
+        vModelManager.Backup(TPath.Combine(GetBackupDirectory, GetBackupFileName), BACKUP_LEVEL_FULL);
+        TThread.Sleep(2000);
+
+        TThread.Synchronize(
+          TThread.CurrentThread,
+          procedure
+          begin
+            vViewWait.Close;
+            vViewWait.Free;
+            Self.FillBackupFiles;
+            ShowMessage('Backup concluído!');
+          end
+        );
+
+      end
+    ).Start;
 
   except
     raise;
   end;
-  Self.FillBackupFiles;
-
 end;
 
-constructor TControllerDataBaseBackup.Create(const ADataBase: TDataBase);
+constructor TControllerBackupManager.Create(const ADataBase: TDataBase);
 begin
   FDataBase    := ADataBase;
-  FView        := TViewDataBaseBackup.Create(Self);
-  FControllerParam := TControllerFactory.ParamManager;
+  FView        := TViewBackupManager.Create(Self);
+  FControllerParam := TControllerFactory.IniManager;
   FDllDatabase := FControllerParam.GetParam('FIREBIRD', 'DLL_PATH', 'C:\Program Files (x86)\Firebird\Firebird_3_0\fbclient.dll');
 end;
 
-procedure TControllerDataBaseBackup.DeleteBackup;
+procedure TControllerBackupManager.DeleteBackup;
 var
   vFileName: string;
 begin
@@ -100,13 +129,13 @@ begin
   Self.FillBackupFiles;
 end;
 
-destructor TControllerDataBaseBackup.Destroy;
+destructor TControllerBackupManager.Destroy;
 begin
   FView.Free;
   inherited;
 end;
 
-procedure TControllerDataBaseBackup.Restore;
+procedure TControllerBackupManager.Restore;
 var
   vModelManager: IModelDatabaseBackup;
   vOldFileName: string;
@@ -148,7 +177,7 @@ begin
 
 end;
 
-procedure TControllerDataBaseBackup.SetDLL;
+procedure TControllerBackupManager.SetDLL;
 var
   vInput: string;
 begin
@@ -160,26 +189,26 @@ begin
   end;
 end;
 
-procedure TControllerDataBaseBackup.Show;
+procedure TControllerBackupManager.Show;
 begin
   FView.Show;
   Self.PrepareScreen;
 end;
 
-procedure TControllerDataBaseBackup.ShowModal;
+procedure TControllerBackupManager.ShowModal;
 begin
   FView.ShowModal;
   Self.PrepareScreen;
 end;
 
-function TControllerDataBaseBackup.ValidateDll: boolean;
+function TControllerBackupManager.ValidateDll: boolean;
 var
   vRepeat: boolean;
 begin
   repeat
     if FileExists(FDllDatabase) then
     begin
-      vRepeat := False;
+      vRepeat := True;
     end
     else
     begin
@@ -193,7 +222,7 @@ begin
   Result := FileExists(FDllDatabase);
 end;
 
-procedure TControllerDataBaseBackup.CreateBackupDirectory;
+procedure TControllerBackupManager.CreateBackupDirectory;
 var
   vDirectoryName: string;
 begin
@@ -208,7 +237,7 @@ begin
   end;
 end;
 
-procedure TControllerDataBaseBackup.FillBackupFiles;
+procedure TControllerBackupManager.FillBackupFiles;
 var
   vList: TStringDynArray;
   vDirectory: string;
@@ -231,27 +260,27 @@ begin
 
 end;
 
-function TControllerDataBaseBackup.GetBackupDirectory: string;
+function TControllerBackupManager.GetBackupDirectory: string;
 begin
   Result := TPath.Combine(FDataBase.Path, 'backup');
 end;
 
-function TControllerDataBaseBackup.GetBackupFileName: string;
+function TControllerBackupManager.GetBackupFileName: string;
 begin
   Result := 'backup_' + FormatDateTime('yyyy_mm_dd_hh_nn_ss_zzz', Now) + '.backup';
 end;
 
-function TControllerDataBaseBackup.GetBackupFullFileName: string;
+function TControllerBackupManager.GetBackupFullFileName: string;
 begin
   Result := TPath.Combine(GetBackupDirectory, GetBackupFileName);
 end;
 
-function TControllerDataBaseBackup.GetDatabaseFullFileName: string;
+function TControllerBackupManager.GetDatabaseFullFileName: string;
 begin
   Result := TPath.Combine(FDataBase.Path, 'ALTERDB.IB');
 end;
 
-procedure TControllerDataBaseBackup.PrepareScreen;
+procedure TControllerBackupManager.PrepareScreen;
 begin
   FView.Caption := 'Backup [' + FDataBase.Name + ']';
   FillBackupFiles;
