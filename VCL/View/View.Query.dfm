@@ -33,7 +33,7 @@ object ViewQuery: TViewQuery
     Top = 3
     Width = 626
     Height = 376
-    ActivePage = TabSheetQuery
+    ActivePage = TabSheetResult
     Align = alClient
     TabOrder = 1
     object TabSheetQuery: TTabSheet
@@ -149,8 +149,6 @@ object ViewQuery: TViewQuery
               '  TABELA')
             WantTabs = True
             FontSmoothing = fsmNone
-            ExplicitTop = 80
-            ExplicitHeight = 259
           end
           object Panel3: TPanel
             Left = 0
@@ -265,7 +263,9 @@ object ViewQuery: TViewQuery
             Height = 80
             Align = alClient
             Lines.Strings = (
-              'n'#227'o implementado')
+              'n'#227'o implementado'
+              ''
+              'fbclient.dll isc_dsql_sql_info')
             TabOrder = 0
           end
         end
@@ -324,7 +324,6 @@ object ViewQuery: TViewQuery
         Align = alTop
         BevelOuter = bvNone
         TabOrder = 1
-        ExplicitTop = 8
         object SpeedButton3: TSpeedButton
           AlignWithMargins = True
           Left = 249
@@ -372,10 +371,6 @@ object ViewQuery: TViewQuery
         Gutter.ShowLineNumbers = True
         Highlighter = SynSQLSyn1
         ReadOnly = True
-        ExplicitLeft = 280
-        ExplicitTop = 72
-        ExplicitWidth = 200
-        ExplicitHeight = 150
       end
     end
   end
