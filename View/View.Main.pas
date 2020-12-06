@@ -26,9 +26,9 @@ type
     acnServerRegister: TAction;
     acnCallLayoutManager: TAction;
     SpeedButton2: TSpeedButton;
-    acnPopupMenuEditar: TAction;
+    acnPopupMenuServerEditar: TAction;
     acnPopupMenuExcluir: TAction;
-    acnPopupMenuRegistrarBanco: TAction;
+    acnPopupMenuDataBaseRegister: TAction;
     acnPopupMenuExport: TAction;
     acnPopupMenuDefinirAtual1: TMenuItem;
     acnPopupMenuShowData: TAction;
@@ -37,21 +37,24 @@ type
     Backup1: TMenuItem;
     SpeedButton3: TSpeedButton;
     acnCallParamManager: TAction;
+    acnPopUpMenuDataBaseEdit: TAction;
+    Editar2: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure TreeView1DblClick(Sender: TObject);
     procedure PopupMenuTreeViewPopup(Sender: TObject);
     procedure acnServerRegisterExecute(Sender: TObject);
     procedure acnCallLayoutManagerExecute(Sender: TObject);
     procedure acnPopupMenuExcluirExecute(Sender: TObject);
-    procedure acnPopupMenuRegistrarBancoExecute(Sender: TObject);
+    procedure acnPopupMenuDataBaseRegisterExecute(Sender: TObject);
     procedure acnPopupMenuShowDataExecute(Sender: TObject);
     procedure acnPopupMenuExportExecute(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure acnPopupMenuEditarExecute(Sender: TObject);
+    procedure acnPopupMenuServerEditarExecute(Sender: TObject);
     procedure acnPopupMenuBackupExecute(Sender: TObject);
     procedure acnCallParamManagerExecute(Sender: TObject);
+    procedure acnPopUpMenuDataBaseEditExecute(Sender: TObject);
   private
     { Private declarations }
     FControllerMain: IControllerMain;
@@ -90,9 +93,16 @@ begin
   FControllerMain.CallBackupManager;
 end;
 
-procedure TViewMain.acnPopupMenuEditarExecute(Sender: TObject);
+procedure TViewMain.acnPopUpMenuDataBaseEditExecute(Sender: TObject);
 begin
-  FControllerMain.CallEdit;
+  FControllerMain.EditDataBase;
+  FControllerMain.FillList;
+end;
+
+procedure TViewMain.acnPopupMenuServerEditarExecute(Sender: TObject);
+begin
+  FControllerMain.RegisterServer;
+  FControllerMain.FillList;
 end;
 
 procedure TViewMain.acnPopupMenuExcluirExecute(Sender: TObject);
@@ -105,7 +115,7 @@ begin
   FControllerMain.ExportToDrive;
 end;
 
-procedure TViewMain.acnPopupMenuRegistrarBancoExecute(Sender: TObject);
+procedure TViewMain.acnPopupMenuDataBaseRegisterExecute(Sender: TObject);
 begin
   FControllerMain.RegisterDatabase;
   FControllerMain.FillList;

@@ -393,8 +393,10 @@ begin
   begin
     Exit;
   end;
-  FView.acnPopupMenuRegistrarBanco.Visible :=
-    FView.TreeView1.Selected.Level = 0;
+  FView.acnPopupMenuServerEditar.Visible := FView.TreeView1.Selected.Level = 0;
+  FView.acnPopUpMenuDataBaseEdit.Visible := FView.TreeView1.Selected.Level = 1;
+  FView.acnPopupMenuDataBaseRegister.Visible := FView.TreeView1.Selected.Level = 0;
+
   FView.acnPopupMenuExport.Visible := FView.TreeView1.Selected.Level = 1;
   FView.acnPopupMenuShowData.Visible := FView.TreeView1.Selected.Level = 1;
   FView.acnPopupMenuBackup.Visible := FView.TreeView1.Selected.Level = 1;
