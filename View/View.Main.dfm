@@ -48,7 +48,7 @@ object ViewMain: TViewMain
       Top = 3
       Width = 23
       Height = 26
-      Action = acnServerNovo
+      Action = acnServerRegister
       Align = alLeft
       Flat = True
       ParentShowHint = False
@@ -63,7 +63,7 @@ object ViewMain: TViewMain
       Top = 3
       Width = 23
       Height = 26
-      Action = acnCadastroLayouts
+      Action = acnCallLayoutManager
       Align = alLeft
       Flat = True
       ParentShowHint = False
@@ -73,12 +73,12 @@ object ViewMain: TViewMain
     end
     object SpeedButton3: TSpeedButton
       AlignWithMargins = True
-      Left = 250
+      Left = 61
       Top = 3
       Width = 23
       Height = 26
-      Action = acnCadastroParametros
-      Align = alRight
+      Action = acnCallParamManager
+      Align = alLeft
       Flat = True
       ParentShowHint = False
       ShowHint = True
@@ -451,17 +451,17 @@ object ViewMain: TViewMain
     Images = ImageListActionList
     Left = 128
     Top = 96
-    object acnServerNovo: TAction
+    object acnServerRegister: TAction
       Category = 'ToolBar'
       Hint = 'Registrar novo servidor'
       ImageIndex = 0
-      OnExecute = acnServerNovoExecute
+      OnExecute = acnServerRegisterExecute
     end
-    object acnCadastroLayouts: TAction
+    object acnCallLayoutManager: TAction
       Category = 'ToolBar'
       Hint = 'Cadastro de layouts de arquivos ini'
       ImageIndex = 1
-      OnExecute = acnCadastroLayoutsExecute
+      OnExecute = acnCallLayoutManagerExecute
     end
     object acnPopupMenuEditar: TAction
       Category = 'PopupMenu'
@@ -499,11 +499,11 @@ object ViewMain: TViewMain
       ImageIndex = 2
       OnExecute = acnPopupMenuBackupExecute
     end
-    object acnCadastroParametros: TAction
+    object acnCallParamManager: TAction
       Category = 'ToolBar'
       Hint = 'Cadastro de par'#226'metros'
       ImageIndex = 4
-      OnExecute = acnCadastroParametrosExecute
+      OnExecute = acnCallParamManagerExecute
     end
   end
   object ImageListActionList: TImageList

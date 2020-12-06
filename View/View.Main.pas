@@ -23,8 +23,8 @@ type
     SpeedButton1: TSpeedButton;
     ActionListAcoes: TActionList;
     ImageListActionList: TImageList;
-    acnServerNovo: TAction;
-    acnCadastroLayouts: TAction;
+    acnServerRegister: TAction;
+    acnCallLayoutManager: TAction;
     SpeedButton2: TSpeedButton;
     acnPopupMenuEditar: TAction;
     acnPopupMenuExcluir: TAction;
@@ -36,12 +36,12 @@ type
     acnPopupMenuBackup: TAction;
     Backup1: TMenuItem;
     SpeedButton3: TSpeedButton;
-    acnCadastroParametros: TAction;
+    acnCallParamManager: TAction;
     procedure FormCreate(Sender: TObject);
     procedure TreeView1DblClick(Sender: TObject);
     procedure PopupMenuTreeViewPopup(Sender: TObject);
-    procedure acnServerNovoExecute(Sender: TObject);
-    procedure acnCadastroLayoutsExecute(Sender: TObject);
+    procedure acnServerRegisterExecute(Sender: TObject);
+    procedure acnCallLayoutManagerExecute(Sender: TObject);
     procedure acnPopupMenuExcluirExecute(Sender: TObject);
     procedure acnPopupMenuRegistrarBancoExecute(Sender: TObject);
     procedure acnPopupMenuShowDataExecute(Sender: TObject);
@@ -51,7 +51,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure acnPopupMenuEditarExecute(Sender: TObject);
     procedure acnPopupMenuBackupExecute(Sender: TObject);
-    procedure acnCadastroParametrosExecute(Sender: TObject);
+    procedure acnCallParamManagerExecute(Sender: TObject);
   private
     { Private declarations }
     FControllerMain: IControllerMain;
@@ -70,7 +70,7 @@ uses
 
 {$R *.dfm}
 
-procedure TViewMain.acnCadastroLayoutsExecute(Sender: TObject);
+procedure TViewMain.acnCallLayoutManagerExecute(Sender: TObject);
 begin
   FControllerMain.CallLayoutManager;
 end;
@@ -80,7 +80,7 @@ begin
   FControllerMain.ShowDataBase;
 end;
 
-procedure TViewMain.acnCadastroParametrosExecute(Sender: TObject);
+procedure TViewMain.acnCallParamManagerExecute(Sender: TObject);
 begin
   FControllerMain.CallParamManager;
 end;
@@ -107,12 +107,14 @@ end;
 
 procedure TViewMain.acnPopupMenuRegistrarBancoExecute(Sender: TObject);
 begin
-  FControllerMain.CallRegister;
+  FControllerMain.RegisterDatabase;
+  FControllerMain.FillList;
 end;
 
-procedure TViewMain.acnServerNovoExecute(Sender: TObject);
+procedure TViewMain.acnServerRegisterExecute(Sender: TObject);
 begin
-  FControllerMain.CallRegister;
+  FControllerMain.RegisterServer;
+  FControllerMain.FillList;
 end;
 
 procedure TViewMain.FormActivate(Sender: TObject);

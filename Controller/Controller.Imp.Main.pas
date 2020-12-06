@@ -62,6 +62,10 @@ var
   vServer: TServer;
   vView: TViewRegisterDatabase;
 begin
+  if not Assigned(FView.TreeView1.Selected) then
+  begin
+    Exit;
+  end;
   if FView.TreeView1.Selected.Level = 0 then
   begin
     if FServers.TryGetValue(FView.TreeView1.Selected, vServer) then
@@ -127,6 +131,10 @@ var
   vDataBase: TDataBase;
   vController: IControllerView;
 begin
+  if not Assigned(FView.TreeView1.Selected) then
+  begin
+    Exit;
+  end;
   if FView.TreeView1.Selected.Level = 1 then
   begin
     if FDatabases.TryGetValue(FView.TreeView1.Selected, vDataBase) then
@@ -141,6 +149,10 @@ procedure TControllerMain.UnregisterDataBase;
 var
   vDataBase: TDataBase;
 begin
+  if not Assigned(FView.TreeView1.Selected) then
+  begin
+    Exit;
+  end;
   if FView.TreeView1.Selected.Level = 1 then
   begin
     if FDatabases.TryGetValue(FView.TreeView1.Selected, vDataBase) then
@@ -154,6 +166,10 @@ procedure TControllerMain.UnregisterServer;
 var
   vServer: TServer;
 begin
+  if not Assigned(FView.TreeView1.Selected) then
+  begin
+    Exit;
+  end;
   if FView.TreeView1.Selected.Level = 0 then
   begin
     if FServers.TryGetValue(FView.TreeView1.Selected, vServer) then
@@ -184,6 +200,10 @@ var
   vDataBase: TDataBase;
   vView: TViewRegisterDatabase;
 begin
+  if not Assigned(FView.TreeView1.Selected) then
+  begin
+    Exit;
+  end;
   if FView.TreeView1.Selected.Level = 1 then
   begin
     if FDatabases.TryGetValue(FView.TreeView1.Selected, vDataBase) then
@@ -228,6 +248,10 @@ var
   vServer: TServer;
   vView: TViewServer;
 begin
+  if not Assigned(FView.TreeView1.Selected) then
+  begin
+    Exit;
+  end;
   if FView.TreeView1.Selected.Level = 0 then
   begin
     if FServers.TryGetValue(FView.TreeView1.Selected, vServer) then
@@ -264,6 +288,10 @@ var
   vDataBase: TDataBase;
   vController: IControllerView;
 begin
+  if not Assigned(FView.TreeView1.Selected) then
+  begin
+    Exit;
+  end;
   if FView.TreeView1.Selected.Level = 1 then
   begin
     if FDatabases.TryGetValue(FView.TreeView1.Selected, vDataBase) then
@@ -361,6 +389,10 @@ end;
 
 procedure TControllerMain.PreparePopUp;
 begin
+  if not Assigned(FView.TreeView1.Selected) then
+  begin
+    Exit;
+  end;
   FView.acnPopupMenuRegistrarBanco.Visible :=
     FView.TreeView1.Selected.Level = 0;
   FView.acnPopupMenuExport.Visible := FView.TreeView1.Selected.Level = 1;
@@ -373,6 +405,10 @@ var
   vController: IControllerView;
   vDataBase: TDataBase;
 begin
+  if not Assigned(FView.TreeView1.Selected) then
+  begin
+    Exit;
+  end;
   if FView.TreeView1.Selected.Level = 1 then
   begin
     if FDatabases.TryGetValue(FView.TreeView1.Selected, vDataBase) then
@@ -390,6 +426,10 @@ end;
 
 procedure TControllerMain.CallEdit;
 begin
+  if not Assigned(FView.TreeView1.Selected) then
+  begin
+    Exit;
+  end;
   case FView.TreeView1.Selected.Level of
     0:
       Self.EditServer;
@@ -417,6 +457,10 @@ end;
 
 procedure TControllerMain.CallRegister;
 begin
+  if not Assigned(FView.TreeView1.Selected) then
+  begin
+    Exit;
+  end;
   case FView.TreeView1.Selected.Level of
     0:
       Self.RegisterServer;
@@ -428,6 +472,10 @@ end;
 
 procedure TControllerMain.CallUnregister;
 begin
+  if not Assigned(FView.TreeView1.Selected) then
+  begin
+    Exit;
+  end;
   case FView.TreeView1.Selected.Level of
     0:
       Self.UnregisterServer;
