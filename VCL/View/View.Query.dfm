@@ -112,38 +112,19 @@ object ViewQuery: TViewQuery
           Align = alClient
           BevelOuter = bvNone
           TabOrder = 0
-          object ToolBar2: TToolBar
-            Left = 0
-            Top = 0
-            Width = 424
-            Height = 29
-            ButtonHeight = 30
-            ButtonWidth = 31
-            Caption = 'ToolBar2'
-            Images = ImageListQuery
-            TabOrder = 0
-            object ToolButton1: TToolButton
-              AlignWithMargins = True
-              Left = 0
-              Top = 0
-              Action = acnQueryRun
-              ParentShowHint = False
-              ShowHint = True
-            end
-          end
           object MemoQuery: TSynMemo
             AlignWithMargins = True
             Left = 3
-            Top = 32
+            Top = 33
             Width = 418
-            Height = 307
+            Height = 306
             Align = alClient
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -13
             Font.Name = 'Courier New'
             Font.Style = []
-            TabOrder = 1
+            TabOrder = 0
             CodeFolding.GutterShapeSize = 11
             CodeFolding.CollapsedLineColor = clGrayText
             CodeFolding.FolderBarLinesColor = clGrayText
@@ -168,6 +149,32 @@ object ViewQuery: TViewQuery
               '  TABELA')
             WantTabs = True
             FontSmoothing = fsmNone
+            ExplicitTop = 80
+            ExplicitHeight = 259
+          end
+          object Panel3: TPanel
+            Left = 0
+            Top = 0
+            Width = 424
+            Height = 30
+            Align = alTop
+            BevelOuter = bvNone
+            TabOrder = 1
+            object SpeedButton4: TSpeedButton
+              AlignWithMargins = True
+              Left = 3
+              Top = 3
+              Width = 23
+              Height = 24
+              Action = acnQueryRun
+              Align = alLeft
+              Flat = True
+              ParentShowHint = False
+              ShowHint = True
+              ExplicitLeft = 24
+              ExplicitTop = 16
+              ExplicitHeight = 22
+            end
           end
         end
       end
@@ -1321,7 +1328,6 @@ object ViewQuery: TViewQuery
     Top = 148
     object acnQueryRun: TAction
       Category = 'Query'
-      Caption = 'Executar'
       Hint = 'Executar comando SQL'
       ImageIndex = 0
       ShortCut = 16453

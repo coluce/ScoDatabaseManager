@@ -15,7 +15,6 @@ type
     Splitter1: TSplitter;
     pnlQuery: TPanel;
     Panel4: TPanel;
-    ToolBar2: TToolBar;
     MemoQuery: TSynMemo;
     SynSQLSyn1: TSynSQLSyn;
     DataSourceQuery: TDataSource;
@@ -23,7 +22,6 @@ type
     ImageListQuery: TImageList;
     ActionListQuery: TActionList;
     acnQueryRun: TAction;
-    ToolButton1: TToolButton;
     pnlTables: TPanel;
     Panel1: TPanel;
     ToggleSwitch1: TToggleSwitch;
@@ -57,6 +55,8 @@ type
     DBSynEdit1: TDBSynEdit;
     SpeedButton3: TSpeedButton;
     acnHistoryQuery: TAction;
+    Panel3: TPanel;
+    SpeedButton4: TSpeedButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ToggleSwitch1Click(Sender: TObject);
     procedure TreeViewTabelasDblClick(Sender: TObject);
