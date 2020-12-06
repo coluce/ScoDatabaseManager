@@ -1,9 +1,9 @@
-unit Controller.Imp.DataBase.Data;
+unit Controller.Imp.Query;
 
 interface
 
 uses
-  View.DataBase.Data, Model.Types, Controller.Interfaces, Model.Interfaces,
+  View.Query, Model.Types, Controller.Interfaces, Model.Interfaces,
 
   { TODO : criar classe model }
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
@@ -12,21 +12,26 @@ uses
 
 type
 
-  TControllerDataBase = class(TInterfacedObject, IControllerDataBaseData)
+  TControllerQuery = class(TInterfacedObject, IControllerQuery)
   private
-    FView: TViewDatabaseData;
+    FView: TViewQuery;
     FDataBase: TDataBase;
     FConnection: IModelConnection;
     FQuery: TFDQuery;
+    FParams: TFDMemTable;
     FModelHistory: IModelTable;
 
     function GetConnected: boolean;
     procedure SetConnected(const Value: boolean);
 
+    procedure UpdateActions;
     procedure UpdateTabs;
     procedure UpdateStatusBar;
+    procedure UpdateTableList;
+    procedure UpdateQueryEditor;
     procedure LogAdd(const AMessage: string);
     procedure PrepareScreen;
+    function PrepareQuery: boolean;
   public
     constructor Create(const ADataBase: TDataBase);
     destructor Destroy; override;
@@ -52,11 +57,11 @@ implementation
 
 uses
   System.Classes, Model.Factory, Vcl.ComCtrls, System.SysUtils, Vcl.Graphics,
-  System.IOUtils, System.Types, Data.DB;
+  System.IOUtils, System.Types, Data.DB, View.Query.Param, System.UITypes;
 
 { TControllerDataBase }
 
-constructor TControllerDataBase.Create(const ADataBase: TDataBase);
+constructor TControllerQuery.Create(const ADataBase: TDataBase);
 
   procedure PrepareQuery;
   begin
@@ -78,22 +83,31 @@ constructor TControllerDataBase.Create(const ADataBase: TDataBase);
 
 begin
   FDataBase := ADataBase;
-  FView := TViewDatabaseData.Create(Self);
+  FView := TViewQuery.Create(Self);
   FView.Caption := FDatabase.Name;
+
+  FParams := TFDMemTable.Create(nil);
+  FParams.FieldDefs.Add('KEY', ftString, 50);
+  FParams.FieldDefs.Add('VALUE', ftString, 1000);
+  FParams.CreateDataSet;
+
+  FParams.FieldByName('KEY').DisplayWidth := 10;
+  FParams.FieldByName('VALUE').DisplayWidth := 30;
 
   PrepareQuery;
   PrepareHistory;
 
 end;
 
-destructor TControllerDataBase.Destroy;
+destructor TControllerQuery.Destroy;
 begin
+  FParams.Free;
   FQuery.Free;
   FView.Free;
   inherited;
 end;
 
-procedure TControllerDataBase.ExecuteQuery;
+procedure TControllerQuery.ExecuteQuery;
 var
   vQuery: string;
 begin
@@ -112,6 +126,12 @@ begin
   if not vQuery.Trim.IsEmpty then
   begin
     FQuery.SQL.Text := vQuery;
+
+    if not Self.PrepareQuery then
+    begin
+      Exit;
+    end;
+
     try
       if
         UpperCase(vQuery).Contains('UPDATE') or
@@ -146,7 +166,7 @@ begin
 
 end;
 
-procedure TControllerDataBase.ExportData;
+procedure TControllerQuery.ExportData;
 begin
   if FQuery.Active then
   begin
@@ -160,7 +180,7 @@ begin
   end;
 end;
 
-procedure TControllerDataBase.FillSQLFromTreeView;
+procedure TControllerQuery.FillSQLFromTreeView;
 begin
   if FView.TreeViewTabelas.Selected.Level = 0 then
   begin
@@ -172,7 +192,7 @@ begin
   end;
 end;
 
-procedure TControllerDataBase.FillTableNames;
+procedure TControllerQuery.FillTableNames;
 
   procedure FillTriggers(const ANode: TTreeNode; const ATableName: string);
   var
@@ -246,14 +266,12 @@ begin
   end;
 end;
 
-function TControllerDataBase.GetConnected: boolean;
+function TControllerQuery.GetConnected: boolean;
 begin
   Result := FConnection.Active;
-  Self.UpdateStatusbar;
-  Self.UpdateTabs;
 end;
 
-procedure TControllerDataBase.ImportData;
+procedure TControllerQuery.ImportData;
 var
   vQueryOrigem: TFDMemTable;
   vField: TField;
@@ -299,21 +317,66 @@ begin
   end;
 end;
 
-procedure TControllerDataBase.LogAdd(const AMessage: string);
+procedure TControllerQuery.LogAdd(const AMessage: string);
 begin
   FView.MemoLog.Lines.Add(AMessage);
 end;
 
-procedure TControllerDataBase.PrepareScreen;
+function TControllerQuery.PrepareQuery: boolean;
+var
+  vView: TViewQueryParam;
+  I: Integer;
+begin
+  Result := False;
+  if FQuery.Params.Count = 0 then
+  begin
+    Result := True;
+    Exit;
+  end;
+
+  vView := TViewQueryParam.Create(nil);
+  try
+    vView.DataSourceParam.DataSet := FParams;
+    FParams.EmptyDataSet;
+    for I := 0 to FQuery.Params.Count - 1 do
+    begin
+      FParams.Append;
+      FParams.FieldByName('KEY').AsString := FQuery.Params[i].Name;
+      FParams.Post;
+    end;
+
+    Result := vView.ShowModal = mrOK;
+
+    if Result then
+    begin
+      if FParams.State in dsEditModes then
+      begin
+        FParams.Post;
+      end;
+      for I := 0 to FQuery.Params.Count - 1 do
+      begin
+        FParams.RecNo := i + 1;
+        FQuery.Params[i].Value := FParams.FieldByName('VALUE').AsVariant;
+      end;
+    end;
+
+  finally
+    vView.Free;
+  end;
+end;
+
+procedure TControllerQuery.PrepareScreen;
 begin
   Self.UpdateStatusBar;
   Self.UpdateToogleColor;
   Self.UpdateTabs;
+  Self.UpdateActions;
+  Self.UpdateQueryEditor;
   FModelHistory.Open;
   FView.PageControlMain.ActivePageIndex := 0;
 end;
 
-procedure TControllerDataBase.RegisterHistoryQuery(const AQuery: string);
+procedure TControllerQuery.RegisterHistoryQuery(const AQuery: string);
 begin
   FModelHistory.DataSet.Append;
   FModelHistory.DataSet.FieldByName('DATA').AsDateTime := Now;
@@ -321,46 +384,55 @@ begin
   FModelHistory.DataSet.Post;
 end;
 
-procedure TControllerDataBase.SelectHistoryQuery;
+procedure TControllerQuery.SelectHistoryQuery;
 begin
   FView.MemoQuery.Clear;
   FView.MemoQuery.Text := FModelHistory.DataSet.FieldByName('QUERY').Value;
   FView.PageControlMain.ActivePage := FView.TabSheetQuery;
 end;
 
-procedure TControllerDataBase.SetConnected(const Value: boolean);
+procedure TControllerQuery.SetConnected(const Value: boolean);
 begin
   FConnection.Active := Value;
   Self.UpdateStatusbar;
   Self.UpdateTabs;
+  Self.UpdateActions;
+  Self.UpdateTableList;
+  Self.UpdateQueryEditor;
 end;
 
-procedure TControllerDataBase.Show;
+procedure TControllerQuery.Show;
 begin
   FView.Show;
   PrepareScreen;
 end;
 
-procedure TControllerDataBase.ShowModal;
+procedure TControllerQuery.ShowModal;
 begin
   FView.ShowModal;
   PrepareScreen;
 end;
 
-procedure TControllerDataBase.ToogleSwitchClick;
+procedure TControllerQuery.ToogleSwitchClick;
 begin
   try
     Self.Connected := FView.ToggleSwitch1.IsOn;
-    if Self.Connected then
-    begin
-      Self.FillTableNames;
-    end;
   finally
     Self.UpdateToogleColor;
   end;
 end;
 
-procedure TControllerDataBase.UpdateStatusBar;
+procedure TControllerQuery.UpdateActions;
+begin
+  FView.acnQueryRun.Enabled := FConnection.GetConnection.Connected;
+end;
+
+procedure TControllerQuery.UpdateQueryEditor;
+begin
+  FView.MemoQuery.Enabled := FConnection.GetConnection.Connected;
+end;
+
+procedure TControllerQuery.UpdateStatusBar;
 begin
   FView.StatusBar1.Panels[1].Text := FDataBase.Server.IP + ':' + FDataBase.Path;
   if FConnection.Active then
@@ -373,14 +445,26 @@ begin
   end;
 end;
 
-procedure TControllerDataBase.UpdateTabs;
+procedure TControllerQuery.UpdateTableList;
+begin
+  if FConnection.GetConnection.Connected then
+  begin
+    Self.FillTableNames;
+  end
+  else
+  begin
+    FView.TreeViewTabelas.Items.Clear;
+  end;
+end;
+
+procedure TControllerQuery.UpdateTabs;
 begin
   FView.TabSheetResult.TabVisible := FConnection.Active;
   FView.TabSheetLog.TabVisible := FConnection.Active;
   FView.TabSheetHistory.TabVisible := FConnection.Active;
 end;
 
-procedure TControllerDataBase.UpdateToogleColor;
+procedure TControllerQuery.UpdateToogleColor;
 begin
   if FConnection.GetConnection.Connected then
   begin

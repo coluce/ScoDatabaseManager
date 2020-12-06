@@ -131,7 +131,7 @@ begin
   begin
     if FDatabases.TryGetValue(FView.TreeView1.Selected, vDataBase) then
     begin
-      vController := TControllerFactory.DataBaseData(vDataBase);
+      vController := TControllerFactory.Query(vDataBase);
       vController.Show;
     end;
   end;

@@ -9,7 +9,7 @@ type
   TControllerFactory = class
   public
     class function Main(const AView: TForm): IControllerMain;
-    class function DataBaseData(const ADataBase: TDataBase): IControllerDataBaseData;
+    class function Query(const ADataBase: TDataBase): IControllerQuery;
     class function BackupManager(const ADataBase: TDataBase): IControllerBackupManager;
     class function LayoutManager: IControllerLayout;
     class function ExportIniFile(const ADataBase: TDataBase): IControllerIniFile;
@@ -22,7 +22,7 @@ implementation
 
 uses
   Controller.Imp.Main,
-  Controller.Imp.DataBase.Data,
+  Controller.Imp.Query,
   Controller.Imp.Backup.Manager,
   Controller.Imp.Layout,
   Controller.Imp.Ini,
@@ -38,9 +38,9 @@ begin
   Result := TControllerBackupManager.Create(ADataBase);
 end;
 
-class function TControllerFactory.DataBaseData(const ADataBase: TDataBase): IControllerDataBaseData;
+class function TControllerFactory.Query(const ADataBase: TDataBase): IControllerQuery;
 begin
-  Result := TControllerDataBase.Create(ADataBase);
+  Result := TControllerQuery.Create(ADataBase);
 end;
 
 class function TControllerFactory.ExportIniFile(const ADataBase: TDataBase): IControllerIniFile;

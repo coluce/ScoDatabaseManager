@@ -11,8 +11,8 @@ uses
   Model.Imp.Script in 'Model\Model.Imp.Script.pas',
   Model.Types in 'Model\Model.Types.pas',
   Model.Imp.Updater in 'Model\Model.Imp.Updater.pas',
-  View.Database.Data in 'View\View.Database.Data.pas' {ViewDatabaseData},
-  Controller.Imp.DataBase.Data in 'Controller\Controller.Imp.DataBase.Data.pas',
+  View.Query in 'View\View.Query.pas' {ViewQuery},
+  Controller.Imp.Query in 'Controller\Controller.Imp.Query.pas',
   Controller.Interfaces in 'Controller\Controller.Interfaces.pas',
   Controller.Factory in 'Controller\Controller.Factory.pas',
   Model.Imp.Connection.Firebird in 'Model\Model.Imp.Connection.Firebird.pas',
@@ -30,7 +30,8 @@ uses
   Controller.Imp.Backup.Manager in 'Controller\Controller.Imp.Backup.Manager.pas',
   Controller.Imp.Param.Manager in 'Controller\Controller.Imp.Param.Manager.pas',
   View.Param.Manager in 'View\View.Param.Manager.pas' {ViewParamManager},
-  View.Wait in 'View\View.Wait.pas' {ViewWait};
+  View.Wait in 'View\View.Wait.pas' {ViewWait},
+  View.Query.Param in 'View\View.Query.Param.pas' {ViewQueryParam};
 
 {$R *.res}
 

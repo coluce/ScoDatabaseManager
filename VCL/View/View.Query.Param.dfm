@@ -1,0 +1,87 @@
+object ViewQueryParam: TViewQueryParam
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu]
+  Caption = 'Params'
+  ClientHeight = 201
+  ClientWidth = 374
+  Color = clWhite
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poDesktopCenter
+  PixelsPerInch = 96
+  TextHeight = 13
+  object GridParam: TDBGrid
+    AlignWithMargins = True
+    Left = 3
+    Top = 3
+    Width = 368
+    Height = 146
+    Align = alClient
+    DataSource = DataSourceParam
+    TabOrder = 0
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 152
+    Width = 374
+    Height = 49
+    Align = alBottom
+    BevelOuter = bvNone
+    TabOrder = 1
+    ExplicitLeft = -33
+    ExplicitWidth = 407
+    object Bevel1: TBevel
+      AlignWithMargins = True
+      Left = 3
+      Top = 3
+      Width = 368
+      Height = 2
+      Align = alTop
+      Shape = bsBottomLine
+      ExplicitWidth = 441
+    end
+    object btnOK: TButton
+      AlignWithMargins = True
+      Left = 296
+      Top = 11
+      Width = 75
+      Height = 35
+      Align = alRight
+      Caption = 'OK'
+      ModalResult = 1
+      TabOrder = 0
+      ExplicitLeft = 280
+      ExplicitTop = 8
+      ExplicitHeight = 25
+    end
+    object btnCancelar: TButton
+      AlignWithMargins = True
+      Left = 215
+      Top = 11
+      Width = 75
+      Height = 35
+      Align = alRight
+      Cancel = True
+      Caption = 'Cancelar'
+      ModalResult = 2
+      TabOrder = 1
+      ExplicitLeft = 280
+      ExplicitTop = 8
+      ExplicitHeight = 25
+    end
+  end
+  object DataSourceParam: TDataSource
+    Left = 184
+    Top = 104
+  end
+end

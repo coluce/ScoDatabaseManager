@@ -1,4 +1,4 @@
-unit View.Database.Data;
+unit View.Query;
 
 interface
 
@@ -10,7 +10,7 @@ uses
   Vcl.Buttons, FireDAC.Stan.StorageXML, SynDBEdit;
 
 type
-  TViewDatabaseData = class(TViewDefault)
+  TViewQuery = class(TViewDefault)
     StatusBar1: TStatusBar;
     Splitter1: TSplitter;
     pnlQuery: TPanel;
@@ -22,7 +22,7 @@ type
     ImageListTabelas: TImageList;
     ImageListQuery: TImageList;
     ActionListQuery: TActionList;
-    acnQueryExecutar: TAction;
+    acnQueryRun: TAction;
     ToolButton1: TToolButton;
     pnlTables: TPanel;
     Panel1: TPanel;
@@ -55,19 +55,22 @@ type
     DataSourceHistory: TDataSource;
     Splitter3: TSplitter;
     DBSynEdit1: TDBSynEdit;
+    SpeedButton3: TSpeedButton;
+    acnHistoryQuery: TAction;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ToggleSwitch1Click(Sender: TObject);
     procedure TreeViewTabelasDblClick(Sender: TObject);
-    procedure acnQueryExecutarExecute(Sender: TObject);
+    procedure acnQueryRunExecute(Sender: TObject);
     procedure acnQueryExportarExecute(Sender: TObject);
     procedure acnQueryImportarExecute(Sender: TObject);
     procedure GridHistoryDblClick(Sender: TObject);
+    procedure acnHistoryQueryExecute(Sender: TObject);
   private
     { Private declarations }
-    FController: IControllerDataBaseData;
+    FController: IControllerQuery;
   public
     { Public declarations }
-    constructor Create(const AController: IControllerDatabaseData); reintroduce;
+    constructor Create(const AController: IControllerQuery); reintroduce;
   published
     { Published declarations }
   end;
@@ -78,30 +81,36 @@ implementation
 
 { TViewDatabase }
 
-procedure TViewDatabaseData.acnQueryExecutarExecute(Sender: TObject);
+procedure TViewQuery.acnHistoryQueryExecute(Sender: TObject);
+begin
+  inherited;
+  FController.SelectHistoryQuery;
+end;
+
+procedure TViewQuery.acnQueryRunExecute(Sender: TObject);
 begin
   FController.ExecuteQuery;
 end;
 
-procedure TViewDatabaseData.acnQueryExportarExecute(Sender: TObject);
+procedure TViewQuery.acnQueryExportarExecute(Sender: TObject);
 begin
   inherited;
   FController.ExportData;
 end;
 
-procedure TViewDatabaseData.acnQueryImportarExecute(Sender: TObject);
+procedure TViewQuery.acnQueryImportarExecute(Sender: TObject);
 begin
   inherited;
   FController.ImportData;
 end;
 
-constructor TViewDatabaseData.Create(const AController: IControllerDatabaseData);
+constructor TViewQuery.Create(const AController: IControllerQuery);
 begin
   inherited Create(nil);
   FController := AController;
 end;
 
-procedure TViewDatabaseData.FormClose(Sender: TObject; var Action: TCloseAction);
+procedure TViewQuery.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   inherited;
   {FController é o dono desta tela, e é uma interface, este é o unico ponto onde a interface está sendo usada
@@ -110,18 +119,18 @@ begin
   FController._Release;
 end;
 
-procedure TViewDatabaseData.GridHistoryDblClick(Sender: TObject);
+procedure TViewQuery.GridHistoryDblClick(Sender: TObject);
 begin
   inherited;
   FController.SelectHistoryQuery;
 end;
 
-procedure TViewDatabaseData.ToggleSwitch1Click(Sender: TObject);
+procedure TViewQuery.ToggleSwitch1Click(Sender: TObject);
 begin
   FController.ToogleSwitchClick;
 end;
 
-procedure TViewDatabaseData.TreeViewTabelasDblClick(Sender: TObject);
+procedure TViewQuery.TreeViewTabelasDblClick(Sender: TObject);
 begin
   FController.FillSQLFromTreeView;
 end;

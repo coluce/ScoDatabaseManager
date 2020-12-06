@@ -44,7 +44,7 @@ type
     ['{FDD3FB23-4559-49C6-BB59-283F682B59C3}']
   end;
 
-  IControllerDataBaseData = interface(IControllerView)
+  IControllerQuery = interface(IControllerView)
     ['{C870051D-3F20-4A0F-9023-37FEA157BF87}']
 
     procedure FillTableNames;

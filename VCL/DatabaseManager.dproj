@@ -113,11 +113,11 @@
         <DCCReference Include="Model\Model.Imp.Script.pas"/>
         <DCCReference Include="Model\Model.Types.pas"/>
         <DCCReference Include="Model\Model.Imp.Updater.pas"/>
-        <DCCReference Include="View\View.Database.Data.pas">
-            <Form>ViewDatabaseData</Form>
+        <DCCReference Include="View\View.Query.pas">
+            <Form>ViewQuery</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="Controller\Controller.Imp.DataBase.Data.pas"/>
+        <DCCReference Include="Controller\Controller.Imp.Query.pas"/>
         <DCCReference Include="Controller\Controller.Interfaces.pas"/>
         <DCCReference Include="Controller\Controller.Factory.pas"/>
         <DCCReference Include="Model\Model.Imp.Connection.Firebird.pas"/>
@@ -158,6 +158,10 @@
         </DCCReference>
         <DCCReference Include="View\View.Wait.pas">
             <Form>ViewWait</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="View\View.Query.Param.pas">
+            <Form>ViewQueryParam</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Release">
