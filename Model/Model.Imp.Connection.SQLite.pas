@@ -50,9 +50,9 @@ constructor TModelConnectionSQLite.Create;
 begin
   FConection := TFDCustomConnection.Create(nil);
   FConection.LoginPrompt := False;
-  //FConection.UpdateOptions.AutoCommitUpdates := True;
+  // FConection.UpdateOptions.AutoCommitUpdates := True;
   FConection.DriverName := 'SQLite';
-  FConection.Params.Database := TPath.ChangeExtension(ParamStr(0),'.sqlite');
+  FConection.Params.Database := TPath.ChangeExtension(ParamStr(0), '.sqlite');
 end;
 
 destructor TModelConnectionSQLite.Destroy;
@@ -61,16 +61,17 @@ begin
   inherited;
 end;
 
-function TModelConnectionSQLite.ExecScript(const AScript: IModelScript): boolean;
+function TModelConnectionSQLite.ExecScript(const AScript: IModelScript)
+  : boolean;
   function IsAlreadyExecuted(const AID: string): boolean;
   begin
-    {verificar se ja existe na tabela de scripts}
+    { verificar se ja existe na tabela de scripts }
     Result := False;
   end;
 
   procedure RegisterScript(const AID: string);
   begin
-    {gravar ID na tabela de scripts na tabela de scripts}
+    { gravar ID na tabela de scripts na tabela de scripts }
   end;
 
 begin

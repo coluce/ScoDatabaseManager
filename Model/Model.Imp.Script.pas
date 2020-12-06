@@ -24,7 +24,6 @@ type
     property SQL: TStrings read GetSQL write SetSQL;
   end;
 
-
 implementation
 
 uses

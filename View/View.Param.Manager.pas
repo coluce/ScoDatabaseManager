@@ -3,7 +3,8 @@ unit View.Param.Manager;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, View.Default, Controller.Interfaces,
   Data.DB, Vcl.ComCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.DBCtrls, Vcl.ExtCtrls;
 
@@ -20,18 +21,17 @@ type
     FController: IControllerParamManager;
   public
     { Public declarations }
-    constructor Create(const AController: IControllerParamManager);
+    constructor Create(const AController: IControllerParamManager); reintroduce;
     destructor Destroy; override;
   end;
 
 implementation
 
 {$R *.dfm}
-
 { TViewParamManager }
 
-constructor TViewParamManager.Create(
-  const AController: IControllerParamManager);
+constructor TViewParamManager.Create(const AController
+  : IControllerParamManager);
 begin
   inherited Create(nil);
   FController := AController;

@@ -10,9 +10,11 @@ type
   public
     class function Main(const AView: TForm): IControllerMain;
     class function Query(const ADataBase: TDataBase): IControllerQuery;
-    class function BackupManager(const ADataBase: TDataBase): IControllerBackupManager;
+    class function BackupManager(const ADataBase: TDataBase)
+      : IControllerBackupManager;
     class function LayoutManager: IControllerLayout;
-    class function ExportIniFile(const ADataBase: TDataBase): IControllerIniFile;
+    class function ExportIniFile(const ADataBase: TDataBase)
+      : IControllerIniFile;
     class function IniManager: IControllerParam;
     class function Window(const AView: TForm): IControllerWindow;
     class function ParamManager: IControllerParamManager;
@@ -32,18 +34,20 @@ uses
 
 { TControllerFactory }
 
-class function TControllerFactory.BackupManager(
-  const ADataBase: TDataBase): IControllerBackupManager;
+class function TControllerFactory.BackupManager(const ADataBase: TDataBase)
+  : IControllerBackupManager;
 begin
   Result := TControllerBackupManager.Create(ADataBase);
 end;
 
-class function TControllerFactory.Query(const ADataBase: TDataBase): IControllerQuery;
+class function TControllerFactory.Query(const ADataBase: TDataBase)
+  : IControllerQuery;
 begin
   Result := TControllerQuery.Create(ADataBase);
 end;
 
-class function TControllerFactory.ExportIniFile(const ADataBase: TDataBase): IControllerIniFile;
+class function TControllerFactory.ExportIniFile(const ADataBase: TDataBase)
+  : IControllerIniFile;
 begin
   Result := TControllerIniFile.Create(ADataBase);
 end;
@@ -58,8 +62,7 @@ begin
   Result := TControllerParam.Create;
 end;
 
-class function TControllerFactory.Main(
-  const AView: TForm): IControllerMain;
+class function TControllerFactory.Main(const AView: TForm): IControllerMain;
 begin
   Result := TControllerMain.Create(AView);
 end;

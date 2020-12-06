@@ -21,7 +21,8 @@ type
     UserName: string;
     Password: string;
   public
-    constructor Create(const AID, AName, APath, AUserName, APassword: string; AServer: TServer);
+    constructor Create(const AID, AName, APath, AUserName, APassword: string;
+      AServer: TServer);
   end;
 
   TTableParam = record
@@ -46,7 +47,8 @@ end;
 
 { TDataBase }
 
-constructor TDataBase.Create(const AID, AName, APath, AUserName, APassword: string; AServer: TServer);
+constructor TDataBase.Create(const AID, AName, APath, AUserName,
+  APassword: string; AServer: TServer);
 begin
   Self.ID := AID;
   Self.Name := AName;

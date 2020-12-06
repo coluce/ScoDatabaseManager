@@ -3,8 +3,10 @@ unit View.Backup.Manager;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
-  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, View.Default, Vcl.ComCtrls,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, View.Default,
+  Vcl.ComCtrls,
   Vcl.Buttons, Vcl.ExtCtrls, Controller.Interfaces, System.Actions,
   Vcl.ActnList, System.ImageList, Vcl.ImgList;
 
@@ -37,16 +39,16 @@ type
   public
     { Public declarations }
     constructor Create(const AController: IControllerBackupManager);
+      reintroduce;
   end;
 
 implementation
 
 {$R *.dfm}
-
 { TViewDataBaseBackup }
 
-constructor TViewBackupManager.Create(
-  const AController: IControllerBackupManager);
+constructor TViewBackupManager.Create(const AController
+  : IControllerBackupManager);
 begin
   inherited Create(nil);
   FController := AController;

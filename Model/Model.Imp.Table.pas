@@ -14,7 +14,6 @@ type
     function GetDataSet: TDataSet;
     procedure DoAfterPost(DataSet: TDataSet);
     procedure DoOnNewRecord(DataSet: TDataSet);
-    function ApplyUpdates: boolean;
   public
     constructor Create(const ATableName: string);
     destructor Destroy; override;
@@ -22,21 +21,16 @@ type
     function Delete(const AID: string): boolean;
     procedure Find(const AID: string); overload;
     procedure Find(AParams: TArray<TTableParam>); overload;
-  published
-    property DataSet: TDataset read GetDataSet;
+    // published
+    property DataSet: TDataSet read GetDataSet;
   end;
 
 implementation
 
 uses
-  Model.Factory, System.SysUtils;
+  Model.Factory, System.SysUtils, FireDAC.Stan.Param;
 
 { TModelTable }
-
-function TModelTable.ApplyUpdates: boolean;
-begin
-  Result := FQuery.ApplyUpdates(0) = 0;
-end;
 
 constructor TModelTable.Create(const ATableName: string);
 begin
@@ -45,7 +39,7 @@ begin
   FConnection.Open;
   FQuery := TFDQuery.Create(nil);
   FQuery.Connection := FConnection.GetConnection;
-  //FQuery.CachedUpdates := True;
+  // FQuery.CachedUpdates := True;
   FQuery.AfterPost := DoAfterPost;
   FQuery.OnNewRecord := DoOnNewRecord;
   FQuery.SQL.Text := 'select * from ' + FTableName;
@@ -72,7 +66,7 @@ end;
 
 procedure TModelTable.DoAfterPost(DataSet: TDataSet);
 begin
-  //Self.ApplyUpdates;
+  // Self.ApplyUpdates;
 end;
 
 procedure TModelTable.DoOnNewRecord(DataSet: TDataSet);
@@ -97,9 +91,10 @@ begin
   begin
     if not vWhere.Trim.IsEmpty then
     begin
-      vWhere := vWhere + ' and' +chr(13);
+      vWhere := vWhere + ' and' + chr(13);
     end;
-    vWhere := vWhere + '  ' + UpperCase(vParam.FieldName) + ' = ' + QuotedStr(vParam.FieldValue);
+    vWhere := vWhere + '  ' + UpperCase(vParam.FieldName) + ' = ' +
+      QuotedStr(vParam.FieldValue);
   end;
   if not vWhere.Trim.IsEmpty then
   begin

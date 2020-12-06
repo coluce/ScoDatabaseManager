@@ -5,7 +5,7 @@ interface
 uses
   View.Query, Model.Types, Controller.Interfaces, Model.Interfaces,
 
-  { TODO : criar classe model }
+  {TODO : criar classe model}
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
@@ -49,7 +49,7 @@ type
     procedure RegisterHistoryQuery(const AQuery: string);
     procedure SelectHistoryQuery;
 
-  published
+    // published
     property Connected: boolean read GetConnected write SetConnected;
   end;
 
@@ -78,13 +78,14 @@ constructor TControllerQuery.Create(const ADataBase: TDataBase);
 
     FView.DataSourceHistory.DataSet := FModelHistory.DataSet;
     FView.GridHistory.Columns.Clear;
-    FView.GridHistory.Columns.Add.Field := FModelHistory.DataSet.FieldByName('DATA');
+    FView.GridHistory.Columns.Add.Field :=
+      FModelHistory.DataSet.FieldByName('DATA');
   end;
 
 begin
   FDataBase := ADataBase;
   FView := TViewQuery.Create(Self);
-  FView.Caption := FDatabase.Name;
+  FView.Caption := FDataBase.Name;
 
   FParams := TFDMemTable.Create(nil);
   FParams.FieldDefs.Add('KEY', ftString, 50);
@@ -133,14 +134,10 @@ begin
     end;
 
     try
-      if
-        UpperCase(vQuery).Contains('UPDATE') or
-        UpperCase(vQuery).Contains('DELETE') or
-        UpperCase(vQuery).Contains('CREATE') or
-        UpperCase(vQuery).Contains('ALTER') or
-        UpperCase(vQuery).Contains('DROP') or
-        UpperCase(vQuery).Contains('INSERT')
-      then
+      if UpperCase(vQuery).Contains('UPDATE') or UpperCase(vQuery)
+        .Contains('DELETE') or UpperCase(vQuery).Contains('CREATE') or
+        UpperCase(vQuery).Contains('ALTER') or UpperCase(vQuery)
+        .Contains('DROP') or UpperCase(vQuery).Contains('INSERT') then
       begin
         FQuery.ExecSQL;
         LogAdd('Exec SQL: ' + FQuery.RowsAffected.ToString);
@@ -155,7 +152,8 @@ begin
 
       Self.RegisterHistoryQuery(vQuery);
 
-    except on E: Exception do
+    except
+      on E: Exception do
       begin
         LogAdd('Erro: ' + E.Message);
         FView.PageControlMain.ActivePage := FView.TabSheetLog;
@@ -174,7 +172,8 @@ begin
     begin
       if FView.SaveDataDialog.Execute then
       begin
-        FQuery.SaveToFile(FView.SaveDataDialog.FileName, TFDStorageFormat.sfXML);
+        FQuery.SaveToFile(FView.SaveDataDialog.FileName,
+          TFDStorageFormat.sfXML);
       end;
     end;
   end;
@@ -200,7 +199,8 @@ procedure TControllerQuery.FillTableNames;
   begin
     vNodeTitulo := FView.TreeViewTabelas.Items.AddChild(ANode, 'Triggers');
     vNodeTitulo.ImageIndex := 3;
-    FView.TreeViewTabelas.Items.AddChild(vNodeTitulo, 'Não implementado ainda').ImageIndex := 3;
+    FView.TreeViewTabelas.Items.AddChild(vNodeTitulo, 'Não implementado ainda')
+      .ImageIndex := 3;
   end;
 
   procedure FillContraints(const ANode: TTreeNode; const ATableName: string);
@@ -209,7 +209,8 @@ procedure TControllerQuery.FillTableNames;
   begin
     vNodeTitulo := FView.TreeViewTabelas.Items.AddChild(ANode, 'Constraints');
     vNodeTitulo.ImageIndex := 1;
-    FView.TreeViewTabelas.Items.AddChild(vNodeTitulo, 'Não implementado ainda').ImageIndex := 1;
+    FView.TreeViewTabelas.Items.AddChild(vNodeTitulo, 'Não implementado ainda')
+      .ImageIndex := 1;
   end;
 
   procedure FillFields(const ANode: TTreeNode; const ATableName: string);
@@ -222,10 +223,11 @@ procedure TControllerQuery.FillTableNames;
     vNodeTitulo.ImageIndex := 4;
     vFields := TStringList.Create;
     try
-      FConnection.GetConnection.GetFieldNames('','', ATableName, '', vFields);
+      FConnection.GetConnection.GetFieldNames('', '', ATableName, '', vFields);
       for vField in vFields do
       begin
-        FView.TreeViewTabelas.Items.AddChild(vNodeTitulo, vField).ImageIndex := 4;;
+        FView.TreeViewTabelas.Items.AddChild(vNodeTitulo, vField)
+          .ImageIndex := 4;;
       end;
     finally
       vFields.Free;
@@ -239,7 +241,7 @@ var
 begin
   vList := TStringList.Create;
   try
-    FConnection.GetConnection.GetTableNames('','','', vList);
+    FConnection.GetConnection.GetTableNames('', '', '', vList);
 
     FView.SynSQLSyn1.TableNames := vList;
 
@@ -282,7 +284,8 @@ begin
     begin
       vQueryOrigem := TFDMemTable.Create(nil);
       try
-        vQueryOrigem.LoadFromFile(FView.SaveDataDialog.FileName, TFDStorageFormat.sfXML);
+        vQueryOrigem.LoadFromFile(FView.SaveDataDialog.FileName,
+          TFDStorageFormat.sfXML);
 
         vQueryOrigem.First;
         while not vQueryOrigem.Eof do
@@ -293,11 +296,14 @@ begin
             if Assigned(vQueryOrigem.FindField(vField.FieldName)) then
             begin
               try
-                vField.Value := vQueryOrigem.FieldByName(vField.FieldName).Value;
-              except on E: exception do
+                vField.Value := vQueryOrigem.FieldByName
+                  (vField.FieldName).Value;
+              except
+                on E: Exception do
                 begin
                   vField.Clear;
-                  LogAdd('Não foi possivel importar o campo: ' + vField.FieldName);
+                  LogAdd('Não foi possivel importar o campo: ' +
+                    vField.FieldName);
                   LogAdd(E.Message);
                 end;
               end;
@@ -327,7 +333,6 @@ var
   vView: TViewQueryParam;
   I: Integer;
 begin
-  Result := False;
   if FQuery.Params.Count = 0 then
   begin
     Result := True;
@@ -341,7 +346,7 @@ begin
     for I := 0 to FQuery.Params.Count - 1 do
     begin
       FParams.Append;
-      FParams.FieldByName('KEY').AsString := FQuery.Params[i].Name;
+      FParams.FieldByName('KEY').AsString := FQuery.Params[I].Name;
       FParams.Post;
     end;
 
@@ -355,8 +360,8 @@ begin
       end;
       for I := 0 to FQuery.Params.Count - 1 do
       begin
-        FParams.RecNo := i + 1;
-        FQuery.Params[i].Value := FParams.FieldByName('VALUE').AsVariant;
+        FParams.RecNo := I + 1;
+        FQuery.Params[I].Value := FParams.FieldByName('VALUE').AsVariant;
       end;
     end;
 
@@ -394,7 +399,7 @@ end;
 procedure TControllerQuery.SetConnected(const Value: boolean);
 begin
   FConnection.Active := Value;
-  Self.UpdateStatusbar;
+  Self.UpdateStatusBar;
   Self.UpdateTabs;
   Self.UpdateActions;
   Self.UpdateTableList;

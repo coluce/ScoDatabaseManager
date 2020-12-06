@@ -6,7 +6,8 @@ uses
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf,
   FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
   FireDAC.Phys, FireDAC.VCLUI.Wait, Data.DB, FireDAC.Comp.Client, FireDAC.DApt,
-  FireDAC.Stan.ExprFuncs, FireDAC.Phys.IBBase, FireDAC.Phys.FB, Model.Interfaces,
+  FireDAC.Stan.ExprFuncs, FireDAC.Phys.IBBase, FireDAC.Phys.FB,
+  Model.Interfaces,
   Model.Types;
 
 type
@@ -65,17 +66,18 @@ begin
   inherited;
 end;
 
-function TModelConnectionFirebird.ExecScript(const AScript: IModelScript): boolean;
+function TModelConnectionFirebird.ExecScript(const AScript
+  : IModelScript): boolean;
 
   function IsAlreadyExecuted(const AID: string): boolean;
   begin
-    {verificar se ja existe na tabela de scripts}
+    { verificar se ja existe na tabela de scripts }
     Result := False;
   end;
 
   procedure RegisterScript(const AID: string);
   begin
-    {gravar ID na tabela de scripts na tabela de scripts}
+    { gravar ID na tabela de scripts na tabela de scripts }
   end;
 
 begin

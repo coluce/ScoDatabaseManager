@@ -3,8 +3,11 @@ unit View.Ini;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Buttons, SynEditHighlighter, SynHighlighterIni, SynEdit, SynMemo, Vcl.DBCtrls, Vcl.StdCtrls,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Buttons,
+  SynEditHighlighter, SynHighlighterIni, SynEdit, SynMemo, Vcl.DBCtrls,
+  Vcl.StdCtrls,
   System.Actions, Vcl.ActnList, Data.DB, Controller.Interfaces,
   System.ImageList, Vcl.ImgList, View.Default;
 

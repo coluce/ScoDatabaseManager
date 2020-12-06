@@ -11,7 +11,8 @@ type
     FDataBaseInfo: TDataBase;
     FDPhysFBDriverLink: TFDPhysFBDriverLink;
   public
-    constructor Create(ADataBaseInfo: TDataBase; const ADatabaseDLLPath: string);
+    constructor Create(ADataBaseInfo: TDataBase;
+      const ADatabaseDLLPath: string);
     destructor Destroy; override;
 
     procedure Backup(const ADestinyFile: string; const ALevel: integer);
@@ -25,7 +26,8 @@ uses
 
 { TModelDataBaseBackup }
 
-procedure TModelDataBaseBackup.Backup(const ADestinyFile: string; const ALevel: integer);
+procedure TModelDataBaseBackup.Backup(const ADestinyFile: string;
+  const ALevel: integer);
 var
   FDFBNBackup1: TFDFBNBackup;
 begin
@@ -48,7 +50,8 @@ begin
   end;
 end;
 
-constructor TModelDataBaseBackup.Create(ADataBaseInfo: TDataBase; const ADatabaseDLLPath: string);
+constructor TModelDataBaseBackup.Create(ADataBaseInfo: TDataBase;
+  const ADatabaseDLLPath: string);
 begin
   FDataBaseInfo := ADataBaseInfo;
   FDPhysFBDriverLink := TFDPhysFBDriverLink.Create(nil);
@@ -70,10 +73,11 @@ begin
     FDFBNRestore1.DriverLink := FDPhysFBDriverLink;
     FDFBNRestore1.UserName := FDataBaseInfo.UserName;
     FDFBNRestore1.Password := FDataBaseInfo.Password;
-    FDFBNRestore1.Host     := FDataBaseInfo.Server.IP;
+    FDFBNRestore1.Host := FDataBaseInfo.Server.IP;
     FDFBNRestore1.Protocol := ipTCPIP;
     FDFBNRestore1.Database := TPath.Combine(FDataBaseInfo.Path, 'ALTERDB.IB');
-    FDFBNRestore1.BackupFiles.Text := TPath.Combine(TPath.Combine(FDataBaseInfo.Path, 'backup'), ABackupFile);
+    FDFBNRestore1.BackupFiles.Text :=
+      TPath.Combine(TPath.Combine(FDataBaseInfo.Path, 'backup'), ABackupFile);
     FDFBNRestore1.Restore;
   finally
     FDFBNRestore1.Free;

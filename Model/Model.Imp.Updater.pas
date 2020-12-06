@@ -15,7 +15,8 @@ type
     destructor Destroy; override;
 
     function Execute: boolean;
-    procedure AddField(const AFieldName: string; const AFieldType: string; AFieldSize: integer = 0);
+    procedure AddField(const AFieldName: string; const AFieldType: string;
+      AFieldSize: integer = 0);
     procedure AddScript(const AScript: IModelScript);
   end;
 
@@ -23,9 +24,10 @@ implementation
 
 { TModelStrcutureUpdater }
 
-uses Model.Factory;
+uses Model.Factory, System.SysUtils;
 
-procedure TModelStrcutureUpdater.AddField(const AFieldName, AFieldType: string; AFieldSize: integer);
+procedure TModelStrcutureUpdater.AddField(const AFieldName, AFieldType: string;
+  AFieldSize: integer);
 begin
 
 end;
@@ -58,9 +60,17 @@ function TModelStrcutureUpdater.Execute: boolean;
 var
   vScript: IModelScript;
 begin
-  for vScript in FScripts do
-  begin
-    FConnection.ExecScript(vScript);
+  try
+    for vScript in FScripts do
+    begin
+      FConnection.ExecScript(vScript);
+    end;
+    Result := True;
+  except
+    on E: exception do
+    begin
+      raise;
+    end;
   end;
 end;
 

@@ -18,7 +18,7 @@ type
 implementation
 
 uses
-  Model.Factory, Model.Types, System.SysUtils;
+  Model.Factory, Model.Types, System.SysUtils, Data.DB;
 
 { TControllerParam }
 
@@ -27,7 +27,8 @@ begin
   FModelParam := TModelFactory.Table('TPARAM');
 end;
 
-function TControllerParam.GetParam(const ASession, AKey, ADefault: string): string;
+function TControllerParam.GetParam(const ASession, AKey,
+  ADefault: string): string;
 var
   vParams: TArray<TTableParam>;
 begin

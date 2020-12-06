@@ -38,6 +38,10 @@ object ViewQuery: TViewQuery
     TabOrder = 1
     object TabSheetQuery: TTabSheet
       Caption = 'Query'
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Splitter1: TSplitter
         Left = 185
         Top = 0
@@ -180,6 +184,10 @@ object ViewQuery: TViewQuery
     object TabSheetResult: TTabSheet
       Caption = 'Resultado'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Splitter2: TSplitter
         Left = 0
         Top = 231
@@ -256,6 +264,10 @@ object ViewQuery: TViewQuery
         TabOrder = 2
         object TabSheetResultExecutionPlan: TTabSheet
           Caption = 'Execution Plan'
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object Memo1: TMemo
             Left = 0
             Top = 0
@@ -272,12 +284,20 @@ object ViewQuery: TViewQuery
         object TabSheetResultFields: TTabSheet
           Caption = 'Fields'
           ImageIndex = 1
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
         end
       end
     end
     object TabSheetLog: TTabSheet
       Caption = 'Log'
       ImageIndex = 2
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object MemoLog: TMemo
         Left = 0
         Top = 0
@@ -290,6 +310,10 @@ object ViewQuery: TViewQuery
     object TabSheetHistory: TTabSheet
       Caption = 'Hist'#243'rico'
       ImageIndex = 3
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Splitter3: TSplitter
         Left = 183
         Top = 32

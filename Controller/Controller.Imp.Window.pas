@@ -31,10 +31,14 @@ end;
 
 procedure TControllerWindow.RestorePosition;
 begin
-  FView.Height := StrToInt(FControllerParam.GetParam(FView.ClassName, 'ALTURA',   FView.Height.ToString));
-  FView.Width  := StrToInt(FControllerParam.GetParam(FView.ClassName, 'LARGURA',  FView.Width.ToString));
-  FView.Left   := StrToInt(FControllerParam.GetParam(FView.ClassName, 'ESQUERDA', FView.Left.ToString));
-  FView.Top    := StrToInt(FControllerParam.GetParam(FView.ClassName, 'CIMA',     FView.Top.ToString));
+  FView.Height := StrToInt(FControllerParam.GetParam(FView.ClassName, 'ALTURA',
+    FView.Height.ToString));
+  FView.Width := StrToInt(FControllerParam.GetParam(FView.ClassName, 'LARGURA',
+    FView.Width.ToString));
+  FView.Left := StrToInt(FControllerParam.GetParam(FView.ClassName, 'ESQUERDA',
+    FView.Left.ToString));
+  FView.Top := StrToInt(FControllerParam.GetParam(FView.ClassName, 'CIMA',
+    FView.Top.ToString));
 end;
 
 procedure TControllerWindow.SavePosition;

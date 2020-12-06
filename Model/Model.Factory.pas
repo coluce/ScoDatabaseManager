@@ -14,7 +14,8 @@ type
     class function MainConnection: IModelConnection;
     class function Updater: IModelStructureUpdater;
     class function Table(const ATableName: string): IModelTable;
-    class function DataBaseBackup(ADataBaseInfo: TDataBase; const ADllDatabasePath: string): IModelDatabaseBackup;
+    class function DataBaseBackup(ADataBaseInfo: TDatabase;
+      const ADllDatabasePath: string): IModelDatabaseBackup;
   end;
 
 implementation
@@ -28,23 +29,25 @@ uses
 
 class function TModelFactory.MainConnection: IModelConnection;
 var
-  vFirebirdDatabase: TDataBase;
+  vFirebirdDatabase: TDatabase;
 begin
 
   case Model.Types.ConnectionType of
-    TModelConnectionType.SQLite: Result := TModelFactory.SQLite;
+    TModelConnectionType.SQLite:
+      Result := TModelFactory.SQLite;
     TModelConnectionType.Firebird:
-    begin
-      {esses dados abaixo não são utilizados}
-      {estão aqui como exemplo, para futura implementação para a possibilidade de usar o Firebird para guardar as configurações}
-      vFirebirdDatabase.ID := TGUID.NewGuid.ToString;
-      vFirebirdDatabase.Server := TServer.Create(TGUID.NewGuid.ToString, 'Localhost', '127.0.0.1)');
-      vFirebirdDatabase.Name := 'Local';
-      vFirebirdDatabase.Path := 'E:\Database\config.db';
-      vFirebirdDatabase.UserName := 'SYSDBA';
-      vFirebirdDatabase.Password := 'MASTERKEY';
-      Result := TModelFactory.Firebird(vFirebirdDatabase);
-    end;
+      begin
+        { esses dados abaixo não são utilizados }
+        { estão aqui como exemplo, para futura implementação para a possibilidade de usar o Firebird para guardar as configurações }
+        vFirebirdDatabase.ID := TGUID.NewGuid.ToString;
+        vFirebirdDatabase.Server := TServer.Create(TGUID.NewGuid.ToString,
+          'Localhost', '127.0.0.1)');
+        vFirebirdDatabase.Name := 'Local';
+        vFirebirdDatabase.Path := 'E:\Database\config.db';
+        vFirebirdDatabase.UserName := 'SYSDBA';
+        vFirebirdDatabase.Password := 'MASTERKEY';
+        Result := TModelFactory.Firebird(vFirebirdDatabase);
+      end;
   end;
 
 end;
@@ -54,23 +57,32 @@ begin
   Result := TModelConnectionSQLite.Create;
 end;
 
-class function TModelFactory.Table(
-  const ATableName: string): IModelTable;
+class function TModelFactory.Table(const ATableName: string): IModelTable;
 begin
   Result := TModelTable.Create(ATableName);
 end;
 
 class function TModelFactory.Updater: IModelStructureUpdater;
 
-  { TODO : criar uma classe de implementacao pra isso }
+{ TODO : criar uma classe de implementacao pra isso }
   function CreateSQLite: IModelStructureUpdater;
   begin
     Result := TModelStrcutureUpdater.Create;
-    Result.AddScript(TModelScript.Create('create table if not exists TSERVER (ID text primary key, NAME text, IP text)'));
-    Result.AddScript(TModelScript.Create('create table if not exists TDATABASE (ID text primary key, ID_SERVER text, NAME text, PATH text, USERNAME text, PASSWORD text)'));
-    Result.AddScript(TModelScript.Create('create table if not exists TLAYOUT (ID text primary key, NAME varchar(50), LAYOUT varchar(5000))'));
-    Result.AddScript(TModelScript.Create('create table if not exists TPARAM (SESSION varchar(100), KEY varchar(100), VALUE varchar(5000))'));
-    Result.AddScript(TModelScript.Create('create table if not exists TQUERY_HISTORY (ID text primary key, DATA datetime, QUERY varchar(5000))'));
+    Result.AddScript(TModelScript.Create
+      ('create table if not exists TSERVER (ID text primary key, NAME text, IP text)')
+      );
+    Result.AddScript(TModelScript.Create
+      ('create table if not exists TDATABASE (ID text primary key, ID_SERVER text, NAME text, PATH text, USERNAME text, PASSWORD text)')
+      );
+    Result.AddScript(TModelScript.Create
+      ('create table if not exists TLAYOUT (ID text primary key, NAME varchar(50), LAYOUT varchar(5000))')
+      );
+    Result.AddScript(TModelScript.Create
+      ('create table if not exists TPARAM (SESSION varchar(100), KEY varchar(100), VALUE varchar(5000))')
+      );
+    Result.AddScript(TModelScript.Create
+      ('create table if not exists TQUERY_HISTORY (ID text primary key, DATA datetime, QUERY varchar(5000))')
+      );
   end;
 
   function CreateFirebird: IModelStructureUpdater;
@@ -81,12 +93,15 @@ class function TModelFactory.Updater: IModelStructureUpdater;
 
 begin
   case Model.Types.ConnectionType of
-    TModelConnectionType.SQLite: Result := CreateSQLite;
-    TModelConnectionType.Firebird: Result := CreateFirebird;
+    TModelConnectionType.SQLite:
+      Result := CreateSQLite;
+    TModelConnectionType.Firebird:
+      Result := CreateFirebird;
   end;
 end;
 
-class function TModelFactory.DataBaseBackup(ADataBaseInfo: TDataBase; const ADllDatabasePath: string): IModelDatabaseBackup;
+class function TModelFactory.DataBaseBackup(ADataBaseInfo: TDatabase;
+  const ADllDatabasePath: string): IModelDatabaseBackup;
 begin
   Result := TModelDataBaseBackup.Create(ADataBaseInfo, ADllDatabasePath);
 end;

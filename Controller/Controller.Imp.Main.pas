@@ -43,7 +43,8 @@ implementation
 
 uses
   Model.Factory, Vcl.Dialogs, System.SysUtils,
-  Controller.Factory, View.Server, View.Database.Register, System.UITypes;
+  Controller.Factory, View.Server, View.Database.Register, System.UITypes,
+  Data.DB;
 
 { TControllerPrincipal }
 
@@ -59,7 +60,6 @@ end;
 procedure TControllerMain.RegisterDatabase;
 var
   vServer: TServer;
-  vNode: TTreeNode;
   vView: TViewRegisterDatabase;
 begin
   if FView.TreeView1.Selected.Level = 0 then
@@ -279,7 +279,6 @@ procedure TControllerMain.FillList;
   procedure AddDataBasesToTree(const ATreeNode: TTreeNode);
   var
     vServer: TServer;
-    vNode: TTreeNode;
     vItem: TTreeNode;
   begin
 

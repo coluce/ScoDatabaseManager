@@ -3,9 +3,12 @@ unit View.Query;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.ComCtrls, Data.DB, SynEdit, SynMemo, Vcl.Grids, Vcl.DBGrids, Vcl.ToolWin, SynEditHighlighter,
-  SynHighlighterSQL, Model.Types, Controller.Interfaces, Vcl.StdCtrls, Vcl.DBCtrls, Vcl.WinXCtrls,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.ComCtrls, Data.DB,
+  SynEdit, SynMemo, Vcl.Grids, Vcl.DBGrids, Vcl.ToolWin, SynEditHighlighter,
+  SynHighlighterSQL, Model.Types, Controller.Interfaces, Vcl.StdCtrls,
+  Vcl.DBCtrls, Vcl.WinXCtrls,
   System.ImageList, Vcl.ImgList, System.Actions, Vcl.ActnList, View.Default,
   Vcl.Buttons, FireDAC.Stan.StorageXML, SynDBEdit;
 
@@ -78,7 +81,6 @@ type
 implementation
 
 {$R *.dfm}
-
 { TViewDatabase }
 
 procedure TViewQuery.acnHistoryQueryExecute(Sender: TObject);
@@ -113,8 +115,8 @@ end;
 procedure TViewQuery.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   inherited;
-  {FController é o dono desta tela, e é uma interface, este é o unico ponto onde a interface está sendo usada
-   se não decrementar o uso da interface ao fechar a tela, não destroi o objeto e não destroi esta tela
+  { FController é o dono desta tela, e é uma interface, este é o unico ponto onde a interface está sendo usada
+    se não decrementar o uso da interface ao fechar a tela, não destroi o objeto e não destroi esta tela
   }
   FController._Release;
 end;

@@ -3,7 +3,8 @@ unit View.Database.Register;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, View.Default, Vcl.Buttons, Vcl.ExtCtrls,
   Vcl.Imaging.pngimage, Vcl.StdCtrls;
 
@@ -42,7 +43,7 @@ implementation
 procedure TViewRegisterDatabase.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
-  //inherited;
+  // inherited;
 
 end;
 
@@ -54,7 +55,7 @@ end;
 
 procedure TViewRegisterDatabase.FormShow(Sender: TObject);
 begin
-  //inherited;
+  // inherited;
 end;
 
 procedure TViewRegisterDatabase.SpeedButton1Click(Sender: TObject);
