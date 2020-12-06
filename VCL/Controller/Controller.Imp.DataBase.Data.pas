@@ -18,10 +18,12 @@ type
     FDataBase: TDataBase;
     FConnection: IModelConnection;
     FQuery: TFDQuery;
+    FModelHistory: IModelTable;
 
     function GetConnected: boolean;
     procedure SetConnected(const Value: boolean);
 
+    procedure UpdateTabs;
     procedure UpdateStatusBar;
     procedure LogAdd(const AMessage: string);
     procedure PrepareScreen;
@@ -39,6 +41,8 @@ type
     procedure ExecuteQuery;
     procedure ExportData;
     procedure ImportData;
+    procedure RegisterHistoryQuery(const AQuery: string);
+    procedure SelectHistoryQuery;
 
   published
     property Connected: boolean read GetConnected write SetConnected;
@@ -53,15 +57,33 @@ uses
 { TControllerDataBase }
 
 constructor TControllerDataBase.Create(const ADataBase: TDataBase);
+
+  procedure PrepareQuery;
+  begin
+    FConnection := TModelFactory.Firebird(FDataBase);
+    FQuery := TFDQuery.Create(nil);
+    FQuery.Connection := FConnection.GetConnection;
+    FView.DataSourceQuery.DataSet := FQuery;
+    FView.MemoLog.Clear;
+  end;
+
+  procedure PrepareHistory;
+  begin
+    FModelHistory := TModelFactory.Table('TQUERY_HISTORY');
+
+    FView.DataSourceHistory.DataSet := FModelHistory.DataSet;
+    FView.GridHistory.Columns.Clear;
+    FView.GridHistory.Columns.Add.Field := FModelHistory.DataSet.FieldByName('DATA');
+  end;
+
 begin
   FDataBase := ADataBase;
   FView := TViewDatabaseData.Create(Self);
   FView.Caption := FDatabase.Name;
-  FConnection := TModelFactory.Firebird(FDataBase);
-  FQuery := TFDQuery.Create(nil);
-  FQuery.Connection := FConnection.GetConnection;
-  FView.DataSource1.DataSet := FQuery;
-  FView.MemoLog.Clear;
+
+  PrepareQuery;
+  PrepareHistory;
+
 end;
 
 destructor TControllerDataBase.Destroy;
@@ -110,6 +132,9 @@ begin
         LogAdd('Select SQL: ' + FQuery.RecordCount.ToString);
         FView.PageControlMain.ActivePage := FView.TabSheetResult;
       end;
+
+      Self.RegisterHistoryQuery(vQuery);
+
     except on E: Exception do
       begin
         LogAdd('Erro: ' + E.Message);
@@ -225,6 +250,7 @@ function TControllerDataBase.GetConnected: boolean;
 begin
   Result := FConnection.Active;
   Self.UpdateStatusbar;
+  Self.UpdateTabs;
 end;
 
 procedure TControllerDataBase.ImportData;
@@ -282,13 +308,31 @@ procedure TControllerDataBase.PrepareScreen;
 begin
   Self.UpdateStatusBar;
   Self.UpdateToogleColor;
+  Self.UpdateTabs;
+  FModelHistory.Open;
   FView.PageControlMain.ActivePageIndex := 0;
+end;
+
+procedure TControllerDataBase.RegisterHistoryQuery(const AQuery: string);
+begin
+  FModelHistory.DataSet.Append;
+  FModelHistory.DataSet.FieldByName('DATA').AsDateTime := Now;
+  FModelHistory.DataSet.FieldByName('QUERY').AsString := AQuery;
+  FModelHistory.DataSet.Post;
+end;
+
+procedure TControllerDataBase.SelectHistoryQuery;
+begin
+  FView.MemoQuery.Clear;
+  FView.MemoQuery.Text := FModelHistory.DataSet.FieldByName('QUERY').Value;
+  FView.PageControlMain.ActivePage := FView.TabSheetQuery;
 end;
 
 procedure TControllerDataBase.SetConnected(const Value: boolean);
 begin
   FConnection.Active := Value;
   Self.UpdateStatusbar;
+  Self.UpdateTabs;
 end;
 
 procedure TControllerDataBase.Show;
@@ -327,6 +371,13 @@ begin
   begin
     FView.StatusBar1.Panels[0].Text := 'Desconectado';
   end;
+end;
+
+procedure TControllerDataBase.UpdateTabs;
+begin
+  FView.TabSheetResult.TabVisible := FConnection.Active;
+  FView.TabSheetLog.TabVisible := FConnection.Active;
+  FView.TabSheetHistory.TabVisible := FConnection.Active;
 end;
 
 procedure TControllerDataBase.UpdateToogleColor;

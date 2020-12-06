@@ -70,6 +70,7 @@ class function TModelFactory.Updater: IModelStructureUpdater;
     Result.AddScript(TModelScript.Create('create table if not exists TDATABASE (ID text primary key, ID_SERVER text, NAME text, PATH text, USERNAME text, PASSWORD text)'));
     Result.AddScript(TModelScript.Create('create table if not exists TLAYOUT (ID text primary key, NAME varchar(50), LAYOUT varchar(5000))'));
     Result.AddScript(TModelScript.Create('create table if not exists TPARAM (SESSION varchar(100), KEY varchar(100), VALUE varchar(5000))'));
+    Result.AddScript(TModelScript.Create('create table if not exists TQUERY_HISTORY (ID text primary key, DATA datetime, QUERY varchar(5000))'));
   end;
 
   function CreateFirebird: IModelStructureUpdater;

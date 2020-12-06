@@ -33,10 +33,10 @@ object ViewDatabaseData: TViewDatabaseData
     Top = 3
     Width = 626
     Height = 376
-    ActivePage = tabQuery
+    ActivePage = TabSheetHistory
     Align = alClient
     TabOrder = 1
-    object tabQuery: TTabSheet
+    object TabSheetQuery: TTabSheet
       Caption = 'Query'
       object Splitter1: TSplitter
         Left = 185
@@ -144,11 +144,13 @@ object ViewDatabaseData: TViewDatabaseData
             Font.Name = 'Courier New'
             Font.Style = []
             TabOrder = 1
+            CodeFolding.GutterShapeSize = 11
             CodeFolding.CollapsedLineColor = clGrayText
             CodeFolding.FolderBarLinesColor = clGrayText
-            CodeFolding.ShowCollapsedLine = True
             CodeFolding.IndentGuidesColor = clGray
             CodeFolding.IndentGuides = True
+            CodeFolding.ShowCollapsedLine = True
+            CodeFolding.ShowHintMark = True
             UseCodeFolding = False
             Gutter.Font.Charset = DEFAULT_CHARSET
             Gutter.Font.Color = clWindowText
@@ -189,7 +191,7 @@ object ViewDatabaseData: TViewDatabaseData
         Height = 199
         Align = alClient
         BorderStyle = bsNone
-        DataSource = DataSource1
+        DataSource = DataSourceQuery
         TabOrder = 0
         TitleFont.Charset = DEFAULT_CHARSET
         TitleFont.Color = clWindowText
@@ -229,7 +231,7 @@ object ViewDatabaseData: TViewDatabaseData
           Top = 3
           Width = 240
           Height = 26
-          DataSource = DataSource1
+          DataSource = DataSourceQuery
           Align = alLeft
           TabOrder = 0
         end
@@ -277,6 +279,81 @@ object ViewDatabaseData: TViewDatabaseData
     object TabSheetHistory: TTabSheet
       Caption = 'Hist'#243'rico'
       ImageIndex = 3
+      object Splitter3: TSplitter
+        Left = 183
+        Top = 32
+        Height = 316
+        ExplicitLeft = 280
+        ExplicitTop = 168
+        ExplicitHeight = 100
+      end
+      object GridHistory: TDBGrid
+        AlignWithMargins = True
+        Left = 3
+        Top = 35
+        Width = 177
+        Height = 310
+        Align = alLeft
+        DataSource = DataSourceHistory
+        Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+        ReadOnly = True
+        TabOrder = 0
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -11
+        TitleFont.Name = 'Tahoma'
+        TitleFont.Style = []
+        OnDblClick = GridHistoryDblClick
+      end
+      object Panel2: TPanel
+        Left = 0
+        Top = 0
+        Width = 618
+        Height = 32
+        Align = alTop
+        BevelOuter = bvNone
+        TabOrder = 1
+        ExplicitTop = 8
+        object DBNavigator2: TDBNavigator
+          AlignWithMargins = True
+          Left = 3
+          Top = 3
+          Width = 240
+          Height = 26
+          DataSource = DataSourceHistory
+          VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbDelete, nbEdit, nbPost, nbCancel, nbRefresh]
+          Align = alLeft
+          TabOrder = 0
+        end
+      end
+      object DBSynEdit1: TDBSynEdit
+        AlignWithMargins = True
+        Left = 189
+        Top = 35
+        Width = 426
+        Height = 310
+        DataField = 'QUERY'
+        DataSource = DataSourceHistory
+        Align = alClient
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Courier New'
+        Font.Style = []
+        ParentColor = False
+        ParentFont = False
+        TabOrder = 2
+        Gutter.Font.Charset = DEFAULT_CHARSET
+        Gutter.Font.Color = clWindowText
+        Gutter.Font.Height = -11
+        Gutter.Font.Name = 'Courier New'
+        Gutter.Font.Style = []
+        Highlighter = SynSQLSyn1
+        ExplicitLeft = 280
+        ExplicitTop = 72
+        ExplicitWidth = 200
+        ExplicitHeight = 150
+      end
     end
   end
   object SynSQLSyn1: TSynSQLSyn
@@ -293,7 +370,7 @@ object ViewDatabaseData: TViewDatabaseData
     Left = 549
     Top = 92
   end
-  object DataSource1: TDataSource
+  object DataSourceQuery: TDataSource
     Left = 554
     Top = 303
   end
@@ -1262,5 +1339,9 @@ object ViewDatabaseData: TViewDatabaseData
   object FDStanStorageXMLLink1: TFDStanStorageXMLLink
     Left = 510
     Top = 254
+  end
+  object DataSourceHistory: TDataSource
+    Left = 135
+    Top = 299
   end
 end

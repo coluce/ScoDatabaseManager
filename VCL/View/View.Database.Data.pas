@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.ComCtrls, Data.DB, SynEdit, SynMemo, Vcl.Grids, Vcl.DBGrids, Vcl.ToolWin, SynEditHighlighter,
   SynHighlighterSQL, Model.Types, Controller.Interfaces, Vcl.StdCtrls, Vcl.DBCtrls, Vcl.WinXCtrls,
   System.ImageList, Vcl.ImgList, System.Actions, Vcl.ActnList, View.Default,
-  Vcl.Buttons, FireDAC.Stan.StorageXML;
+  Vcl.Buttons, FireDAC.Stan.StorageXML, SynDBEdit;
 
 type
   TViewDatabaseData = class(TViewDefault)
@@ -18,7 +18,7 @@ type
     ToolBar2: TToolBar;
     MemoQuery: TSynMemo;
     SynSQLSyn1: TSynSQLSyn;
-    DataSource1: TDataSource;
+    DataSourceQuery: TDataSource;
     ImageListTabelas: TImageList;
     ImageListQuery: TImageList;
     ActionListQuery: TActionList;
@@ -31,7 +31,7 @@ type
     acnQueryImportar: TAction;
     acnQueryExportar: TAction;
     PageControlMain: TPageControl;
-    tabQuery: TTabSheet;
+    TabSheetQuery: TTabSheet;
     TabSheetResult: TTabSheet;
     TabSheetLog: TTabSheet;
     TabSheetHistory: TTabSheet;
@@ -49,12 +49,19 @@ type
     SaveDataDialog: TSaveDialog;
     OpenDataDialog: TOpenDialog;
     FDStanStorageXMLLink1: TFDStanStorageXMLLink;
+    GridHistory: TDBGrid;
+    Panel2: TPanel;
+    DBNavigator2: TDBNavigator;
+    DataSourceHistory: TDataSource;
+    Splitter3: TSplitter;
+    DBSynEdit1: TDBSynEdit;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ToggleSwitch1Click(Sender: TObject);
     procedure TreeViewTabelasDblClick(Sender: TObject);
     procedure acnQueryExecutarExecute(Sender: TObject);
     procedure acnQueryExportarExecute(Sender: TObject);
     procedure acnQueryImportarExecute(Sender: TObject);
+    procedure GridHistoryDblClick(Sender: TObject);
   private
     { Private declarations }
     FController: IControllerDataBaseData;
@@ -101,6 +108,12 @@ begin
    se não decrementar o uso da interface ao fechar a tela, não destroi o objeto e não destroi esta tela
   }
   FController._Release;
+end;
+
+procedure TViewDatabaseData.GridHistoryDblClick(Sender: TObject);
+begin
+  inherited;
+  FController.SelectHistoryQuery;
 end;
 
 procedure TViewDatabaseData.ToggleSwitch1Click(Sender: TObject);

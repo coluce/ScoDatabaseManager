@@ -54,6 +54,8 @@ type
     procedure ExecuteQuery;
     procedure ExportData;
     procedure ImportData;
+    procedure RegisterHistoryQuery(const AQuery: string);
+    procedure SelectHistoryQuery;
 
     function GetConnected: boolean;
     procedure SetConnected(const Value: boolean);
