@@ -129,13 +129,11 @@ object ViewQuery: TViewQuery
             Font.Name = 'Courier New'
             Font.Style = []
             TabOrder = 0
-            CodeFolding.GutterShapeSize = 11
             CodeFolding.CollapsedLineColor = clGrayText
             CodeFolding.FolderBarLinesColor = clGrayText
+            CodeFolding.ShowCollapsedLine = True
             CodeFolding.IndentGuidesColor = clGray
             CodeFolding.IndentGuides = True
-            CodeFolding.ShowCollapsedLine = True
-            CodeFolding.ShowHintMark = True
             UseCodeFolding = False
             Gutter.Font.Charset = DEFAULT_CHARSET
             Gutter.Font.Color = clWindowText
@@ -143,7 +141,6 @@ object ViewQuery: TViewQuery
             Gutter.Font.Name = 'Courier New'
             Gutter.Font.Style = []
             Gutter.ShowLineNumbers = True
-            Gutter.ShowModification = True
             Highlighter = SynSQLSyn1
             Lines.Strings = (
               '/* Exemplo de SQL*/'
@@ -184,10 +181,6 @@ object ViewQuery: TViewQuery
     object TabSheetResult: TTabSheet
       Caption = 'Resultado'
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object Splitter2: TSplitter
         Left = 0
         Top = 231
@@ -264,10 +257,6 @@ object ViewQuery: TViewQuery
         TabOrder = 2
         object TabSheetResultExecutionPlan: TTabSheet
           Caption = 'Execution Plan'
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object Memo1: TMemo
             Left = 0
             Top = 0
