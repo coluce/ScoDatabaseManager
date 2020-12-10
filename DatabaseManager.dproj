@@ -101,70 +101,60 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="View\View.Main.pas">
-            <Form>ViewMain</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="Controller\Controller.Imp.Main.pas"/>
-        <DCCReference Include="Model\Model.Imp.Connection.SQLite.pas"/>
         <DCCReference Include="Model\Model.Interfaces.pas"/>
         <DCCReference Include="Model\Model.Factory.pas"/>
-        <DCCReference Include="Model\Model.Imp.Table.pas"/>
-        <DCCReference Include="Model\Model.Imp.Script.pas"/>
         <DCCReference Include="Model\Model.Types.pas"/>
-        <DCCReference Include="Model\Model.Imp.Updater.pas"/>
+        <DCCReference Include="Model\Imp\Model.Imp.Connection.SQLite.pas"/>
+        <DCCReference Include="Model\Imp\Model.Imp.Connection.Firebird.pas"/>
+        <DCCReference Include="Model\Imp\Model.Imp.Table.pas"/>
+        <DCCReference Include="Model\Imp\Model.Imp.Script.pas"/>
+        <DCCReference Include="Model\Imp\Model.Imp.Updater.pas"/>
+        <DCCReference Include="Model\Imp\Model.Imp.Firebird.Functions.pas"/>
+        <DCCReference Include="Model\Imp\Model.Imp.Database.Backup.pas"/>
+        <DCCReference Include="View\View.Main.pas">
+            <Form>ViewMain</Form>
+        </DCCReference>
+        <DCCReference Include="View\View.Default.pas">
+            <Form>ViewDefault</Form>
+        </DCCReference>
         <DCCReference Include="View\View.Query.pas">
             <Form>ViewQuery</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="Controller\Controller.Imp.Query.pas"/>
-        <DCCReference Include="Controller\Controller.Interfaces.pas"/>
-        <DCCReference Include="Controller\Controller.Factory.pas"/>
-        <DCCReference Include="Model\Model.Imp.Connection.Firebird.pas"/>
         <DCCReference Include="View\View.Layout.pas">
             <Form>ViewLayout</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="Controller\Controller.Imp.Layout.pas"/>
         <DCCReference Include="View\View.Ini.pas">
             <Form>ViewIni</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="Controller\Controller.Imp.Ini.pas"/>
-        <DCCReference Include="Controller\Controller.Imp.Param.pas"/>
-        <DCCReference Include="View\View.Default.pas">
-            <Form>ViewDefault</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="Controller\Controller.Imp.Window.pas"/>
         <DCCReference Include="View\View.Server.pas">
             <Form>ViewServer</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="View\View.Database.Register.pas">
             <Form>ViewRegisterDatabase</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="Model\Model.Imp.Database.Backup.pas"/>
         <DCCReference Include="View\View.Backup.Manager.pas">
             <Form>ViewBackupManager</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="Controller\Controller.Imp.Backup.Manager.pas"/>
-        <DCCReference Include="Controller\Controller.Imp.Param.Manager.pas"/>
         <DCCReference Include="View\View.Param.Manager.pas">
             <Form>ViewParamManager</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="View\View.Wait.pas">
             <Form>ViewWait</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="View\View.Query.Param.pas">
             <Form>ViewQueryParam</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="Model\Model.Imp.Firebird.Functions.pas"/>
+        <DCCReference Include="Controller\Controller.Interfaces.pas"/>
+        <DCCReference Include="Controller\Controller.Factory.pas"/>
+        <DCCReference Include="Controller\Imp\Controller.Imp.Query.pas"/>
+        <DCCReference Include="Controller\Imp\Controller.Imp.Layout.pas"/>
+        <DCCReference Include="Controller\Imp\Controller.Imp.Ini.pas"/>
+        <DCCReference Include="Controller\Imp\Controller.Imp.Param.pas"/>
+        <DCCReference Include="Controller\Imp\Controller.Imp.Window.pas"/>
+        <DCCReference Include="Controller\Imp\Controller.Imp.Backup.Manager.pas"/>
+        <DCCReference Include="Controller\Imp\Controller.Imp.Param.Manager.pas"/>
+        <DCCReference Include="Controller\Imp\Controller.Imp.Main.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
