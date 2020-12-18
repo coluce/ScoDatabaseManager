@@ -53,7 +53,7 @@ type
   IModelStructureUpdater = interface
     ['{697BCA1F-B50C-46EF-AD41-0C1CF77C6C20}']
     function Execute: boolean;
-    procedure AddField(const AFieldName: string; const AFieldType: string;
+    procedure AddField(const ATableName: string; const AFieldName: string; const AFieldType: string;
       AFieldSize: integer = 0);
     procedure AddScript(const AScript: IModelScript);
   end;

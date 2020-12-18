@@ -48,6 +48,7 @@ type
     procedure ImportData;
     procedure RegisterHistoryQuery(const AQuery: string);
     procedure SelectHistoryQuery;
+    procedure SetDataBaseInUse;
 
     // published
     property Connected: boolean read GetConnected write SetConnected;
@@ -57,7 +58,8 @@ implementation
 
 uses
   System.Classes, Model.Factory, Vcl.ComCtrls, System.SysUtils, Vcl.Graphics,
-  System.IOUtils, System.Types, Data.DB, View.Query.Param, System.UITypes;
+  System.IOUtils, System.Types, Data.DB, View.Query.Param, System.UITypes,
+  Controller.Factory;
 
 { TControllerDataBase }
 
@@ -404,6 +406,14 @@ begin
   Self.UpdateActions;
   Self.UpdateTableList;
   Self.UpdateQueryEditor;
+end;
+
+procedure TControllerQuery.SetDataBaseInUse;
+var
+  vController: IControllerIniFile;
+begin
+  vController := TControllerFactory.ExportIniFile(FDataBase);
+  vController.Show;
 end;
 
 procedure TControllerQuery.Show;

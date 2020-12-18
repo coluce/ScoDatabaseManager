@@ -14,6 +14,7 @@ type
     class function MainConnection: IModelConnection;
     class function Updater: IModelStructureUpdater;
     class function Table(const ATableName: string): IModelTable;
+    class function Script(const ATableName, AFieldName, AFieldType: string): IModelScript;
     class function DataBaseBackup(ADataBaseInfo: TDatabase;
       const ADllDatabasePath: string): IModelDatabaseBackup;
   end;
@@ -50,6 +51,12 @@ begin
       end;
   end;
 
+end;
+
+class function TModelFactory.Script(const ATableName, AFieldName,
+  AFieldType: string): IModelScript;
+begin
+  Result := TModelScript.Create('alter table ' + ATableName + ' add ' + AFieldName + ' ' + AFieldType);
 end;
 
 class function TModelFactory.SQLite: IModelConnection;

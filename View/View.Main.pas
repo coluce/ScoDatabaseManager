@@ -101,7 +101,7 @@ end;
 
 procedure TViewMain.acnPopupMenuServerEditarExecute(Sender: TObject);
 begin
-  FControllerMain.RegisterServer;
+  FControllerMain.EditServer;
   FControllerMain.FillList;
 end;
 

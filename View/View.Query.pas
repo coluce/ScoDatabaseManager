@@ -60,6 +60,10 @@ type
     acnHistoryQuery: TAction;
     Panel3: TPanel;
     SpeedButton4: TSpeedButton;
+    acnExportIniFile: TAction;
+    TabSheetInfo: TTabSheet;
+    Panel6: TPanel;
+    SpeedButton6: TSpeedButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ToggleSwitch1Click(Sender: TObject);
     procedure TreeViewTabelasDblClick(Sender: TObject);
@@ -68,6 +72,7 @@ type
     procedure acnQueryImportarExecute(Sender: TObject);
     procedure GridHistoryDblClick(Sender: TObject);
     procedure acnHistoryQueryExecute(Sender: TObject);
+    procedure acnExportIniFileExecute(Sender: TObject);
   private
     { Private declarations }
     FController: IControllerQuery;
@@ -82,6 +87,12 @@ implementation
 
 {$R *.dfm}
 { TViewDatabase }
+
+procedure TViewQuery.acnExportIniFileExecute(Sender: TObject);
+begin
+  inherited;
+  FController.SetDataBaseInUse;
+end;
 
 procedure TViewQuery.acnHistoryQueryExecute(Sender: TObject);
 begin

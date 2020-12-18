@@ -15,7 +15,7 @@ type
     destructor Destroy; override;
 
     function Execute: boolean;
-    procedure AddField(const AFieldName: string; const AFieldType: string;
+    procedure AddField(const ATableName: string; const AFieldName: string; const AFieldType: string;
       AFieldSize: integer = 0);
     procedure AddScript(const AScript: IModelScript);
   end;
@@ -26,10 +26,14 @@ implementation
 
 uses Model.Factory, System.SysUtils;
 
-procedure TModelStrcutureUpdater.AddField(const AFieldName, AFieldType: string;
-  AFieldSize: integer);
+procedure TModelStrcutureUpdater.AddField(const ATableName: string; const AFieldName: string; const AFieldType: string;
+      AFieldSize: integer = 0);
+var
+  vScript: IModelScript;
 begin
-
+//  vScript := TModelFactory.Script(ATableName, AFieldName, AFieldType);
+//  Self.AddScript(vScript);
+// o parametro é const, portanto, o objeto será destruido antes de ser usado
 end;
 
 procedure TModelStrcutureUpdater.AddScript(const AScript: IModelScript);
