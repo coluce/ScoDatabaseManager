@@ -25,7 +25,7 @@ object ViewMain: TViewMain
     Panels = <
       item
         Text = '127.0.0.1'
-        Width = 80
+        Width = 150
       end
       item
         Text = 'default path'
@@ -93,6 +93,7 @@ object ViewMain: TViewMain
     Width = 270
     Height = 336
     Align = alClient
+    AutoExpand = True
     BevelInner = bvNone
     BevelOuter = bvNone
     BorderStyle = bsNone
