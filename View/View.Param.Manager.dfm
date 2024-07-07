@@ -1,6 +1,6 @@
 inherited ViewParamManager: TViewParamManager
   Caption = 'Ger'#234'nciador de Par'#226'metros'
-  PixelsPerInch = 96
+  StyleElements = [seFont, seClient, seBorder]
   TextHeight = 13
   object Panel1: TPanel
     Left = 0
@@ -19,9 +19,6 @@ inherited ViewParamManager: TViewParamManager
       DataSource = DataSource1
       Align = alLeft
       TabOrder = 0
-      ExplicitLeft = 8
-      ExplicitTop = 8
-      ExplicitHeight = 25
     end
   end
   object DBGrid1: TDBGrid
@@ -45,9 +42,6 @@ inherited ViewParamManager: TViewParamManager
     Width = 447
     Height = 19
     Panels = <>
-    ExplicitLeft = 320
-    ExplicitTop = 184
-    ExplicitWidth = 0
   end
   object DataSource1: TDataSource
     Left = 120

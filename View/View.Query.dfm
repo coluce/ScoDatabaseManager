@@ -10,9 +10,7 @@ object ViewQuery: TViewQuery
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = False
   OnClose = FormClose
-  PixelsPerInch = 96
   TextHeight = 13
   object StatusBar1: TStatusBar
     Left = 0
@@ -33,7 +31,7 @@ object ViewQuery: TViewQuery
     Top = 3
     Width = 626
     Height = 376
-    ActivePage = TabSheetInfo
+    ActivePage = TabSheetQuery
     Align = alClient
     TabOrder = 1
     object TabSheetInfo: TTabSheet
@@ -47,7 +45,6 @@ object ViewQuery: TViewQuery
         Align = alTop
         BevelOuter = bvNone
         TabOrder = 0
-        ExplicitTop = 8
         object SpeedButton6: TSpeedButton
           AlignWithMargins = True
           Left = 3
@@ -140,41 +137,8 @@ object ViewQuery: TViewQuery
           Align = alClient
           BevelOuter = bvNone
           TabOrder = 0
-          object MemoQuery: TSynMemo
-            AlignWithMargins = True
-            Left = 3
-            Top = 33
-            Width = 418
-            Height = 306
-            Align = alClient
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -13
-            Font.Name = 'Courier New'
-            Font.Style = []
-            TabOrder = 0
-            CodeFolding.CollapsedLineColor = clGrayText
-            CodeFolding.FolderBarLinesColor = clGrayText
-            CodeFolding.ShowCollapsedLine = True
-            CodeFolding.IndentGuidesColor = clGray
-            CodeFolding.IndentGuides = True
-            UseCodeFolding = False
-            Gutter.Font.Charset = DEFAULT_CHARSET
-            Gutter.Font.Color = clWindowText
-            Gutter.Font.Height = -11
-            Gutter.Font.Name = 'Courier New'
-            Gutter.Font.Style = []
-            Gutter.ShowLineNumbers = True
-            Highlighter = SynSQLSyn1
-            Lines.Strings = (
-              '/* Exemplo de SQL*/'
-              'select'
-              '  *'
-              'from'
-              '  TABELA')
-            WantTabs = True
-            FontSmoothing = fsmNone
-          end
+          ExplicitLeft = 6
+          ExplicitTop = 7
           object Panel3: TPanel
             Left = 0
             Top = 0
@@ -182,7 +146,7 @@ object ViewQuery: TViewQuery
             Height = 30
             Align = alTop
             BevelOuter = bvNone
-            TabOrder = 1
+            TabOrder = 0
             object SpeedButton4: TSpeedButton
               AlignWithMargins = True
               Left = 3
@@ -198,6 +162,53 @@ object ViewQuery: TViewQuery
               ExplicitTop = 16
               ExplicitHeight = 22
             end
+          end
+          object synSource: TSynEdit
+            AlignWithMargins = True
+            Left = 3
+            Top = 33
+            Width = 418
+            Height = 306
+            Align = alClient
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Consolas'
+            Font.Style = []
+            Font.Quality = fqClearTypeNatural
+            TabOrder = 1
+            UseCodeFolding = False
+            Gutter.Font.Charset = DEFAULT_CHARSET
+            Gutter.Font.Color = clWindowText
+            Gutter.Font.Height = -11
+            Gutter.Font.Name = 'Consolas'
+            Gutter.Font.Style = []
+            Gutter.Bands = <
+              item
+                Kind = gbkMarks
+                Width = 13
+              end
+              item
+                Kind = gbkLineNumbers
+              end
+              item
+                Kind = gbkFold
+              end
+              item
+                Kind = gbkTrackChanges
+              end
+              item
+                Kind = gbkMargin
+                Width = 3
+              end>
+            Highlighter = SynSQLSyn1
+            Lines.Strings = (
+              'synSource')
+            SelectedColor.Alpha = 0.400000005960464500
+            ExplicitLeft = 48
+            ExplicitTop = 112
+            ExplicitWidth = 200
+            ExplicitHeight = 150
           end
         end
       end
@@ -377,6 +388,7 @@ object ViewQuery: TViewQuery
         Top = 35
         Width = 426
         Height = 310
+        Cursor = crIBeam
         DataField = 'QUERY'
         DataSource = DataSourceHistory
         Align = alClient
@@ -385,6 +397,7 @@ object ViewQuery: TViewQuery
         Font.Height = -13
         Font.Name = 'Courier New'
         Font.Style = []
+        Font.Quality = fqClearTypeNatural
         ParentColor = False
         ParentFont = False
         TabOrder = 2
@@ -393,16 +406,33 @@ object ViewQuery: TViewQuery
         Gutter.Font.Height = -11
         Gutter.Font.Name = 'Courier New'
         Gutter.Font.Style = []
+        Gutter.Font.Quality = fqClearTypeNatural
         Gutter.ShowLineNumbers = True
+        Gutter.Bands = <
+          item
+            Kind = gbkMarks
+            Width = 13
+          end
+          item
+            Kind = gbkLineNumbers
+          end
+          item
+            Kind = gbkFold
+          end
+          item
+            Kind = gbkTrackChanges
+          end
+          item
+            Kind = gbkMargin
+            Width = 3
+          end>
         Highlighter = SynSQLSyn1
         ReadOnly = True
+        SelectedColor.Alpha = 0.400000005960464500
       end
     end
   end
   object SynSQLSyn1: TSynSQLSyn
-    Options.AutoDetectEnabled = False
-    Options.AutoDetectLineLimit = 0
-    Options.Visible = False
     CommentAttri.Foreground = clGreen
     KeyAttri.Foreground = clNavy
     TableNameAttri.Foreground = 8404992

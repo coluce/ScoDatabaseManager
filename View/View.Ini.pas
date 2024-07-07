@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Buttons,
-  SynEditHighlighter, SynHighlighterIni, SynEdit, SynMemo, Vcl.DBCtrls,
+  SynEditHighlighter, SynHighlighterIni, SynEdit, Vcl.DBCtrls,
   Vcl.StdCtrls,
   System.Actions, Vcl.ActnList, Data.DB, Controller.Interfaces,
   System.ImageList, Vcl.ImgList, View.Default;
@@ -19,7 +19,6 @@ type
     SpeedButton2: TSpeedButton;
     Label1: TLabel;
     Label2: TLabel;
-    SynMemo1: TSynMemo;
     SynIniSyn1: TSynIniSyn;
     ActionList1: TActionList;
     acnExportar: TAction;
@@ -30,6 +29,7 @@ type
     ImageList1: TImageList;
     edtLocalDestino: TEdit;
     SpeedButton3: TSpeedButton;
+    synSource: TSynEdit;
     procedure acnExportarExecute(Sender: TObject);
     procedure acnCancelarExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);

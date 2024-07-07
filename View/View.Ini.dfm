@@ -10,12 +10,10 @@ object ViewIni: TViewIni
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = False
   OnClose = FormClose
   DesignSize = (
     494
     382)
-  PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
     Left = 8
@@ -142,33 +140,6 @@ object ViewIni: TViewIni
       ExplicitLeft = 352
     end
   end
-  object SynMemo1: TSynMemo
-    Left = 8
-    Top = 123
-    Width = 478
-    Height = 204
-    Anchors = [akLeft, akTop, akRight, akBottom]
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'Courier New'
-    Font.Style = []
-    TabOrder = 1
-    CodeFolding.CollapsedLineColor = clGrayText
-    CodeFolding.FolderBarLinesColor = clGrayText
-    CodeFolding.ShowCollapsedLine = True
-    CodeFolding.IndentGuidesColor = clGray
-    CodeFolding.IndentGuides = True
-    UseCodeFolding = False
-    Gutter.Font.Charset = DEFAULT_CHARSET
-    Gutter.Font.Color = clWindowText
-    Gutter.Font.Height = -11
-    Gutter.Font.Name = 'Courier New'
-    Gutter.Font.Style = []
-    Gutter.ShowLineNumbers = True
-    Highlighter = SynIniSyn1
-    FontSmoothing = fsmNone
-  end
   object ComboBoxLayout: TComboBox
     Left = 8
     Top = 27
@@ -189,13 +160,52 @@ object ViewIni: TViewIni
     Top = 78
     Width = 449
     Height = 21
-    TabOrder = 3
+    TabOrder = 1
     TextHint = 'local onde ser'#225' salvo o arquivo ini'
   end
+  object synSource: TSynEdit
+    Left = 8
+    Top = 123
+    Width = 476
+    Height = 204
+    Anchors = [akLeft, akTop, akRight, akBottom]
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Consolas'
+    Font.Style = []
+    Font.Quality = fqClearTypeNatural
+    TabOrder = 3
+    UseCodeFolding = False
+    Gutter.Font.Charset = DEFAULT_CHARSET
+    Gutter.Font.Color = clWindowText
+    Gutter.Font.Height = -11
+    Gutter.Font.Name = 'Consolas'
+    Gutter.Font.Style = []
+    Gutter.Bands = <
+      item
+        Kind = gbkMarks
+        Width = 13
+      end
+      item
+        Kind = gbkLineNumbers
+      end
+      item
+        Kind = gbkFold
+      end
+      item
+        Kind = gbkTrackChanges
+      end
+      item
+        Kind = gbkMargin
+        Width = 3
+      end>
+    Highlighter = SynIniSyn1
+    Lines.Strings = (
+      'synSource')
+    SelectedColor.Alpha = 0.400000005960464500
+  end
   object SynIniSyn1: TSynIniSyn
-    Options.AutoDetectEnabled = False
-    Options.AutoDetectLineLimit = 0
-    Options.Visible = False
     Left = 232
     Top = 104
   end

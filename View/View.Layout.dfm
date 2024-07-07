@@ -10,9 +10,7 @@ object ViewLayout: TViewLayout
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = False
   OnClose = FormClose
-  PixelsPerInch = 96
   TextHeight = 13
   object Splitter1: TSplitter
     Left = 151
@@ -112,6 +110,7 @@ object ViewLayout: TViewLayout
       Top = 85
       Width = 393
       Height = 237
+      Cursor = crIBeam
       DataField = 'LAYOUT'
       DataSource = DataSource1
       Anchors = [akLeft, akTop, akRight, akBottom]
@@ -120,6 +119,7 @@ object ViewLayout: TViewLayout
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
+      Font.Quality = fqClearTypeNatural
       ParentColor = False
       ParentFont = False
       TabOrder = 1
@@ -128,7 +128,27 @@ object ViewLayout: TViewLayout
       Gutter.Font.Height = -11
       Gutter.Font.Name = 'Courier New'
       Gutter.Font.Style = []
+      Gutter.Font.Quality = fqClearTypeNatural
+      Gutter.Bands = <
+        item
+          Kind = gbkMarks
+          Width = 13
+        end
+        item
+          Kind = gbkLineNumbers
+        end
+        item
+          Kind = gbkFold
+        end
+        item
+          Kind = gbkTrackChanges
+        end
+        item
+          Kind = gbkMargin
+          Width = 3
+        end>
       Highlighter = SynIniSyn1
+      SelectedColor.Alpha = 0.400000005960464500
     end
     object Memo1: TMemo
       AlignWithMargins = True
@@ -156,9 +176,6 @@ object ViewLayout: TViewLayout
     Top = 296
   end
   object SynIniSyn1: TSynIniSyn
-    Options.AutoDetectEnabled = False
-    Options.AutoDetectLineLimit = 0
-    Options.Visible = False
     Left = 346
     Top = 217
   end

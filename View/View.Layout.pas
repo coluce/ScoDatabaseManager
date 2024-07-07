@@ -8,7 +8,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.ExtCtrls, Vcl.ComCtrls,
   Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids, SynEdit, SynDBEdit, SynEditHighlighter,
   SynHighlighterIni, Vcl.StdCtrls, Vcl.Mask, Controller.Interfaces,
-  View.Default;
+  View.Default, Vcl.Buttons;
 
 type
   TViewLayout = class(TViewDefault)

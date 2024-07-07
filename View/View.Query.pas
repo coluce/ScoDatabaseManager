@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.ComCtrls, Data.DB,
-  SynEdit, SynMemo, Vcl.Grids, Vcl.DBGrids, Vcl.ToolWin, SynEditHighlighter,
+  SynEdit, Vcl.Grids, Vcl.DBGrids, Vcl.ToolWin, SynEditHighlighter,
   SynHighlighterSQL, Model.Types, Controller.Interfaces, Vcl.StdCtrls,
   Vcl.DBCtrls, Vcl.WinXCtrls,
   System.ImageList, Vcl.ImgList, System.Actions, Vcl.ActnList, View.Default,
@@ -18,7 +18,6 @@ type
     Splitter1: TSplitter;
     pnlQuery: TPanel;
     Panel4: TPanel;
-    MemoQuery: TSynMemo;
     SynSQLSyn1: TSynSQLSyn;
     DataSourceQuery: TDataSource;
     ImageListTabelas: TImageList;
@@ -64,6 +63,7 @@ type
     TabSheetInfo: TTabSheet;
     Panel6: TPanel;
     SpeedButton6: TSpeedButton;
+    synSource: TSynEdit;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ToggleSwitch1Click(Sender: TObject);
     procedure TreeViewTabelasDblClick(Sender: TObject);

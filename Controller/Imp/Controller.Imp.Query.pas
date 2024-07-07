@@ -117,12 +117,9 @@ begin
   if not FConnection.GetConnection.Connected then
     Exit;
 
-  vQuery := FView.MemoQuery.SelText.Trim;
-
+  vQuery := FView.synSource.SelText.Trim;
   if vQuery.IsEmpty then
-  begin
-    vQuery := FView.MemoQuery.Text;
-  end;
+    vQuery := FView.synSource.Text;
 
   FQuery.Close;
 
@@ -185,11 +182,11 @@ procedure TControllerQuery.FillSQLFromTreeView;
 begin
   if FView.TreeViewTabelas.Selected.Level = 0 then
   begin
-    FView.MemoQuery.Clear;
-    FView.MemoQuery.Lines.Add('select');
-    FView.MemoQuery.Lines.Add('  *');
-    FView.MemoQuery.Lines.Add('from');
-    FView.MemoQuery.Lines.Add('  ' + FView.TreeViewTabelas.Selected.Text);
+    FView.synSource.Clear;
+    FView.synSource.Lines.Add('select');
+    FView.synSource.Lines.Add('  *');
+    FView.synSource.Lines.Add('from');
+    FView.synSource.Lines.Add('  ' + FView.TreeViewTabelas.Selected.Text);
   end;
 end;
 
@@ -393,8 +390,8 @@ end;
 
 procedure TControllerQuery.SelectHistoryQuery;
 begin
-  FView.MemoQuery.Clear;
-  FView.MemoQuery.Text := FModelHistory.DataSet.FieldByName('QUERY').Value;
+  FView.synSource.Clear;
+  FView.synSource.Text := FModelHistory.DataSet.FieldByName('QUERY').Value;
   FView.PageControlMain.ActivePage := FView.TabSheetQuery;
 end;
 
@@ -444,7 +441,7 @@ end;
 
 procedure TControllerQuery.UpdateQueryEditor;
 begin
-  FView.MemoQuery.Enabled := FConnection.GetConnection.Connected;
+  FView.synSource.Enabled := FConnection.GetConnection.Connected;
 end;
 
 procedure TControllerQuery.UpdateStatusBar;

@@ -1,4 +1,4 @@
-program DatabaseManager;
+program ScoDatabaseManager;
 
 uses
   Vcl.Forms,
