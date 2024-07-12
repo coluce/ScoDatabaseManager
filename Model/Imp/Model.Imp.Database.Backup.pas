@@ -35,8 +35,8 @@ begin
   try
     FDFBNBackup1.DriverLink := FDPhysFBDriverLink;
 
-    FDFBNBackup1.UserName := FDataBaseInfo.UserName;
-    FDFBNBackup1.Password := FDataBaseInfo.Password;
+    FDFBNBackup1.UserName := FDataBaseInfo.Server.UserName;
+    FDFBNBackup1.Password := FDataBaseInfo.Server.Password;
     FDFBNBackup1.Host := FDataBaseInfo.Server.IP;
     FDFBNBackup1.Protocol := ipTCPIP;
 
@@ -71,8 +71,8 @@ begin
   FDFBNRestore1 := TFDFBNRestore.Create(nil);
   try
     FDFBNRestore1.DriverLink := FDPhysFBDriverLink;
-    FDFBNRestore1.UserName := FDataBaseInfo.UserName;
-    FDFBNRestore1.Password := FDataBaseInfo.Password;
+    FDFBNRestore1.UserName := FDataBaseInfo.Server.UserName;
+    FDFBNRestore1.Password := FDataBaseInfo.Server.Password;
     FDFBNRestore1.Host := FDataBaseInfo.Server.IP;
     FDFBNRestore1.Protocol := ipTCPIP;
     FDFBNRestore1.Database := TPath.Combine(FDataBaseInfo.Path, 'ALTERDB.IB');

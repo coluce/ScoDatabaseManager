@@ -487,7 +487,7 @@ object ViewMain: TViewMain
     end
     object acnPopupMenuExport: TAction
       Category = 'PopupMenu'
-      Caption = 'Usar no FCerta'
+      Caption = 'Exportar ...'
       ImageIndex = 9
       OnExecute = acnPopupMenuExportExecute
     end

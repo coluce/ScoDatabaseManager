@@ -3,9 +3,9 @@ inherited ViewRegisterDatabase: TViewRegisterDatabase
   Caption = 'Database'
   ClientHeight = 217
   ClientWidth = 407
-  ExplicitWidth = 413
-  ExplicitHeight = 246
-  PixelsPerInch = 96
+  StyleElements = [seFont, seClient, seBorder]
+  ExplicitWidth = 423
+  ExplicitHeight = 256
   TextHeight = 13
   object Image1: TImage
     Left = 8
@@ -54,20 +54,6 @@ inherited ViewRegisterDatabase: TViewRegisterDatabase
     Height = 13
     Caption = 'Local'
   end
-  object lblUsername: TLabel
-    Left = 68
-    Top = 105
-    Width = 48
-    Height = 13
-    Caption = 'Username'
-  end
-  object Label3: TLabel
-    Left = 228
-    Top = 105
-    Width = 46
-    Height = 13
-    Caption = 'Password'
-  end
   object Panel1: TPanel
     Left = 0
     Top = 168
@@ -76,7 +62,6 @@ inherited ViewRegisterDatabase: TViewRegisterDatabase
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitTop = 163
     object Bevel1: TBevel
       AlignWithMargins = True
       Left = 3
@@ -127,24 +112,5 @@ inherited ViewRegisterDatabase: TViewRegisterDatabase
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 2
     TextHint = 'diret'#243'rio do banco de dados'
-  end
-  object EditUserName: TEdit
-    Left = 68
-    Top = 124
-    Width = 141
-    Height = 21
-    AutoSelect = False
-    TabOrder = 3
-    TextHint = 'usu'#225'rio do banco'
-  end
-  object EditPassword: TEdit
-    Left = 228
-    Top = 124
-    Width = 171
-    Height = 21
-    Anchors = [akLeft, akTop, akRight]
-    AutoSelect = False
-    TabOrder = 4
-    TextHint = 'senha do banco'
   end
 end

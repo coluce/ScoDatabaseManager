@@ -1,11 +1,11 @@
 inherited ViewServer: TViewServer
   BorderStyle = bsSingle
   Caption = 'Server'
-  ClientHeight = 157
+  ClientHeight = 216
   ClientWidth = 407
   StyleElements = [seFont, seClient, seBorder]
   ExplicitWidth = 423
-  ExplicitHeight = 196
+  ExplicitHeight = 255
   TextHeight = 13
   object Image1: TImage
     Left = 8
@@ -50,14 +50,29 @@ inherited ViewServer: TViewServer
     Height = 13
     Caption = 'Porta'
   end
+  object lblUsername: TLabel
+    Left = 68
+    Top = 105
+    Width = 48
+    Height = 13
+    Caption = 'Username'
+  end
+  object lblPassword: TLabel
+    Left = 228
+    Top = 105
+    Width = 46
+    Height = 13
+    Caption = 'Password'
+  end
   object Panel1: TPanel
     Left = 0
-    Top = 108
+    Top = 167
     Width = 407
     Height = 49
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 0
+    ExplicitTop = 108
     object Bevel1: TBevel
       AlignWithMargins = True
       Left = 3
@@ -118,5 +133,24 @@ inherited ViewServer: TViewServer
     MinValue = 0
     TabOrder = 3
     Value = 0
+  end
+  object edtPassword: TEdit
+    Left = 228
+    Top = 124
+    Width = 171
+    Height = 21
+    Anchors = [akLeft, akTop, akRight]
+    AutoSelect = False
+    TabOrder = 4
+    TextHint = 'senha do banco'
+  end
+  object edtUserName: TEdit
+    Left = 68
+    Top = 124
+    Width = 141
+    Height = 21
+    AutoSelect = False
+    TabOrder = 5
+    TextHint = 'usu'#225'rio do banco'
   end
 end

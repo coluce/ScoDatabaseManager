@@ -19,10 +19,6 @@ type
     EditNome: TEdit;
     Label2: TLabel;
     EditLocal: TEdit;
-    EditUserName: TEdit;
-    lblUsername: TLabel;
-    Label3: TLabel;
-    EditPassword: TEdit;
     procedure SpeedButton1Click(Sender: TObject);
     procedure SpeedButton2Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);

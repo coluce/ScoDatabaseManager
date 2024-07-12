@@ -109,7 +109,7 @@ object ViewLayout: TViewLayout
       Left = 16
       Top = 85
       Width = 393
-      Height = 211
+      Height = 186
       Cursor = crIBeam
       DataField = 'LAYOUT'
       DataSource = DataSource1
@@ -153,9 +153,9 @@ object ViewLayout: TViewLayout
     object Memo1: TMemo
       AlignWithMargins = True
       Left = 10
-      Top = 295
+      Top = 280
       Width = 404
-      Height = 99
+      Height = 114
       Margins.Left = 10
       Margins.Top = 10
       Margins.Right = 10
@@ -165,7 +165,8 @@ object ViewLayout: TViewLayout
       Lines.Strings = (
         'Tags:'
         ''
-        '#server : ser'#225' subistitu'#237'do pelo endere'#231'o do servidor.'
+        '#server: ser'#225' subistitu'#237'do pelo endere'#231'o do servidor.'
+        '#port: ser'#225' subistitu'#237'do pela porta do servidor.'
         
           '#database_folder: ser'#225' subistitu'#237'do pelo diret'#243'rio do banco de d' +
           'ados.'
@@ -178,7 +179,6 @@ object ViewLayout: TViewLayout
         'dados.')
       ReadOnly = True
       TabOrder = 2
-      ExplicitTop = 296
     end
   end
   object DataSource1: TDataSource

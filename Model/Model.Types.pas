@@ -10,8 +10,10 @@ type
     Name: string;
     IP: string;
     Port: Integer;
+    UserName: string;
+    Password: string;
   public
-    constructor Create(const AID, AName, AIP: string; const APort: Integer);
+    constructor Create(const AID, AName, AIP: string; const APort: Integer; const AUserName, APassword: string);
   end;
 
   TDataBase = record
@@ -19,11 +21,8 @@ type
     Server: TServer;
     Name: string;
     Path: string;
-    UserName: string;
-    Password: string;
   public
-    constructor Create(const AID, AName, APath, AUserName, APassword: string;
-      AServer: TServer);
+    constructor Create(const AID, AName, APath: string; AServer: TServer);
   end;
 
   TTableParam = record
@@ -39,24 +38,23 @@ implementation
 
 { TServer }
 
-constructor TServer.Create(const AID, AName, AIP: string; const APort: Integer);
+constructor TServer.Create(const AID, AName, AIP: string; const APort: Integer; const AUserName, APassword: string);
 begin
   Self.ID := AID;
   Self.Name := AName;
   Self.IP := AIP;
   Self.Port := APort;
+  Self.UserName := AUserName;
+  Self.Password := APassword;
 end;
 
 { TDataBase }
 
-constructor TDataBase.Create(const AID, AName, APath, AUserName,
-  APassword: string; AServer: TServer);
+constructor TDataBase.Create(const AID, AName, APath: string; AServer: TServer);
 begin
   Self.ID := AID;
   Self.Name := AName;
   Self.Path := APath;
-  Self.UserName := AUserName;
-  Self.Password := APassword;
   Self.Server := AServer;
 end;
 

@@ -73,8 +73,6 @@ begin
       try
         LView.EditNome.Text := 'Meu banco';
         LView.EditLocal.Text := 'E:\DataBases\[pasta]\';
-        LView.EditUserName.Text := 'sysdba';
-        LView.EditPassword.Text := 'masterkey';
         LView.ShowModal;
         if LView.Resultado = mrOK then
         begin
@@ -82,8 +80,6 @@ begin
           FModelDataBase.DataSet.FieldByName('ID_SERVER').AsString := LServer.ID;
           FModelDataBase.DataSet.FieldByName('NAME').AsString := LView.EditNome.Text;
           FModelDataBase.DataSet.FieldByName('PATH').AsString := LView.EditLocal.Text;
-          FModelDataBase.DataSet.FieldByName('USERNAME').AsString := LView.EditUserName.Text;
-          FModelDataBase.DataSet.FieldByName('PASSWORD').AsString := LView.EditPassword.Text;
           FModelDataBase.DataSet.Post;
         end;
       finally
@@ -102,6 +98,8 @@ begin
     LView.EditNome.Text := 'Localhost';
     LView.EditLocal.Text := '127.0.0.1';
     LView.spnPort.Value := 3050;
+    LView.edtUserName.Text := 'sysdba';
+    LView.edtPassword.Text := 'masterkey';
     LView.ShowModal;
     if LView.Resultado = mrOK then
     begin
@@ -109,6 +107,8 @@ begin
       FModelServer.DataSet.FieldByName('NAME').AsString := LView.EditNome.Text;
       FModelServer.DataSet.FieldByName('IP').AsString := LView.EditLocal.Text;
       FModelServer.DataSet.FieldByName('PORT').AsInteger := LView.spnPort.Value;
+      FModelServer.DataSet.FieldByName('USERNAME').AsString := LView.edtUserName.Text;
+      FModelServer.DataSet.FieldByName('PASSWORD').AsString := LView.edtPassword.Text;
       FModelServer.DataSet.Post;
     end;
   finally
@@ -203,26 +203,14 @@ begin
       begin
         vView := TViewRegisterDatabase.Create(nil);
         try
-          vView.EditNome.Text := FModelDataBase.DataSet.FieldByName
-            ('NAME').AsString;
-          vView.EditLocal.Text := FModelDataBase.DataSet.FieldByName
-            ('PATH').AsString;
-          vView.EditUserName.Text := FModelDataBase.DataSet.FieldByName
-            ('USERNAME').AsString;
-          vView.EditPassword.Text := FModelDataBase.DataSet.FieldByName
-            ('PASSWORD').AsString;
+          vView.EditNome.Text := FModelDataBase.DataSet.FieldByName('NAME').AsString;
+          vView.EditLocal.Text := FModelDataBase.DataSet.FieldByName('PATH').AsString;
           vView.ShowModal;
           if vView.Resultado = mrOK then
           begin
             FModelDataBase.DataSet.Edit;
-            FModelDataBase.DataSet.FieldByName('NAME').AsString :=
-              vView.EditNome.Text;
-            FModelDataBase.DataSet.FieldByName('PATH').AsString :=
-              vView.EditLocal.Text;
-            FModelDataBase.DataSet.FieldByName('USERNAME').AsString :=
-              vView.EditUserName.Text;
-            FModelDataBase.DataSet.FieldByName('PASSWORD').AsString :=
-              vView.EditPassword.Text;
+            FModelDataBase.DataSet.FieldByName('NAME').AsString := vView.EditNome.Text;
+            FModelDataBase.DataSet.FieldByName('PATH').AsString := vView.EditLocal.Text;
             FModelDataBase.DataSet.Post;
           end;
         finally
@@ -250,22 +238,20 @@ begin
       begin
         LView := TViewServer.Create(nil);
         try
-          LView.EditNome.Text := FModelServer.DataSet.FieldByName
-            ('NAME').AsString;
-          LView.EditLocal.Text := FModelServer.DataSet.FieldByName
-            ('IP').AsString;
-          LView.spnPort.Value := FModelServer.DataSet.FieldByName
-            ('PORT').AsInteger;
+          LView.EditNome.Text := FModelServer.DataSet.FieldByName('NAME').AsString;
+          LView.EditLocal.Text := FModelServer.DataSet.FieldByName('IP').AsString;
+          LView.spnPort.Value := FModelServer.DataSet.FieldByName('PORT').AsInteger;
+          LView.edtUserName.Text := FModelServer.DataSet.FieldByName('USERNAME').AsString;
+          LView.edtPassword.Text := FModelServer.DataSet.FieldByName('PASSWORD').AsString;
           LView.ShowModal;
           if LView.Resultado = mrOK then
           begin
             FModelServer.DataSet.Edit;
-            FModelServer.DataSet.FieldByName('NAME').AsString :=
-              LView.EditNome.Text;
-            FModelServer.DataSet.FieldByName('IP').AsString :=
-              LView.EditLocal.Text;
-            FModelServer.DataSet.FieldByName('PORT').AsInteger :=
-              LView.spnPort.Value;
+            FModelServer.DataSet.FieldByName('NAME').AsString := LView.EditNome.Text;
+            FModelServer.DataSet.FieldByName('IP').AsString := LView.EditLocal.Text;
+            FModelServer.DataSet.FieldByName('PORT').AsInteger := LView.spnPort.Value;
+            FModelServer.DataSet.FieldByName('USERNAME').AsString := LView.edtUserName.Text;
+            FModelServer.DataSet.FieldByName('PASSWORD').AsString := LView.edtPassword.Text;
             FModelServer.DataSet.Post;
           end;
         finally
@@ -311,12 +297,15 @@ procedure TControllerMain.FillList;
         LDataBaseNode := FView.TreeView1.Items.AddChild(ATreeNode,
           FModelDataBase.DataSet.FieldByName('NAME').AsString);
 
-        FDatabases.AddOrSetValue(LDataBaseNode,
-          TDataBase.Create(FModelDataBase.DataSet.FieldByName('ID').AsString,
-          FModelDataBase.DataSet.FieldByName('NAME').AsString,
-          FModelDataBase.DataSet.FieldByName('PATH').AsString,
-          FModelDataBase.DataSet.FieldByName('USERNAME').AsString,
-          FModelDataBase.DataSet.FieldByName('PASSWORD').AsString, LServer));
+        FDatabases.AddOrSetValue(
+          LDataBaseNode,
+          TDataBase.Create(
+            FModelDataBase.DataSet.FieldByName('ID').AsString,
+            FModelDataBase.DataSet.FieldByName('NAME').AsString,
+            FModelDataBase.DataSet.FieldByName('PATH').AsString,
+            LServer
+          )
+        );
 
         FModelDataBase.DataSet.Next;
       end;
@@ -349,7 +338,9 @@ begin
           FModelServer.DataSet.FieldByName('ID').AsString,
           FModelServer.DataSet.FieldByName('NAME').AsString,
           FModelServer.DataSet.FieldByName('IP').AsString,
-          FModelServer.DataSet.FieldByName('PORT').AsInteger
+          FModelServer.DataSet.FieldByName('PORT').AsInteger,
+          FModelServer.DataSet.FieldByName('USERNAME').AsString,
+          FModelServer.DataSet.FieldByName('PASSWORD').AsString
         )
       );
 

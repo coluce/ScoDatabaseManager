@@ -59,8 +59,8 @@ begin
   LConnectionString :=
      //'Database=' + TPath.Combine(FDataBase.Path, 'ALTERDB.IB') + ';' +
      'Database=' + FDataBase.Path + ';' +
-     'User_Name=' + FDataBase.UserName + ';' +
-     'Password=' + FDataBase.Password + ';' +
+     'User_Name=' + FDataBase.Server.UserName + ';' +
+     'Password=' + FDataBase.Server.Password + ';' +
      'Server=' + FDataBase.Server.IP + ';' +
      'Port=' + FDataBase.Server.Port.ToString + ';' +
      'Protocol=TCPIP;' +

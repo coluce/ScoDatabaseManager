@@ -34,8 +34,7 @@ var
 begin
 
   case Model.Types.ConnectionType of
-    TModelConnectionType.SQLite:
-      Result := TModelFactory.SQLite;
+    TModelConnectionType.SQLite: Result := TModelFactory.SQLite;
     TModelConnectionType.Firebird:
       begin
         { esses dados abaixo não são utilizados }
@@ -45,12 +44,12 @@ begin
           TGUID.NewGuid.ToString,
           'Localhost',
           '127.0.0.1',
-          3050
+          3050,
+          'SYSDBA',
+          'masterkey'
         );
         vFirebirdDatabase.Name := 'Local';
         vFirebirdDatabase.Path := 'E:\Database\config.db';
-        vFirebirdDatabase.UserName := 'SYSDBA';
-        vFirebirdDatabase.Password := 'MASTERKEY';
         Result := TModelFactory.Firebird(vFirebirdDatabase);
       end;
   end;
@@ -79,21 +78,11 @@ class function TModelFactory.Updater: IModelStructureUpdater;
   function CreateSQLite: IModelStructureUpdater;
   begin
     Result := TModelStrcutureUpdater.Create;
-    Result.AddScript(TModelScript.Create
-      ('create table if not exists TSERVER (ID text primary key, NAME text, IP text, PORT int)')
-      );
-    Result.AddScript(TModelScript.Create
-      ('create table if not exists TDATABASE (ID text primary key, ID_SERVER text, NAME text, PATH text, USERNAME text, PASSWORD text)')
-      );
-    Result.AddScript(TModelScript.Create
-      ('create table if not exists TLAYOUT (ID text primary key, NAME varchar(50), LAYOUT varchar(5000))')
-      );
-    Result.AddScript(TModelScript.Create
-      ('create table if not exists TPARAM (SESSION varchar(100), KEY varchar(100), VALUE varchar(5000))')
-      );
-    Result.AddScript(TModelScript.Create
-      ('create table if not exists TQUERY_HISTORY (ID text primary key, DATA datetime, QUERY varchar(5000))')
-      );
+    Result.AddScript(TModelScript.Create('create table if not exists TSERVER (ID text primary key, NAME text, IP text, PORT int, USERNAME text, PASSWORD text)'));
+    Result.AddScript(TModelScript.Create('create table if not exists TDATABASE (ID text primary key, ID_SERVER text, NAME text, PATH text)'));
+    Result.AddScript(TModelScript.Create('create table if not exists TLAYOUT (ID text primary key, NAME varchar(50), LAYOUT varchar(5000))'));
+    Result.AddScript(TModelScript.Create('create table if not exists TPARAM (SESSION varchar(100), KEY varchar(100), VALUE varchar(5000))'));
+    Result.AddScript(TModelScript.Create('create table if not exists TQUERY_HISTORY (ID text primary key, DATA datetime, QUERY varchar(5000))'));
   end;
 
   function CreateFirebird: IModelStructureUpdater;

@@ -21,6 +21,10 @@ type
     EditLocal: TEdit;
     lblPort: TLabel;
     spnPort: TSpinEdit;
+    edtPassword: TEdit;
+    edtUserName: TEdit;
+    lblUsername: TLabel;
+    lblPassword: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure SpeedButton2Click(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
