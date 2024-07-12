@@ -69,14 +69,14 @@ begin
   begin
     if FModelLayout.DataSet.RecNo = (FView.ComboBoxLayout.ItemIndex + 1) then
     begin
-
-      FView.synSource.Lines.Add(FModelLayout.DataSet.FieldByName('LAYOUT')
-        .AsString);
-      FView.synSource.Text := FView.synSource.Text.Replace('#server',
-        FDatabase.Server.IP, [rfReplaceAll, rfIgnoreCase]);
-      FView.synSource.Text := FView.synSource.Text.Replace('#database',
-        FDatabase.Path, [rfReplaceAll, rfIgnoreCase]);
-
+      FView.synSource.Lines.Add(FModelLayout.DataSet.FieldByName('LAYOUT').AsString);
+      FView.synSource.Text := FView.synSource.Text.Replace('#server', FDatabase.Server.IP, [rfReplaceAll, rfIgnoreCase]);
+      FView.synSource.Text := FView.synSource.Text.Replace('#port', FDatabase.Server.Port.ToString, [rfReplaceAll, rfIgnoreCase]);
+      FView.synSource.Text := FView.synSource.Text.Replace('#username', FDatabase.UserName, [rfReplaceAll, rfIgnoreCase]);
+      FView.synSource.Text := FView.synSource.Text.Replace('#password', FDatabase.Password, [rfReplaceAll, rfIgnoreCase]);
+      FView.synSource.Text := FView.synSource.Text.Replace('#database_folder', ExtractFilePath(FDatabase.Path), [rfReplaceAll, rfIgnoreCase]);
+      FView.synSource.Text := FView.synSource.Text.Replace('#database_file', ExtractFileName(FDatabase.Path), [rfReplaceAll, rfIgnoreCase]);
+      FView.synSource.Text := FView.synSource.Text.Replace('#database_path', FDatabase.Path, [rfReplaceAll, rfIgnoreCase]);
       Exit;
     end;
     FModelLayout.DataSet.Next;
