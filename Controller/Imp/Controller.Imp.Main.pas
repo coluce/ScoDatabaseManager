@@ -19,8 +19,8 @@ type
     procedure SetStatusBar(const AServer, APath: string);
     procedure EditServer;
     procedure EditDataBase;
-    procedure UnregisterServer;
-    procedure UnregisterDataBase;
+    function UnregisterServer: TTreeNode;
+    function UnregisterDataBase: TTreeNode;
     procedure RegisterDatabase;
     procedure RegisterServer;
   public
@@ -59,41 +59,35 @@ end;
 
 procedure TControllerMain.RegisterDatabase;
 var
-  vServer: TServer;
-  vView: TViewRegisterDatabase;
+  LServer: TServer;
+  LView: TViewRegisterDatabase;
 begin
   if not Assigned(FView.TreeView1.Selected) then
-  begin
     Exit;
-  end;
+
   if FView.TreeView1.Selected.Level = 0 then
   begin
-    if FServers.TryGetValue(FView.TreeView1.Selected, vServer) then
+    if FServers.TryGetValue(FView.TreeView1.Selected, LServer) then
     begin
-      vView := TViewRegisterDatabase.Create(nil);
+      LView := TViewRegisterDatabase.Create(nil);
       try
-        vView.EditNome.Text := 'Meu banco';
-        vView.EditLocal.Text := 'E:\DataBases\[pasta]\';
-        vView.EditUserName.Text := 'sysdba';
-        vView.EditPassword.Text := 'masterkey';
-        vView.ShowModal;
-        if vView.Resultado = mrOK then
+        LView.EditNome.Text := 'Meu banco';
+        LView.EditLocal.Text := 'E:\DataBases\[pasta]\';
+        LView.EditUserName.Text := 'sysdba';
+        LView.EditPassword.Text := 'masterkey';
+        LView.ShowModal;
+        if LView.Resultado = mrOK then
         begin
           FModelDataBase.DataSet.Append;
-          FModelDataBase.DataSet.FieldByName('ID_SERVER').AsString :=
-            vServer.ID;
-          FModelDataBase.DataSet.FieldByName('NAME').AsString :=
-            vView.EditNome.Text;
-          FModelDataBase.DataSet.FieldByName('PATH').AsString :=
-            vView.EditLocal.Text;
-          FModelDataBase.DataSet.FieldByName('USERNAME').AsString :=
-            vView.EditUserName.Text;
-          FModelDataBase.DataSet.FieldByName('PASSWORD').AsString :=
-            vView.EditPassword.Text;
+          FModelDataBase.DataSet.FieldByName('ID_SERVER').AsString := LServer.ID;
+          FModelDataBase.DataSet.FieldByName('NAME').AsString := LView.EditNome.Text;
+          FModelDataBase.DataSet.FieldByName('PATH').AsString := LView.EditLocal.Text;
+          FModelDataBase.DataSet.FieldByName('USERNAME').AsString := LView.EditUserName.Text;
+          FModelDataBase.DataSet.FieldByName('PASSWORD').AsString := LView.EditPassword.Text;
           FModelDataBase.DataSet.Post;
         end;
       finally
-        vView.Free;
+        LView.Free;
       end;
     end;
   end;
@@ -145,43 +139,38 @@ begin
   end;
 end;
 
-procedure TControllerMain.UnregisterDataBase;
+function TControllerMain.UnregisterDataBase: TTreeNode;
 var
-  vDataBase: TDataBase;
+  LDataBase: TDataBase;
 begin
+  Result := nil;
   if not Assigned(FView.TreeView1.Selected) then
-  begin
     Exit;
-  end;
   if FView.TreeView1.Selected.Level = 1 then
-  begin
-    if FDatabases.TryGetValue(FView.TreeView1.Selected, vDataBase) then
+    if FDatabases.TryGetValue(FView.TreeView1.Selected, LDataBase) then
     begin
-      FModelDataBase.Delete(vDataBase.ID);
+      FModelDataBase.Delete(LDataBase.ID);
+      Result := FView.TreeView1.Selected;
     end;
-  end;
 end;
 
-procedure TControllerMain.UnregisterServer;
+function TControllerMain.UnregisterServer: TTreeNode;
 var
-  vServer: TServer;
+  LServer: TServer;
 begin
+  Result := nil;
   if not Assigned(FView.TreeView1.Selected) then
-  begin
     Exit;
-  end;
+
   if FView.TreeView1.Selected.Level = 0 then
-  begin
-    if FServers.TryGetValue(FView.TreeView1.Selected, vServer) then
+    if FServers.TryGetValue(FView.TreeView1.Selected, LServer) then
     begin
-      FModelServer.Delete(vServer.ID);
-      FModelDataBase.Open('ID_SERVER = ' + QuotedStr(vServer.ID));
+      FModelServer.Delete(LServer.ID);
+      Result := FView.TreeView1.Selected;
+      FModelDataBase.Open('ID_SERVER = ' + QuotedStr(LServer.ID));
       while not FModelDataBase.DataSet.Eof do
-      begin
         FModelDataBase.DataSet.Delete;
-      end;
     end;
-  end;
 end;
 
 destructor TControllerMain.Destroy;
@@ -306,25 +295,24 @@ procedure TControllerMain.FillList;
 
   procedure AddDataBasesToTree(const ATreeNode: TTreeNode);
   var
-    vServer: TServer;
-    vItem: TTreeNode;
+    LServer: TServer;
+    LDataBaseNode: TTreeNode;
   begin
 
-    if FServers.TryGetValue(ATreeNode, vServer) then
+    if FServers.TryGetValue(ATreeNode, LServer) then
     begin
-      FModelDataBase.Open('ID_SERVER = ' + QuotedStr(vServer.ID));
+      FModelDataBase.Open('ID_SERVER = ' + QuotedStr(LServer.ID));
       while not FModelDataBase.DataSet.Eof do
       begin
-        vItem := FView.TreeView1.Items.AddChild(ATreeNode,
+        LDataBaseNode := FView.TreeView1.Items.AddChild(ATreeNode,
           FModelDataBase.DataSet.FieldByName('NAME').AsString);
-        vItem.ImageIndex := 1;
 
-        FDatabases.AddOrSetValue(vItem,
+        FDatabases.AddOrSetValue(LDataBaseNode,
           TDataBase.Create(FModelDataBase.DataSet.FieldByName('ID').AsString,
           FModelDataBase.DataSet.FieldByName('NAME').AsString,
           FModelDataBase.DataSet.FieldByName('PATH').AsString,
           FModelDataBase.DataSet.FieldByName('USERNAME').AsString,
-          FModelDataBase.DataSet.FieldByName('PASSWORD').AsString, vServer));
+          FModelDataBase.DataSet.FieldByName('PASSWORD').AsString, LServer));
 
         FModelDataBase.DataSet.Next;
       end;
@@ -332,7 +320,7 @@ procedure TControllerMain.FillList;
   end;
 
 var
-  vItem: TTreeNode;
+  LServerNode: TTreeNode;
 begin
 
   FServers.Clear;
@@ -345,17 +333,18 @@ begin
   try
     while not FModelServer.DataSet.Eof do
     begin
-      vItem := FView.TreeView1.Items.Add(nil,
+      LServerNode := FView.TreeView1.Items.Add(
+        nil,
         FModelServer.DataSet.FieldByName('IP').AsString + ' | ' +
-        FModelServer.DataSet.FieldByName('NAME').AsString);
-      vItem.ImageIndex := 0;
+        FModelServer.DataSet.FieldByName('NAME').AsString
+      );
 
-      FServers.AddOrSetValue(vItem,
+      FServers.AddOrSetValue(LServerNode,
         TServer.Create(FModelServer.DataSet.FieldByName('ID').AsString,
         FModelServer.DataSet.FieldByName('Name').AsString,
         FModelServer.DataSet.FieldByName('IP').AsString));
 
-      AddDataBasesToTree(vItem);
+      AddDataBasesToTree(LServerNode);
 
       FModelServer.DataSet.Next;
     end;
@@ -460,31 +449,29 @@ end;
 procedure TControllerMain.CallRegister;
 begin
   if not Assigned(FView.TreeView1.Selected) then
-  begin
     Exit;
-  end;
+
   case FView.TreeView1.Selected.Level of
-    0:
-      Self.RegisterServer;
-    1:
-      Self.RegisterDatabase;
+    0: Self.RegisterServer;
+    1: Self.RegisterDatabase;
   end;
   Self.FillList;
 end;
 
 procedure TControllerMain.CallUnregister;
+var
+  LNode: TTreeNode;
 begin
   if not Assigned(FView.TreeView1.Selected) then
-  begin
     Exit;
-  end;
+
+  LNode := nil;
   case FView.TreeView1.Selected.Level of
-    0:
-      Self.UnregisterServer;
-    1:
-      Self.UnregisterDataBase;
+    0: LNode := Self.UnregisterServer;
+    1: LNode := Self.UnregisterDataBase;
   end;
-  Self.FillList;
+  if Assigned(LNode) then
+    FView.TreeView1.Items.Delete(LNode);
 end;
 
 end.

@@ -17,12 +17,10 @@ type
     ['{48937CC1-ECF8-473C-B155-5F0B9B3D635C}']
     procedure FindInUse;
     procedure FillList;
-    procedure RegisterServer;
-    procedure UnregisterServer;
     procedure EditServer;
-    procedure RegisterDatabase;
-    procedure UnregisterDataBase;
     procedure EditDataBase;
+    procedure RegisterDatabase;
+    procedure RegisterServer;
     procedure ShowDataBase;
     procedure ExportToDrive;
     procedure PreparePopUp;

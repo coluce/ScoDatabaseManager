@@ -3,24 +3,22 @@ object ViewMain: TViewMain
   Top = 0
   Caption = 'DataBase Manager'
   ClientHeight = 393
-  ClientWidth = 276
+  ClientWidth = 295
   Color = clWhite
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = False
   OnActivate = FormActivate
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 13
   object StatusBar1: TStatusBar
     Left = 0
     Top = 374
-    Width = 276
+    Width = 295
     Height = 19
     Panels = <
       item
@@ -31,17 +29,19 @@ object ViewMain: TViewMain
         Text = 'default path'
         Width = 50
       end>
+    ExplicitWidth = 276
   end
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 276
+    Width = 295
     Height = 32
     Align = alTop
     BevelOuter = bvNone
     Color = clWhite
     ParentBackground = False
     TabOrder = 1
+    ExplicitWidth = 276
     object SpeedButton1: TSpeedButton
       AlignWithMargins = True
       Left = 3
@@ -90,7 +90,7 @@ object ViewMain: TViewMain
     AlignWithMargins = True
     Left = 3
     Top = 35
-    Width = 270
+    Width = 289
     Height = 336
     Align = alClient
     AutoExpand = True
@@ -98,7 +98,6 @@ object ViewMain: TViewMain
     BevelOuter = bvNone
     BorderStyle = bsNone
     DoubleBuffered = False
-    Images = ImageListTreeView
     Indent = 27
     MultiSelectStyle = []
     ParentDoubleBuffered = False
@@ -109,6 +108,7 @@ object ViewMain: TViewMain
     SortType = stText
     TabOrder = 2
     OnDblClick = TreeView1DblClick
+    ExplicitWidth = 270
   end
   object PopupMenuTreeView: TPopupMenu
     Images = ImageListActionList
