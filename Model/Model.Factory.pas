@@ -41,8 +41,12 @@ begin
         { esses dados abaixo não são utilizados }
         { estão aqui como exemplo, para futura implementação para a possibilidade de usar o Firebird para guardar as configurações }
         vFirebirdDatabase.ID := TGUID.NewGuid.ToString;
-        vFirebirdDatabase.Server := TServer.Create(TGUID.NewGuid.ToString,
-          'Localhost', '127.0.0.1)');
+        vFirebirdDatabase.Server := TServer.Create(
+          TGUID.NewGuid.ToString,
+          'Localhost',
+          '127.0.0.1',
+          3050
+        );
         vFirebirdDatabase.Name := 'Local';
         vFirebirdDatabase.Path := 'E:\Database\config.db';
         vFirebirdDatabase.UserName := 'SYSDBA';
@@ -76,7 +80,7 @@ class function TModelFactory.Updater: IModelStructureUpdater;
   begin
     Result := TModelStrcutureUpdater.Create;
     Result.AddScript(TModelScript.Create
-      ('create table if not exists TSERVER (ID text primary key, NAME text, IP text)')
+      ('create table if not exists TSERVER (ID text primary key, NAME text, IP text, PORT int)')
       );
     Result.AddScript(TModelScript.Create
       ('create table if not exists TDATABASE (ID text primary key, ID_SERVER text, NAME text, PATH text, USERNAME text, PASSWORD text)')

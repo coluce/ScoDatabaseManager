@@ -3,9 +3,9 @@ inherited ViewServer: TViewServer
   Caption = 'Server'
   ClientHeight = 157
   ClientWidth = 407
-  ExplicitWidth = 413
-  ExplicitHeight = 186
-  PixelsPerInch = 96
+  StyleElements = [seFont, seClient, seBorder]
+  ExplicitWidth = 423
+  ExplicitHeight = 196
   TextHeight = 13
   object Image1: TImage
     Left = 8
@@ -42,6 +42,13 @@ inherited ViewServer: TViewServer
     Width = 10
     Height = 13
     Caption = 'IP'
+  end
+  object lblPort: TLabel
+    Left = 312
+    Top = 57
+    Width = 26
+    Height = 13
+    Caption = 'Porta'
   end
   object Panel1: TPanel
     Left = 0
@@ -96,10 +103,20 @@ inherited ViewServer: TViewServer
   object EditLocal: TEdit
     Left = 68
     Top = 76
-    Width = 331
+    Width = 238
     Height = 21
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 2
     TextHint = 'endere'#231'o do servidor'
+  end
+  object spnPort: TSpinEdit
+    Left = 312
+    Top = 76
+    Width = 87
+    Height = 22
+    MaxValue = 0
+    MinValue = 0
+    TabOrder = 3
+    Value = 0
   end
 end

@@ -60,9 +60,6 @@ type
     Panel3: TPanel;
     SpeedButton4: TSpeedButton;
     acnExportIniFile: TAction;
-    TabSheetInfo: TTabSheet;
-    Panel6: TPanel;
-    SpeedButton6: TSpeedButton;
     synSource: TSynEdit;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ToggleSwitch1Click(Sender: TObject);

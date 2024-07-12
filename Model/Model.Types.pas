@@ -9,8 +9,9 @@ type
     ID: string;
     Name: string;
     IP: string;
+    Port: Integer;
   public
-    constructor Create(const AID, AName, AIP: string);
+    constructor Create(const AID, AName, AIP: string; const APort: Integer);
   end;
 
   TDataBase = record
@@ -38,11 +39,12 @@ implementation
 
 { TServer }
 
-constructor TServer.Create(const AID, AName, AIP: string);
+constructor TServer.Create(const AID, AName, AIP: string; const APort: Integer);
 begin
   Self.ID := AID;
   Self.Name := AName;
   Self.IP := AIP;
+  Self.Port := APort;
 end;
 
 { TDataBase }

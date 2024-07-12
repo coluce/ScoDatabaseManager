@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, View.Default, Vcl.Buttons, Vcl.ExtCtrls,
-  Vcl.Imaging.pngimage, Vcl.StdCtrls;
+  Vcl.Imaging.pngimage, Vcl.StdCtrls, Vcl.Samples.Spin;
 
 type
   TViewServer = class(TViewDefault)
@@ -19,6 +19,8 @@ type
     EditNome: TEdit;
     Label2: TLabel;
     EditLocal: TEdit;
+    lblPort: TLabel;
+    spnPort: TSpinEdit;
     procedure FormCreate(Sender: TObject);
     procedure SpeedButton2Click(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);

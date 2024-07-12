@@ -95,22 +95,24 @@ end;
 
 procedure TControllerMain.RegisterServer;
 var
-  vView: TViewServer;
+  LView: TViewServer;
 begin
-  vView := TViewServer.Create(nil);
+  LView := TViewServer.Create(nil);
   try
-    vView.EditNome.Text := 'Localhost';
-    vView.EditLocal.Text := '127.0.0.1';
-    vView.ShowModal;
-    if vView.Resultado = mrOK then
+    LView.EditNome.Text := 'Localhost';
+    LView.EditLocal.Text := '127.0.0.1';
+    LView.spnPort.Value := 3050;
+    LView.ShowModal;
+    if LView.Resultado = mrOK then
     begin
       FModelServer.DataSet.Append;
-      FModelServer.DataSet.FieldByName('NAME').AsString := vView.EditNome.Text;
-      FModelServer.DataSet.FieldByName('IP').AsString := vView.EditLocal.Text;
+      FModelServer.DataSet.FieldByName('NAME').AsString := LView.EditNome.Text;
+      FModelServer.DataSet.FieldByName('IP').AsString := LView.EditLocal.Text;
+      FModelServer.DataSet.FieldByName('PORT').AsInteger := LView.spnPort.Value;
       FModelServer.DataSet.Post;
     end;
   finally
-    vView.Free;
+    LView.Free;
   end;
 end;
 
@@ -234,38 +236,41 @@ end;
 
 procedure TControllerMain.EditServer;
 var
-  vServer: TServer;
-  vView: TViewServer;
+  LServer: TServer;
+  LView: TViewServer;
 begin
   if not Assigned(FView.TreeView1.Selected) then
-  begin
     Exit;
-  end;
+
   if FView.TreeView1.Selected.Level = 0 then
   begin
-    if FServers.TryGetValue(FView.TreeView1.Selected, vServer) then
+    if FServers.TryGetValue(FView.TreeView1.Selected, LServer) then
     begin
-      FModelServer.Find(vServer.ID);
+      FModelServer.Find(LServer.ID);
       if not FModelServer.DataSet.IsEmpty then
       begin
-        vView := TViewServer.Create(nil);
+        LView := TViewServer.Create(nil);
         try
-          vView.EditNome.Text := FModelServer.DataSet.FieldByName
+          LView.EditNome.Text := FModelServer.DataSet.FieldByName
             ('NAME').AsString;
-          vView.EditLocal.Text := FModelServer.DataSet.FieldByName
+          LView.EditLocal.Text := FModelServer.DataSet.FieldByName
             ('IP').AsString;
-          vView.ShowModal;
-          if vView.Resultado = mrOK then
+          LView.spnPort.Value := FModelServer.DataSet.FieldByName
+            ('PORT').AsInteger;
+          LView.ShowModal;
+          if LView.Resultado = mrOK then
           begin
             FModelServer.DataSet.Edit;
             FModelServer.DataSet.FieldByName('NAME').AsString :=
-              vView.EditNome.Text;
+              LView.EditNome.Text;
             FModelServer.DataSet.FieldByName('IP').AsString :=
-              vView.EditLocal.Text;
+              LView.EditLocal.Text;
+            FModelServer.DataSet.FieldByName('PORT').AsInteger :=
+              LView.spnPort.Value;
             FModelServer.DataSet.Post;
           end;
         finally
-          vView.Free;
+          LView.Free;
         end;
       end;
     end;
@@ -339,10 +344,15 @@ begin
         FModelServer.DataSet.FieldByName('NAME').AsString
       );
 
-      FServers.AddOrSetValue(LServerNode,
-        TServer.Create(FModelServer.DataSet.FieldByName('ID').AsString,
-        FModelServer.DataSet.FieldByName('Name').AsString,
-        FModelServer.DataSet.FieldByName('IP').AsString));
+      FServers.AddOrSetValue(
+        LServerNode,
+        TServer.Create(
+          FModelServer.DataSet.FieldByName('ID').AsString,
+          FModelServer.DataSet.FieldByName('NAME').AsString,
+          FModelServer.DataSet.FieldByName('IP').AsString,
+          FModelServer.DataSet.FieldByName('PORT').AsInteger
+        )
+      );
 
       AddDataBasesToTree(LServerNode);
 

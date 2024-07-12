@@ -34,33 +34,6 @@ object ViewQuery: TViewQuery
     ActivePage = TabSheetQuery
     Align = alClient
     TabOrder = 1
-    object TabSheetInfo: TTabSheet
-      Caption = 'Info'
-      ImageIndex = 4
-      object Panel6: TPanel
-        Left = 0
-        Top = 0
-        Width = 618
-        Height = 41
-        Align = alTop
-        BevelOuter = bvNone
-        TabOrder = 0
-        object SpeedButton6: TSpeedButton
-          AlignWithMargins = True
-          Left = 3
-          Top = 3
-          Width = 23
-          Height = 35
-          Action = acnExportIniFile
-          Align = alLeft
-          Flat = True
-          ParentShowHint = False
-          ShowHint = True
-          ExplicitLeft = 11
-          ExplicitTop = 6
-        end
-      end
-    end
     object TabSheetQuery: TTabSheet
       Caption = 'Query'
       object Splitter1: TSplitter
@@ -137,8 +110,6 @@ object ViewQuery: TViewQuery
           Align = alClient
           BevelOuter = bvNone
           TabOrder = 0
-          ExplicitLeft = 6
-          ExplicitTop = 7
           object Panel3: TPanel
             Left = 0
             Top = 0
@@ -205,10 +176,6 @@ object ViewQuery: TViewQuery
             Lines.Strings = (
               'synSource')
             SelectedColor.Alpha = 0.400000005960464500
-            ExplicitLeft = 48
-            ExplicitTop = 112
-            ExplicitWidth = 200
-            ExplicitHeight = 150
           end
         end
       end
