@@ -124,19 +124,18 @@ end;
 
 procedure TControllerMain.ShowDataBase;
 var
-  vDataBase: TDataBase;
-  vController: IControllerView;
+  LDataBase: TDataBase;
+  LController: IControllerView;
 begin
   if not Assigned(FView.TreeView1.Selected) then
-  begin
     Exit;
-  end;
+
   if FView.TreeView1.Selected.Level = 1 then
   begin
-    if FDatabases.TryGetValue(FView.TreeView1.Selected, vDataBase) then
+    if FDatabases.TryGetValue(FView.TreeView1.Selected, LDataBase) then
     begin
-      vController := TControllerFactory.Query(vDataBase);
-      vController.Show;
+      LController := TControllerFactory.Query(LDataBase);
+      LController.Show;
     end;
   end;
 end;

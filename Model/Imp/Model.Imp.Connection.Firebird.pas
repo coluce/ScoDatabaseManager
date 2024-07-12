@@ -49,15 +49,29 @@ begin
 end;
 
 constructor TModelConnectionFirebird.Create(ADataBase: TDataBase);
+var
+  LConnectionString: string;
 begin
   FDataBase := ADataBase;
   FConection := TFDCustomConnection.Create(nil);
-  FConection.DriverName := 'FB';
   FConection.LoginPrompt := False;
-  FConection.Params.Database := TPath.Combine(FDataBase.Path, 'ALTERDB.IB');
-  FConection.Params.Values['Server'] := FDataBase.Server.IP;
-  FConection.Params.UserName := 'SYSDBA';
-  FConection.Params.Password := 'masterkey';
+
+  LConnectionString :=
+     //'Database=' + TPath.Combine(FDataBase.Path, 'ALTERDB.IB') + ';' +
+     'Database=' + FDataBase.Path + ';' +
+     'User_Name=' + FDataBase.UserName + ';' +
+     'Password=' + FDataBase.Password + ';' +
+     'Server=' + FDataBase.Server.IP + ';' +
+     'Port=' + FDataBase.Server.Port.ToString + ';' +
+     'Protocol=TCPIP;' +
+     'CharacterSet=UTF8;' +
+     'DriverID=FB';
+
+  if FConection.Connected then
+    FConection.Close;
+
+  FConection.ConnectionString := LConnectionString;
+
 end;
 
 destructor TModelConnectionFirebird.Destroy;

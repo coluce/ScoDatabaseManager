@@ -40,8 +40,7 @@ begin
   Result := TControllerBackupManager.Create(ADataBase);
 end;
 
-class function TControllerFactory.Query(const ADataBase: TDataBase)
-  : IControllerQuery;
+class function TControllerFactory.Query(const ADataBase: TDataBase): IControllerQuery;
 begin
   Result := TControllerQuery.Create(ADataBase);
 end;
