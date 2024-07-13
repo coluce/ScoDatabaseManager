@@ -446,7 +446,7 @@ end;
 
 procedure TControllerQuery.UpdateStatusBar;
 begin
-  FView.StatusBar1.Panels[1].Text := FDataBase.Server.IP + ':' + FDataBase.Path;
+  FView.StatusBar1.Panels[1].Text := FDataBase.Server.IP + ':' + FDataBase.DatabaseFile;
   if FConnection.Active then
   begin
     FView.StatusBar1.Panels[0].Text := 'Conectado';

@@ -20,9 +20,10 @@ type
     ID: string;
     Server: TServer;
     Name: string;
-    Path: string;
+    DatabaseFile: string;
+    BackupFolder: string;
   public
-    constructor Create(const AID, AName, APath: string; AServer: TServer);
+    constructor Create(const AID, AName, ADatabaseFile, ABackupFolder: string; AServer: TServer);
   end;
 
   TTableParam = record
@@ -50,11 +51,12 @@ end;
 
 { TDataBase }
 
-constructor TDataBase.Create(const AID, AName, APath: string; AServer: TServer);
+constructor TDataBase.Create(const AID, AName, ADatabaseFile, ABackupFolder: string; AServer: TServer);
 begin
   Self.ID := AID;
   Self.Name := AName;
-  Self.Path := APath;
+  Self.DatabaseFile := ADatabaseFile;
+  Self.BackupFolder := ABackupFolder;
   Self.Server := AServer;
 end;
 

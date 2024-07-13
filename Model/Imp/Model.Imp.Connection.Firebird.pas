@@ -57,8 +57,7 @@ begin
   FConection.LoginPrompt := False;
 
   LConnectionString :=
-     //'Database=' + TPath.Combine(FDataBase.Path, 'ALTERDB.IB') + ';' +
-     'Database=' + FDataBase.Path + ';' +
+     'Database=' + FDataBase.DatabaseFile + ';' +
      'User_Name=' + FDataBase.Server.UserName + ';' +
      'Password=' + FDataBase.Server.Password + ';' +
      'Server=' + FDataBase.Server.IP + ';' +

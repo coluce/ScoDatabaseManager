@@ -19,6 +19,8 @@ type
     EditNome: TEdit;
     Label2: TLabel;
     EditLocal: TEdit;
+    edtBackupFolder: TEdit;
+    lblBackupFolder: TLabel;
     procedure SpeedButton1Click(Sender: TObject);
     procedure SpeedButton2Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);

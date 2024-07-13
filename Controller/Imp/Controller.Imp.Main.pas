@@ -79,7 +79,8 @@ begin
           FModelDataBase.DataSet.Append;
           FModelDataBase.DataSet.FieldByName('ID_SERVER').AsString := LServer.ID;
           FModelDataBase.DataSet.FieldByName('NAME').AsString := LView.EditNome.Text;
-          FModelDataBase.DataSet.FieldByName('PATH').AsString := LView.EditLocal.Text;
+          FModelDataBase.DataSet.FieldByName('DATABASE_FILE').AsString := LView.EditLocal.Text;
+          FModelDataBase.DataSet.FieldByName('BACKUP_FOLDER').AsString := LView.edtBackupFolder.Text;
           FModelDataBase.DataSet.Post;
         end;
       finally
@@ -204,13 +205,15 @@ begin
         vView := TViewRegisterDatabase.Create(nil);
         try
           vView.EditNome.Text := FModelDataBase.DataSet.FieldByName('NAME').AsString;
-          vView.EditLocal.Text := FModelDataBase.DataSet.FieldByName('PATH').AsString;
+          vView.EditLocal.Text := FModelDataBase.DataSet.FieldByName('DATABASE_FILE').AsString;
+          vView.edtBackupFolder.Text := FModelDataBase.DataSet.FieldByName('BACKUP_FOLDER').AsString;
           vView.ShowModal;
           if vView.Resultado = mrOK then
           begin
             FModelDataBase.DataSet.Edit;
             FModelDataBase.DataSet.FieldByName('NAME').AsString := vView.EditNome.Text;
-            FModelDataBase.DataSet.FieldByName('PATH').AsString := vView.EditLocal.Text;
+            FModelDataBase.DataSet.FieldByName('DATABASE_FILE').AsString := vView.EditLocal.Text;
+            FModelDataBase.DataSet.FieldByName('BACKUP_FOLDER').AsString := vView.edtBackupFolder.Text;
             FModelDataBase.DataSet.Post;
           end;
         finally
@@ -302,11 +305,11 @@ procedure TControllerMain.FillList;
           TDataBase.Create(
             FModelDataBase.DataSet.FieldByName('ID').AsString,
             FModelDataBase.DataSet.FieldByName('NAME').AsString,
-            FModelDataBase.DataSet.FieldByName('PATH').AsString,
+            FModelDataBase.DataSet.FieldByName('DATABASE_FILE').AsString,
+            FModelDataBase.DataSet.FieldByName('BACKUP_FOLDER').AsString,
             LServer
           )
         );
-
         FModelDataBase.DataSet.Next;
       end;
     end;
@@ -371,8 +374,10 @@ begin
   FModelDataBase.Find(vLastID);
   if not FModelDataBase.DataSet.IsEmpty then
   begin
-    SetStatusBar(FModelDataBase.DataSet.FieldByName('NAME').AsString,
-      FModelDataBase.DataSet.FieldByName('PATH').AsString);
+    SetStatusBar(
+      FModelDataBase.DataSet.FieldByName('NAME').AsString,
+      FModelDataBase.DataSet.FieldByName('DATABASE_FILE').AsString
+    );
   end;
 end;
 

@@ -54,6 +54,13 @@ inherited ViewRegisterDatabase: TViewRegisterDatabase
     Height = 13
     Caption = 'Local'
   end
+  object lblBackupFolder: TLabel
+    Left = 68
+    Top = 105
+    Width = 93
+    Height = 13
+    Caption = 'Diret'#243'rio de Backup'
+  end
   object Panel1: TPanel
     Left = 0
     Top = 168
@@ -111,6 +118,15 @@ inherited ViewRegisterDatabase: TViewRegisterDatabase
     Height = 21
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 2
+    TextHint = 'diret'#243'rio do banco de dados'
+  end
+  object edtBackupFolder: TEdit
+    Left = 68
+    Top = 124
+    Width = 331
+    Height = 21
+    Anchors = [akLeft, akTop, akRight]
+    TabOrder = 3
     TextHint = 'diret'#243'rio do banco de dados'
   end
 end

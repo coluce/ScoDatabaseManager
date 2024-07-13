@@ -26,8 +26,7 @@ uses
 
 { TModelDataBaseBackup }
 
-procedure TModelDataBaseBackup.Backup(const ADestinyFile: string;
-  const ALevel: integer);
+procedure TModelDataBaseBackup.Backup(const ADestinyFile: string; const ALevel: integer);
 var
   FDFBNBackup1: TFDFBNBackup;
 begin
@@ -38,9 +37,10 @@ begin
     FDFBNBackup1.UserName := FDataBaseInfo.Server.UserName;
     FDFBNBackup1.Password := FDataBaseInfo.Server.Password;
     FDFBNBackup1.Host := FDataBaseInfo.Server.IP;
+    FDFBNBackup1.Port := FDataBaseInfo.Server.Port;
     FDFBNBackup1.Protocol := ipTCPIP;
 
-    FDFBNBackup1.Database := TPath.Combine(FDataBaseInfo.Path, 'ALTERDB.IB');
+    FDFBNBackup1.Database := FDataBaseInfo.DatabaseFile;
     FDFBNBackup1.BackupFile := ADestinyFile;
     FDFBNBackup1.Level := ALevel; // 0 - full backup
 
@@ -74,10 +74,10 @@ begin
     FDFBNRestore1.UserName := FDataBaseInfo.Server.UserName;
     FDFBNRestore1.Password := FDataBaseInfo.Server.Password;
     FDFBNRestore1.Host := FDataBaseInfo.Server.IP;
+    FDFBNRestore1.Port := FDataBaseInfo.Server.Port;
     FDFBNRestore1.Protocol := ipTCPIP;
-    FDFBNRestore1.Database := TPath.Combine(FDataBaseInfo.Path, 'ALTERDB.IB');
-    FDFBNRestore1.BackupFiles.Text :=
-      TPath.Combine(TPath.Combine(FDataBaseInfo.Path, 'backup'), ABackupFile);
+    FDFBNRestore1.Database := FDataBaseInfo.DatabaseFile;
+    FDFBNRestore1.BackupFiles.Text := TPath.Combine(FDataBaseInfo.BackupFolder, ABackupFile);
     FDFBNRestore1.Restore;
   finally
     FDFBNRestore1.Free;

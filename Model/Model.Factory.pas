@@ -49,7 +49,7 @@ begin
           'masterkey'
         );
         vFirebirdDatabase.Name := 'Local';
-        vFirebirdDatabase.Path := 'E:\Database\config.db';
+        vFirebirdDatabase.DatabaseFile := 'E:\Database\config.db';
         Result := TModelFactory.Firebird(vFirebirdDatabase);
       end;
   end;
@@ -78,8 +78,33 @@ class function TModelFactory.Updater: IModelStructureUpdater;
   function CreateSQLite: IModelStructureUpdater;
   begin
     Result := TModelStrcutureUpdater.Create;
-    Result.AddScript(TModelScript.Create('create table if not exists TSERVER (ID text primary key, NAME text, IP text, PORT int, USERNAME text, PASSWORD text)'));
-    Result.AddScript(TModelScript.Create('create table if not exists TDATABASE (ID text primary key, ID_SERVER text, NAME text, PATH text)'));
+    Result.AddScript(
+      TModelScript.Create(
+        '''
+          create table if not exists TSERVER (
+            ID text primary key,
+            NAME text,
+            IP text,
+            PORT int,
+            USERNAME text,
+            PASSWORD text
+          )
+        '''
+      )
+     );
+    Result.AddScript(
+      TModelScript.Create(
+        '''
+          create table if not exists TDATABASE (
+            ID text primary key,
+            ID_SERVER text,
+            NAME text,
+            DATABASE_FILE text,
+            BACKUP_FOLDER text
+          )
+        '''
+      )
+    );
     Result.AddScript(TModelScript.Create('create table if not exists TLAYOUT (ID text primary key, NAME varchar(50), LAYOUT varchar(5000))'));
     Result.AddScript(TModelScript.Create('create table if not exists TPARAM (SESSION varchar(100), KEY varchar(100), VALUE varchar(5000))'));
     Result.AddScript(TModelScript.Create('create table if not exists TQUERY_HISTORY (ID text primary key, DATA datetime, QUERY varchar(5000))'));

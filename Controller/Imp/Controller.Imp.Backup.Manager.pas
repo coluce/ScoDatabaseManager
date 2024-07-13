@@ -18,7 +18,6 @@ type
     procedure CreateBackupDirectory;
     function GetBackupDirectory: string;
     function GetBackupFileName: string;
-    function GetDatabaseFullFileName: string;
 
     procedure PrepareScreen;
     function ValidateDll: boolean;
@@ -55,48 +54,49 @@ uses
 
 procedure TControllerBackupManager.Backup;
 var
-  vViewWait: TViewWait;
+  LViewWait: TViewWait;
 begin
   if not FDataBase.Server.IP.Equals('127.0.0.1') then
     Exit;
 
   ValidateDll;
 
-  try
-    CreateBackupDirectory;
+  //CreateBackupDirectory;
 
-    vViewWait := TViewWait.Create(nil);
+  LViewWait := TViewWait.Create(nil);
 
-    TThread.CreateAnonymousThread(
-      procedure
-      var
-        vModelManager: IModelDatabaseBackup;
-      begin
-        TThread.Synchronize(nil,
-          procedure
-          begin
-            vViewWait.Show;
-          end);
+  TThread.CreateAnonymousThread(
+    procedure
+    var
+      LModel: IModelDatabaseBackup;
+      LBackupFile: string;
+    begin
+      TThread.Synchronize(
+        TThread.CurrentThread,
+        procedure
+        begin
+          LViewWait.Show;
+        end
+      );
 
-        vModelManager := TModelFactory.DataBasebackup(FDataBase, FDllDatabase);
-        vModelManager.Backup(TPath.Combine(GetBackupDirectory,
-          GetBackupFileName), BACKUP_LEVEL_FULL);
-        // TThread.Sleep(2000);
+      LBackupFile := TPath.Combine(GetBackupDirectory, GetBackupFileName);
 
-        TThread.Synchronize(TThread.CurrentThread,
-          procedure
-          begin
-            vViewWait.Close;
-            vViewWait.Free;
-            Self.FillBackupFiles;
-            ShowMessage('Backup concluído!');
-          end);
+      LModel := TModelFactory.DataBasebackup(FDataBase, FDllDatabase);
+      LModel.Backup(LBackupFile, BACKUP_LEVEL_FULL);
 
-      end).Start;
+      TThread.Synchronize(
+        TThread.CurrentThread,
+        procedure
+        begin
+          LViewWait.Close;
+          LViewWait.Free;
+          Self.FillBackupFiles;
+          ShowMessage('Backup concluído!');
+        end
+      );
 
-  except
-    raise;
-  end;
+    end
+  ).Start;
 end;
 
 constructor TControllerBackupManager.Create(const ADataBase: TDataBase);
@@ -148,13 +148,11 @@ begin
     [mbOK, mbCancel], 0) = mrCancel then
     Exit;
 
-  if FileExists(GetDatabaseFullFileName) then
+  if FileExists(FDataBase.DatabaseFile) then
   begin
-    vOldFileName := GetDatabaseFullFileName + '.old';
-    if not RenameFile(GetDatabaseFullFileName, vOldFileName) then
-    begin
+    vOldFileName := FDataBase.DatabaseFile + '.old';
+    if not RenameFile(FDataBase.DatabaseFile, vOldFileName) then
       raise Exception.Create('Não foi possível renomear o banco de dados!');
-    end;
   end;
 
   vViewWait := TViewWait.Create(nil);
@@ -172,7 +170,6 @@ begin
 
         vModelManager := TModelFactory.DataBasebackup(FDataBase, FDllDatabase);
         vModelManager.Restore(FView.TreeViewBackupFiles.Selected.Text);
-        // TThread.Sleep(2000);
 
         TThread.Synchronize(TThread.CurrentThread,
           procedure
@@ -239,10 +236,9 @@ begin
     else
     begin
       SetDLL;
-      if FileExists(FDllDatabase) then
+      if not FileExists(FDllDatabase) then
       begin
-        vRepeat := MessageDlg('Caminho inválido! Tentar novamente:',
-          mtConfirmation, [mbOK, mbCancel], 0) = mrOK;
+        vRepeat := MessageDlg('Caminho inválido! Tentar novamente:', mtConfirmation, [mbOK, mbCancel], 0) = mrOK;
       end;
     end;
   until vRepeat;
@@ -251,18 +247,13 @@ end;
 
 procedure TControllerBackupManager.CreateBackupDirectory;
 var
-  vDirectoryName: string;
+  LDirectoryName: string;
 begin
-  vDirectoryName := GetBackupDirectory;
-  if not DirectoryExists(vDirectoryName) then
-  begin
-    ForceDirectories(vDirectoryName);
-  end;
-  if not DirectoryExists(vDirectoryName) then
-  begin
-    raise Exception.Create('Não foi poss[ivel criar o diretório: ' +
-      vDirectoryName);
-  end;
+  LDirectoryName := GetBackupDirectory;
+  if not DirectoryExists(LDirectoryName) then
+    ForceDirectories(LDirectoryName);
+  if not DirectoryExists(LDirectoryName) then
+    raise Exception.Create('Não foi possível criar o diretório: ' + LDirectoryName);
 end;
 
 procedure TControllerBackupManager.FillBackupFiles;
@@ -276,7 +267,7 @@ begin
   if not FDataBase.Server.IP.Equals('127.0.0.1') then
     Exit;
 
-  vDirectory := TPath.Combine(FDataBase.Path, 'backup');
+  vDirectory := FDataBase.BackupFolder;
   if DirectoryExists(vDirectory) then
   begin
     vList := TDirectory.GetFiles(vDirectory, '*.backup');
@@ -290,18 +281,13 @@ end;
 
 function TControllerBackupManager.GetBackupDirectory: string;
 begin
-  Result := TPath.Combine(FDataBase.Path, 'backup');
+  Result := FDataBase.BackupFolder;
 end;
 
 function TControllerBackupManager.GetBackupFileName: string;
 begin
   Result := 'backup_' + FormatDateTime('yyyy_mm_dd_hh_nn_ss_zzz', Now) +
     '.backup';
-end;
-
-function TControllerBackupManager.GetDatabaseFullFileName: string;
-begin
-  Result := TPath.Combine(FDataBase.Path, 'ALTERDB.IB');
 end;
 
 procedure TControllerBackupManager.OpenFolder;

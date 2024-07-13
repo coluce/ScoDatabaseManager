@@ -74,9 +74,9 @@ begin
       FView.synSource.Text := FView.synSource.Text.Replace('#port', FDatabase.Server.Port.ToString, [rfReplaceAll, rfIgnoreCase]);
       FView.synSource.Text := FView.synSource.Text.Replace('#username', FDatabase.Server.UserName, [rfReplaceAll, rfIgnoreCase]);
       FView.synSource.Text := FView.synSource.Text.Replace('#password', FDatabase.Server.Password, [rfReplaceAll, rfIgnoreCase]);
-      FView.synSource.Text := FView.synSource.Text.Replace('#database_folder', ExtractFilePath(FDatabase.Path), [rfReplaceAll, rfIgnoreCase]);
-      FView.synSource.Text := FView.synSource.Text.Replace('#database_file', ExtractFileName(FDatabase.Path), [rfReplaceAll, rfIgnoreCase]);
-      FView.synSource.Text := FView.synSource.Text.Replace('#database_path', FDatabase.Path, [rfReplaceAll, rfIgnoreCase]);
+      FView.synSource.Text := FView.synSource.Text.Replace('#database_folder', ExtractFilePath(FDatabase.DatabaseFile), [rfReplaceAll, rfIgnoreCase]);
+      FView.synSource.Text := FView.synSource.Text.Replace('#database_file', ExtractFileName(FDatabase.DatabaseFile), [rfReplaceAll, rfIgnoreCase]);
+      FView.synSource.Text := FView.synSource.Text.Replace('#database_path', FDatabase.DatabaseFile, [rfReplaceAll, rfIgnoreCase]);
       Exit;
     end;
     FModelLayout.DataSet.Next;
