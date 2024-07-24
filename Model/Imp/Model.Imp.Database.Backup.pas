@@ -11,8 +11,7 @@ type
     FDataBaseInfo: TDataBase;
     FDPhysFBDriverLink: TFDPhysFBDriverLink;
   public
-    constructor Create(ADataBaseInfo: TDataBase;
-      const ADatabaseDLLPath: string);
+    constructor Create(ADataBaseInfo: TDataBase; const ADatabaseDLLPath: string);
     destructor Destroy; override;
 
     procedure Backup(const ADestinyFile: string; const ALevel: integer);
@@ -50,8 +49,7 @@ begin
   end;
 end;
 
-constructor TModelDataBaseBackup.Create(ADataBaseInfo: TDataBase;
-  const ADatabaseDLLPath: string);
+constructor TModelDataBaseBackup.Create(ADataBaseInfo: TDataBase; const ADatabaseDLLPath: string);
 begin
   FDataBaseInfo := ADataBaseInfo;
   FDPhysFBDriverLink := TFDPhysFBDriverLink.Create(nil);
